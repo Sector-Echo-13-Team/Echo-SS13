@@ -1,5 +1,5 @@
 <!-- Most valid html will work in here, excluding images. -->
 
-<h1>Welcome to Shiptest!</h1>
+<h1 style="color: DarkMagenta;">Welcome to <span class="hypnophrase">Sector Echo 13!</span></h1>
 
-<i>This server is running a Shiptest Git build.</i>
+<i>This server is running a modified Shiptest Git build. If you are on the server and not local-hosting, please remember to re-read the rules on the discord if this is your first time connecting, and remember to use common sense. Have fun!</i>
