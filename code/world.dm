@@ -17,7 +17,7 @@
 	view = "15x15"
 	hub = "Exadv1.spacestation13"
 	hub_password = "kMZy3U5jJHSiBQjr"
-	name = "Sector Echo 13"
+	name = "Sector Echo 13" // im adding a comment here so the PR can run checks again :D
 	fps = 20
 #ifdef FIND_REF_NO_CHECK_TICK
 	loop_checks = FALSE
