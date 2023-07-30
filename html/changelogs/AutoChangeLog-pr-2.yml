@@ -1,0 +1,6 @@
+author: TheNeoGamer42
+delete-after: true
+changes:
+  - tweak: part of the server is now actually called Sector Echo 13, and the MOTD
+      reflects as such.
+  - imageadd: echo13_128.png
