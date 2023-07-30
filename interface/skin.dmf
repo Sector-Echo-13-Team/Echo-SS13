@@ -58,7 +58,7 @@ window "mainwindow"
 		is-default = true
 		saved-params = "pos;size;is-minimized;is-maximized"
 		statusbar = false
-		icon = 'icons\\shiptest_64.png'
+		icon = 'icons\\echo13_128.png'
 		macro = "default"
 		menu = "menu"
 	elem "split"
