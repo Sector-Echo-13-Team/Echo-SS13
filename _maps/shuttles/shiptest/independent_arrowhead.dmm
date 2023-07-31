@@ -1185,6 +1185,12 @@
 /obj/effect/turf_decal/borderfloor{
 	dir = 4
 	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
 /turf/open/floor/plasteel/tech,
 /area/ship/engineering/engine)
 "uu" = (
@@ -1592,7 +1598,12 @@
 /obj/item/storage/toolbox/mechanical{
 	pixel_y = -4
 	},
-/obj/item/multitool,
+/obj/item/multitool{
+	pixel_x = 11
+	},
+/obj/item/geiger_counter{
+	pixel_y = 11
+	},
 /turf/open/floor/plasteel/tech,
 /area/ship/engineering/engine)
 "Ab" = (
@@ -1803,8 +1814,8 @@
 /area/ship/medical)
 "Ee" = (
 /obj/structure/rack,
-/obj/effect/spawner/lootdrop/maintenance/two,
 /obj/item/choice_beacon/rnd,
+/obj/effect/spawner/lootdrop/maintenance/five,
 /turf/open/floor/plasteel/mono,
 /area/ship/storage)
 "Eu" = (
@@ -1986,6 +1997,7 @@
 /area/ship/engineering/engine)
 "GB" = (
 /obj/structure/rack,
+/obj/effect/spawner/lootdrop/donkpockets,
 /obj/effect/spawner/lootdrop/donkpockets,
 /obj/effect/spawner/lootdrop/donkpockets,
 /turf/open/floor/plasteel/mono,
