@@ -262,3 +262,8 @@
   - rscadd: Abandoned library
   thgvr:
   - tweak: Nemo is admin spawn only
+2023-07-31:
+  TheNeoGamer42:
+  - tweak: part of the server is now actually called Sector Echo 13, and the MOTD
+      reflects as such.
+  - imageadd: echo13_128.png
