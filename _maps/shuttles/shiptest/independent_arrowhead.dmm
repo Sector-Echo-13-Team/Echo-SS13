@@ -1693,7 +1693,7 @@
 /turf/closed/wall/r_wall,
 /area/ship/engineering/engine)
 "Ch" = (
-/obj/machinery/atmospherics/components/unary/outlet_injector/atmos/incinerator_input{
+/obj/machinery/atmospherics/components/unary/outlet_injector/on{
 	dir = 4;
 	piping_layer = 1
 	},
@@ -3138,7 +3138,7 @@
 /turf/open/floor/plating,
 /area/ship/engineering/engine)
 "Wb" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos/incinerator_output{
+/obj/machinery/atmospherics/components/unary/vent_scrubber{
 	dir = 1
 	},
 /turf/open/floor/engine,
