@@ -1709,7 +1709,7 @@
 /turf/closed/wall/r_wall,
 /area/ship/crew/dorm)
 "Ck" = (
-/obj/machinery/atmospherics/components/unary/thermomachine/freezer/on{
+/obj/machinery/atmospherics/components/unary/thermomachine/freezer{
 	dir = 8;
 	piping_layer = 2
 	},
@@ -2172,7 +2172,7 @@
 	dir = 1
 	},
 /obj/machinery/light/directional/east,
-/obj/machinery/atmospherics/components/unary/thermomachine/freezer/on{
+/obj/machinery/atmospherics/components/unary/thermomachine/freezer{
 	dir = 8;
 	piping_layer = 2
 	},
