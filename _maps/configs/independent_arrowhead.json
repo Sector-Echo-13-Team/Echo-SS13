@@ -1,5 +1,5 @@
 {
-	"$schema": "https://raw.githubusercontent.com/Sector-Echo-13-Team/Echotest/master/_maps/ship_config_schema.json",
+	"$schema": "https://raw.githubusercontent.com/Sector-Echo-13-Team/Echo-SS13/master/_maps/ship_config_schema.json",
 	"map_name": "Arrowhead-class Long Range Scoutship",
 	"prefix": "ISV",
 	"namelists": [
@@ -9,6 +9,9 @@
 	],
 	"map_short_name": "Arrowhead-class",
 	"map_path": "_maps/shuttles/shiptest/independent_arrowhead.dmm",
+	"description": "PLACEHOLDER",
+	"tags": ["Mining", "Generalist", "RP Focus", "Botany"],
+	"limit": 1,
 	"roundstart": true,
 	"job_slots": {
 		"Captain": 1,

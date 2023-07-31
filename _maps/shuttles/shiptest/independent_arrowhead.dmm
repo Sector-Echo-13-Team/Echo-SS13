@@ -284,7 +284,8 @@
 /obj/machinery/igniter{
 	id = "arrowhead_turbine_igniter"
 	},
-/turf/open/floor/engine/vacuum,
+/obj/machinery/air_sensor/atmos/incinerator_tank,
+/turf/open/floor/engine,
 /area/ship/engineering/engine)
 "ee" = (
 /obj/structure/window/plasma/reinforced{
@@ -359,7 +360,7 @@
 /obj/structure/cable/orange{
 	icon_state = "0-4"
 	},
-/turf/open/floor/engine/vacuum,
+/turf/open/floor/engine,
 /area/ship/engineering/engine)
 "fO" = (
 /obj/structure/table,
@@ -388,6 +389,7 @@
 	input_dir = 8;
 	output_dir = 4
 	},
+/obj/machinery/light/small/directional/north,
 /turf/open/floor/plating,
 /area/ship/cargo)
 "gI" = (
@@ -519,7 +521,7 @@
 /obj/machinery/atmospherics/pipe/simple/orange/hidden/layer1{
 	dir = 4
 	},
-/obj/machinery/atmospherics/components/binary/pump/layer2{
+/obj/machinery/atmospherics/components/binary/pump/on/layer2{
 	dir = 8
 	},
 /turf/open/floor/plating,
@@ -888,6 +890,7 @@
 /area/ship/engineering/engine)
 "oZ" = (
 /obj/machinery/suit_storage_unit/independent/engineering,
+/obj/effect/turf_decal/industrial/hatch/yellow,
 /turf/open/floor/plasteel/tech,
 /area/ship/engineering/engine)
 "ps" = (
@@ -941,6 +944,7 @@
 /obj/effect/turf_decal/siding/yellow/corner{
 	dir = 1
 	},
+/obj/machinery/meter/atmos/layer2,
 /turf/open/floor/plating,
 /area/ship/engineering/engine)
 "qj" = (
@@ -960,10 +964,9 @@
 	icon_state = "1-8"
 	},
 /obj/structure/catwalk/over/plated_catwalk/dark,
-/obj/machinery/computer/monitor{
+/obj/machinery/computer/atmos_control/incinerator{
 	dir = 1
 	},
-/obj/structure/cable,
 /turf/open/floor/plating,
 /area/ship/engineering/engine)
 "qp" = (
@@ -1118,7 +1121,11 @@
 	icon_state = "4-8"
 	},
 /obj/effect/spawner/structure/window/plasma/reinforced,
-/turf/open/floor/engine/vacuum,
+/obj/machinery/door/poddoor/shutters{
+	dir = 4;
+	id = "arrowhead_turbine_shutter"
+	},
+/turf/open/floor/engine,
 /area/ship/engineering/engine)
 "tc" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
@@ -1139,11 +1146,11 @@
 /turf/open/floor/plating,
 /area/ship/bridge)
 "tx" = (
-/obj/machinery/atmospherics/pipe/simple/orange/hidden/layer1{
-	dir = 4
-	},
 /obj/effect/turf_decal/siding/yellow{
 	dir = 1
+	},
+/obj/machinery/atmospherics/components/binary/pump/on/layer1{
+	dir = 8
 	},
 /turf/open/floor/plating,
 /area/ship/engineering/engine)
@@ -1157,6 +1164,8 @@
 "ud" = (
 /obj/structure/rack,
 /obj/item/stack/cable_coil/red,
+/obj/item/storage/toolbox/electrical,
+/obj/item/storage/belt/utility,
 /turf/open/floor/plasteel/mono,
 /area/ship/storage)
 "uk" = (
@@ -1173,7 +1182,10 @@
 	dir = 4;
 	name = "Engine Room"
 	},
-/turf/open/floor/plating,
+/obj/effect/turf_decal/borderfloor{
+	dir = 4
+	},
+/turf/open/floor/plasteel/tech,
 /area/ship/engineering/engine)
 "uu" = (
 /obj/structure/chair{
@@ -1230,6 +1242,11 @@
 	dir = 1
 	},
 /obj/machinery/door/firedoor/border_only,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /turf/open/floor/plasteel/white,
 /area/ship/crew/hydroponics)
 "vp" = (
@@ -1441,9 +1458,11 @@
 /turf/open/floor/plasteel/white,
 /area/ship/crew/canteen)
 "yf" = (
-/obj/machinery/atmospherics/pipe/simple/orange/hidden/layer1,
 /obj/effect/turf_decal/siding/yellow{
 	dir = 8
+	},
+/obj/machinery/atmospherics/components/binary/pump/on/layer1{
+	dir = 1
 	},
 /turf/open/floor/plating,
 /area/ship/engineering/engine)
@@ -1478,10 +1497,17 @@
 	pixel_y = -3
 	},
 /obj/item/paper/fluff{
-	info = "A 50/50 mix of O2 and Plasma is perfectly acceptable for running this. Also, sometimes the ship needs to have taken off for the thing to start properly, something to due with bad sticking safeties.";
-	name = "Turbine Memo";
+	info = "YOU NEED TO ROTATE THE COMPRESSOR SIDE BEFORE STARTING!! I'VE LOOSENED THE BOTTOM WALL OF THE CHAMBER SO YOU CAN!! TIGHTEN IT BEFORE STARTING AT ALL!! The thing has really sticky safeties and this is the ONLY way to guarentee you generate POWER with this. A 50/50 Plasma-Oxygen mix at 500kPa will net you a good amount of power, and is what I'd recommend.";
+	name = "IMPORTANT - Turbine Notes";
 	pixel_x = -5;
 	pixel_y = 4
+	},
+/obj/machinery/button/door{
+	dir = 1;
+	id = "arrowhead_turbine_shutter";
+	name = "Turbine Viewport Shutter";
+	pixel_x = -5;
+	pixel_y = -3
 	},
 /turf/open/floor/plating,
 /area/ship/engineering/engine)
@@ -1563,12 +1589,10 @@
 /area/ship/crew/canteen)
 "zL" = (
 /obj/structure/rack,
-/obj/item/storage/toolbox/electrical{
-	pixel_y = 6
-	},
 /obj/item/storage/toolbox/mechanical{
 	pixel_y = -4
 	},
+/obj/item/multitool,
 /turf/open/floor/plasteel/tech,
 /area/ship/engineering/engine)
 "Ab" = (
@@ -1669,11 +1693,11 @@
 /turf/closed/wall/r_wall,
 /area/ship/engineering/engine)
 "Ch" = (
-/obj/machinery/atmospherics/components/unary/outlet_injector/on{
+/obj/machinery/atmospherics/components/unary/outlet_injector/atmos/incinerator_input{
 	dir = 4;
 	piping_layer = 1
 	},
-/turf/open/floor/engine/vacuum,
+/turf/open/floor/engine,
 /area/ship/engineering/engine)
 "Ci" = (
 /obj/structure/sign/warning/vacuum/external{
@@ -1685,7 +1709,7 @@
 /turf/closed/wall/r_wall,
 /area/ship/crew/dorm)
 "Ck" = (
-/obj/machinery/atmospherics/components/unary/thermomachine/freezer{
+/obj/machinery/atmospherics/components/unary/thermomachine/freezer/on{
 	dir = 8;
 	piping_layer = 2
 	},
@@ -2144,14 +2168,14 @@
 /turf/open/floor/plasteel/dark,
 /area/ship/bridge)
 "Jd" = (
-/obj/machinery/atmospherics/components/unary/thermomachine/freezer{
-	dir = 8;
-	piping_layer = 2
-	},
 /obj/effect/turf_decal/siding/yellow{
 	dir = 1
 	},
 /obj/machinery/light/directional/east,
+/obj/machinery/atmospherics/components/unary/thermomachine/freezer/on{
+	dir = 8;
+	piping_layer = 2
+	},
 /turf/open/floor/plating,
 /area/ship/engineering/engine)
 "Jg" = (
@@ -2340,6 +2364,12 @@
 	icon_state = "2-4"
 	},
 /obj/machinery/light/directional/west,
+/obj/machinery/computer/monitor{
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "0-4"
+	},
 /turf/open/floor/plasteel/tech,
 /area/ship/engineering/engine)
 "MM" = (
@@ -2379,6 +2409,9 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/structure/cable{
+	icon_state = "2-8"
+	},
 /turf/open/floor/plasteel/patterned,
 /area/ship/cargo)
 "Nf" = (
@@ -2404,7 +2437,6 @@
 /obj/effect/turf_decal/siding/yellow{
 	dir = 8
 	},
-/obj/machinery/light/directional/west,
 /obj/machinery/computer/atmos_control/tank/toxin_tank{
 	dir = 1
 	},
@@ -2701,6 +2733,9 @@
 "RA" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/plasteel/patterned,
 /area/ship/cargo)
 "RM" = (
@@ -2730,10 +2765,10 @@
 /turf/open/floor/plasteel,
 /area/ship/hallway/central)
 "RZ" = (
-/obj/machinery/atmospherics/components/binary/pump/layer2{
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/machinery/atmospherics/components/binary/pump/on/layer2{
 	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /turf/open/floor/plating,
 /area/ship/engineering/engine)
 "Sb" = (
@@ -2799,7 +2834,7 @@
 /obj/structure/cable/orange{
 	icon_state = "0-8"
 	},
-/turf/open/floor/engine/vacuum,
+/turf/open/floor/engine,
 /area/ship/engineering/engine)
 "SN" = (
 /obj/structure/closet/crate/freezer/blood,
@@ -2810,6 +2845,10 @@
 /obj/effect/turf_decal/industrial/hatch/orange,
 /turf/open/floor/plasteel/mono,
 /area/ship/cargo)
+"SQ" = (
+/obj/structure/falsewall/reinforced,
+/turf/open/floor/plating,
+/area/ship/engineering/engine)
 "Te" = (
 /obj/effect/turf_decal/borderfloor{
 	dir = 1
@@ -2833,7 +2872,7 @@
 	dir = 4;
 	id = "arrowhead_turbine_vent"
 	},
-/turf/open/floor/engine/vacuum,
+/turf/open/floor/engine,
 /area/ship/engineering/engine)
 "Tm" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
@@ -2984,7 +3023,7 @@
 	dir = 1
 	},
 /obj/machinery/door/firedoor/border_only,
-/obj/machinery/door/airlock/engineering/glass{
+/obj/machinery/door/airlock/engineering{
 	name = "Engine Room"
 	},
 /turf/open/floor/plasteel/mono,
@@ -3099,10 +3138,10 @@
 /turf/open/floor/plating,
 /area/ship/engineering/engine)
 "Wb" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber{
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos/incinerator_output{
 	dir = 1
 	},
-/turf/open/floor/engine/vacuum,
+/turf/open/floor/engine,
 /area/ship/engineering/engine)
 "Wx" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
@@ -3402,7 +3441,9 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 8
 	},
-/obj/structure/catwalk/over/plated_catwalk,
+/obj/effect/turf_decal/borderfloor{
+	dir = 4
+	},
 /turf/open/floor/plasteel,
 /area/ship/bridge)
 "Za" = (
@@ -3559,7 +3600,7 @@ BA
 Wb
 dP
 Ch
-Eu
+SQ
 OW
 SH
 qO
