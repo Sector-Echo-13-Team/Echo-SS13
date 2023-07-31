@@ -782,7 +782,7 @@
 	pixel_y = 8
 	},
 /obj/item/paper/fluff{
-	info = "As a reminder, older ore processing lines may come unlinked from their control terminals. In such cases simply use a multitool to restore the data link.";
+	info = "As a reminder, these ore processing lines may come unlinked from their control terminals due to background interference. In such cases simply use a multitool to restore the data link.";
 	name = "Memo - Processor Reliability";
 	pixel_x = -2;
 	pixel_y = -1
@@ -1160,10 +1160,6 @@
 /turf/open/floor/plasteel/mono,
 /area/ship/storage)
 "uk" = (
-/obj/machinery/door/airlock/engineering/glass{
-	dir = 4;
-	name = "Engine Room"
-	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
 	},
@@ -1172,6 +1168,10 @@
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
+	},
+/obj/machinery/door/airlock/engineering{
+	dir = 4;
+	name = "Engine Room"
 	},
 /turf/open/floor/plating,
 /area/ship/engineering/engine)
@@ -1466,14 +1466,22 @@
 /obj/machinery/button/ignition{
 	dir = 1;
 	id = "arrowhead_turbine_igniter";
+	name = "Turbine Ignition Switch";
 	pixel_x = 9;
-	pixel_y = 7
+	pixel_y = 8
 	},
 /obj/machinery/button/door{
 	dir = 1;
 	id = "arrowhead_turbine_vent";
+	name = "Turbine Vent";
+	pixel_x = 7;
+	pixel_y = -3
+	},
+/obj/item/paper/fluff{
+	info = "A 50/50 mix of O2 and Plasma is perfectly acceptable for running this. Also, sometimes the ship needs to have taken off for the thing to start properly, something to due with bad sticking safeties.";
+	name = "Turbine Memo";
 	pixel_x = -5;
-	pixel_y = -2
+	pixel_y = 4
 	},
 /turf/open/floor/plating,
 /area/ship/engineering/engine)
@@ -1661,7 +1669,7 @@
 /turf/closed/wall/r_wall,
 /area/ship/engineering/engine)
 "Ch" = (
-/obj/machinery/atmospherics/components/unary/outlet_injector{
+/obj/machinery/atmospherics/components/unary/outlet_injector/on{
 	dir = 4;
 	piping_layer = 1
 	},
@@ -2650,7 +2658,7 @@
 /obj/machinery/door/firedoor/border_only{
 	dir = 8
 	},
-/obj/machinery/door/airlock/mining/glass{
+/obj/machinery/door/airlock/mining{
 	dir = 8;
 	name = "Storage Bay"
 	},
@@ -2802,9 +2810,6 @@
 /obj/effect/turf_decal/industrial/hatch/orange,
 /turf/open/floor/plasteel/mono,
 /area/ship/cargo)
-"SQ" = (
-/turf/closed/wall/r_wall,
-/area/template_noop)
 "Te" = (
 /obj/effect/turf_decal/borderfloor{
 	dir = 1
@@ -2818,8 +2823,8 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/machinery/door/airlock/maintenance/glass{
-	name = "Storage Bay"
+/obj/machinery/door/airlock/maintenance{
+	name = "Starboard Maintenance"
 	},
 /turf/open/floor/plating,
 /area/ship/maintenance/starboard)
@@ -4114,7 +4119,7 @@ jq
 jq
 jq
 jq
-SQ
+KA
 sQ
 xX
 VG
@@ -4135,7 +4140,7 @@ jq
 jq
 jq
 jq
-SQ
+KA
 AS
 HL
 IB
@@ -4156,7 +4161,7 @@ jq
 jq
 jq
 jq
-SQ
+KA
 vp
 HQ
 ia
@@ -4177,7 +4182,7 @@ jq
 jq
 jq
 jq
-SQ
+KA
 KA
 KA
 KA
