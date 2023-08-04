@@ -172,6 +172,17 @@
 /obj/machinery/biogenerator,
 /turf/open/floor/plasteel/white,
 /area/ship/crew/hydroponics)
+"cJ" = (
+/obj/structure/table,
+/obj/item/reagent_containers/food/condiment/saltshaker{
+	pixel_x = 10;
+	pixel_y = 7
+	},
+/obj/item/reagent_containers/food/condiment/peppermill{
+	pixel_x = 10
+	},
+/turf/open/floor/plasteel/mono/dark,
+/area/ship/crew/canteen)
 "cL" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -271,9 +282,9 @@
 	icon_state = "4-8"
 	},
 /obj/structure/catwalk/over/plated_catwalk/dark,
-/obj/machinery/computer/turbine_computer{
-	dir = 1;
-	id = "arrowhead_turbine"
+/obj/structure/frame/computer{
+	anchored = 1;
+	dir = 1
 	},
 /turf/open/floor/plating,
 /area/ship/engineering/engine)
@@ -354,9 +365,6 @@
 /turf/open/floor/plating,
 /area/ship/engineering/engine)
 "fH" = (
-/obj/machinery/power/turbine{
-	dir = 8
-	},
 /obj/structure/cable/orange{
 	icon_state = "0-4"
 	},
@@ -1120,7 +1128,6 @@
 /obj/structure/cable/orange{
 	icon_state = "4-8"
 	},
-/obj/effect/spawner/structure/window/plasma/reinforced,
 /obj/machinery/door/poddoor/shutters{
 	dir = 4;
 	id = "arrowhead_turbine_shutter"
@@ -1166,6 +1173,9 @@
 /obj/item/stack/cable_coil/red,
 /obj/item/storage/toolbox/electrical,
 /obj/item/storage/belt/utility,
+/obj/item/geiger_counter{
+	pixel_y = 11
+	},
 /turf/open/floor/plasteel/mono,
 /area/ship/storage)
 "uk" = (
@@ -1503,7 +1513,7 @@
 	pixel_y = -3
 	},
 /obj/item/paper/fluff{
-	info = "YOU NEED TO ROTATE THE COMPRESSOR SIDE BEFORE STARTING!! I'VE LOOSENED THE BOTTOM WALL OF THE CHAMBER SO YOU CAN!! TIGHTEN IT BEFORE STARTING AT ALL!! The thing has really sticky safeties and this is the ONLY way to guarentee you generate POWER with this. A 50/50 Plasma-Oxygen mix at 500kPa will net you a good amount of power, and is what I'd recommend.";
+	info = "The previous turbine was destroyed in some accident, and it was MUCH cheaper to simply buy the parts than to have it installed too, so, you gotta install it yourself. Remember, compressor goes INSIDE, and the turbine generator goes OUTSIDE. Might also need someone on the outside to help install the turbine generator part. All the wiring and such is still there, so assembling the turbine itself, and getting the computer set is mostly what we need to do.";
 	name = "IMPORTANT - Turbine Notes";
 	pixel_x = -5;
 	pixel_y = 4
@@ -1596,13 +1606,13 @@
 "zL" = (
 /obj/structure/rack,
 /obj/item/storage/toolbox/mechanical{
+	pixel_y = 7
+	},
+/obj/item/storage/toolbox/mechanical{
 	pixel_y = -4
 	},
 /obj/item/multitool{
 	pixel_x = 11
-	},
-/obj/item/geiger_counter{
-	pixel_y = 11
 	},
 /turf/open/floor/plasteel/tech,
 /area/ship/engineering/engine)
@@ -1836,8 +1846,6 @@
 	locked = 0;
 	name = "fridge"
 	},
-/obj/item/reagent_containers/food/condiment/milk,
-/obj/item/reagent_containers/food/condiment/flour,
 /obj/item/reagent_containers/food/condiment/flour,
 /obj/item/reagent_containers/food/condiment/flour,
 /obj/item/reagent_containers/food/condiment/rice,
@@ -1847,6 +1855,14 @@
 /obj/effect/turf_decal/siding/thinplating{
 	dir = 10
 	},
+/obj/item/storage/fancy/egg_box,
+/obj/item/storage/fancy/egg_box,
+/obj/item/reagent_containers/food/snacks/meat/slab,
+/obj/item/reagent_containers/food/snacks/meat/slab,
+/obj/item/reagent_containers/food/snacks/meat/slab,
+/obj/item/reagent_containers/food/snacks/meat/slab,
+/obj/item/reagent_containers/food/snacks/meat/slab,
+/obj/item/reagent_containers/food/snacks/meat/slab,
 /turf/open/floor/plasteel/white,
 /area/ship/crew/canteen)
 "EH" = (
@@ -1902,6 +1918,31 @@
 /area/ship/engineering/engine)
 "FB" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2,
+/obj/structure/closet/crate/engineering/electrical{
+	name = "Turbine Parts Crate"
+	},
+/obj/item/circuitboard/machine/power_turbine,
+/obj/item/circuitboard/computer/turbine_computer,
+/obj/item/circuitboard/machine/power_compressor,
+/obj/item/stack/sheet/metal/ten,
+/obj/item/stack/sheet/glass/two,
+/obj/item/stock_parts/capacitor,
+/obj/item/stock_parts/capacitor,
+/obj/item/stock_parts/capacitor,
+/obj/item/stock_parts/capacitor,
+/obj/item/stock_parts/capacitor,
+/obj/item/stock_parts/capacitor,
+/obj/item/stock_parts/manipulator,
+/obj/item/stock_parts/manipulator,
+/obj/item/stock_parts/manipulator,
+/obj/item/stock_parts/manipulator,
+/obj/item/stock_parts/manipulator,
+/obj/item/stock_parts/manipulator,
+/obj/item/stack/cable_coil/red,
+/obj/item/stack/sheet/plasmarglass,
+/obj/item/stack/sheet/plasmarglass,
+/obj/item/stack/rods,
+/obj/item/stack/rods,
 /turf/open/floor/plasteel/tech,
 /area/ship/engineering/engine)
 "FG" = (
@@ -2413,6 +2454,23 @@
 /area/ship/medical)
 "MX" = (
 /obj/structure/closet/crate/hydroponics,
+/obj/effect/spawner/lootdrop/seeded,
+/obj/effect/spawner/lootdrop/seeded,
+/obj/effect/spawner/lootdrop/seeded,
+/obj/item/seeds/cabbage,
+/obj/item/seeds/potato,
+/obj/item/seeds/whitebeet,
+/obj/item/seeds/onion,
+/obj/item/reagent_containers/glass/bottle/diethylamine,
+/obj/effect/spawner/lootdrop/seeded,
+/obj/effect/spawner/lootdrop/seeded,
+/obj/item/plant_analyzer,
+/obj/item/shovel/spade,
+/obj/item/cultivator,
+/obj/item/hatchet,
+/obj/item/reagent_containers/glass/bucket,
+/obj/item/reagent_containers/food/snacks/grown/poppy/geranium,
+/obj/item/reagent_containers/food/snacks/grown/poppy/geranium,
 /turf/open/floor/plating,
 /area/ship/maintenance/starboard)
 "MY" = (
@@ -2836,10 +2894,6 @@
 /turf/open/floor/plating,
 /area/ship/engineering/engine)
 "SK" = (
-/obj/machinery/power/compressor{
-	comp_id = "arrowhead_turbine";
-	dir = 4
-	},
 /obj/structure/cable/orange{
 	icon_state = "0-4"
 	},
@@ -2858,8 +2912,7 @@
 /turf/open/floor/plasteel/mono,
 /area/ship/cargo)
 "SQ" = (
-/obj/structure/falsewall/reinforced,
-/turf/open/floor/plating,
+/turf/closed/wall,
 /area/ship/engineering/engine)
 "Te" = (
 /obj/effect/turf_decal/borderfloor{
@@ -3526,6 +3579,13 @@
 "ZQ" = (
 /obj/machinery/light/directional/east,
 /obj/structure/table,
+/obj/item/reagent_containers/food/condiment/saltshaker{
+	pixel_x = 10;
+	pixel_y = 7
+	},
+/obj/item/reagent_containers/food/condiment/peppermill{
+	pixel_x = 10
+	},
 /turf/open/floor/plasteel/mono/dark,
 /area/ship/crew/canteen)
 "ZT" = (
@@ -3612,7 +3672,7 @@ BA
 Wb
 dP
 Ch
-SQ
+Eu
 OW
 SH
 qO
@@ -3646,8 +3706,8 @@ jq
 jq
 XM
 XM
-XM
-XM
+XY
+XY
 XY
 fz
 MJ
@@ -3657,8 +3717,8 @@ yh
 sv
 mI
 oR
-Eu
-Eu
+SQ
+SQ
 Eu
 Eu
 jq
@@ -3775,12 +3835,12 @@ XM
 XM
 XM
 QI
-XM
-Eu
-Eu
+XY
+SQ
+SQ
 uk
-Eu
-Eu
+SQ
+SQ
 bO
 LH
 pF
@@ -3801,12 +3861,12 @@ Sm
 OO
 vO
 LF
-TF
-TF
-TF
-TF
-TF
-TF
+LY
+LY
+LY
+LY
+LY
+LY
 TF
 TF
 "}
@@ -3929,7 +3989,7 @@ Vx
 MD
 LY
 qj
-Oz
+cJ
 aX
 vw
 ZQ
@@ -4238,11 +4298,11 @@ jq
 KA
 KA
 KA
-KA
-KA
+vS
+vS
 YY
-Cj
-Cj
+ll
+ll
 Cj
 Cj
 Cj
