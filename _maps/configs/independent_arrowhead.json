@@ -9,7 +9,7 @@
 	],
 	"map_short_name": "Arrowhead-class",
 	"map_path": "_maps/shuttles/shiptest/independent_arrowhead.dmm",
-	"description": "Originally designed at an unknown date, the latest 504 FSC model by Firefly Starcraft Industries is meant to be an improvement to older models in all areas except size, featuring almost all of the equipment of predecessors, such as a botanical module, a dedicated medical bay, and even proper cooking and sleeping areas for crew, all while improving the predecessors failures in power supply by replacing low power RTGs with entirely new turbine and atmospherics systems, making the craft a well suited vessel for exploration and other roles, if not more expensive than before.",
+	"description": "Originally designed at an unknown date, the latest 504 FSC model by Firefly Starcraft Industries is meant to be an improvement to older models in all areas except size, featuring almost all of the equipment of predecessors, such as a botanical module, a dedicated medical bay, and even proper cooking and sleeping areas for crew, all while improving the predecessors failures in power supply by replacing low power RTGs with entirely new turbine and atmospherics systems, making the craft a well suited for longer duration exploration and scouting missions, if not a more premium option than the average budget ship.",
 	"tags": ["Mining", "Generalist", "RP Focus", "Botany"],
 	"limit": 1,
 	"roundstart": true,
