@@ -432,22 +432,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod/retro, 17)
 	//it always sucks a little to get up
 	sleepyhead.set_nutrition(200)
 	sleepyhead.SetSleeping(60) //if you read this comment and feel like shitting together something to adjust elzu and IPC charge on wakeup, be my guest.
-	//but it can be worse.
-	if(prob(90))
-		sleepyhead.apply_effect(rand(3,10), EFFECT_DROWSY)
-	if(prob(75))
-		sleepyhead.blur_eyes(rand(3, 6))
-	//so much worse
-	if(prob(66))
-		sleepyhead.adjust_disgust(rand(25,35))
-	if(prob(33))
-		sleepyhead.adjust_disgust(rand(20,30))
-	if(prob(16))
-		sleepyhead.adjust_disgust(rand(10, 17))
-	//maybe you should've bought high passage.
-	if(prob(30))
-		sleepyhead.apply_damage_type(15, BURN)
-	to_chat(sleepyhead, "<span class='userdanger'>The symptoms of cryosleep set in as you awaken...")
+	to_chat(sleepyhead, "<span class='userdanger'>A dull hunger pangs in your stomach as you awaken...")
 
 
 
