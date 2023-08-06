@@ -1,0 +1,5 @@
+author: TheNeoGamer42
+delete-after: true
+changes:
+  - tweak: Cryopods no longer make you terribly sick all the time, instead, they just
+      make you a bit hungry. Poor quality ones still fuck you up though.
