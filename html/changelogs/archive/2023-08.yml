@@ -70,3 +70,8 @@
   - bugfix: the independent outpost should stay powered forever.
   thgvr:
   - balance: Grav anomalies no longer spawn in rock planet caves
+2023-08-07:
+  TheNeoGamer42:
+  - tweak: Cryopods no longer make you terribly sick all the time, instead, they just
+      make you a bit hungry. Poor quality ones still fuck you up though.
+  - rscadd: The Arrowhead-Class has been added.
