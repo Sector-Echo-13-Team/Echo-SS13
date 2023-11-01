@@ -35,6 +35,8 @@
 	custom_price = 55
 
 /obj/item/reagent_containers/food/drinks/bottle/smash(mob/living/target, mob/thrower, ranged = FALSE)
+	if(QDELING(src) || !target || !(flags_1 & INITIALIZED_1))	//Invalid loc
+		return
 	//Creates a shattering noise and replaces the bottle with a broken_bottle
 	if(bartender_check(target) && ranged)
 		return
@@ -177,13 +179,13 @@
 
 /obj/item/reagent_containers/food/drinks/bottle/vodka
 	name = "Tunguska triple distilled"
-	desc = "Aah, vodka. Prime choice of drink AND fuel by Russians worldwide."
+	desc = "Vodka, prime choice of drink and fuel."
 	icon_state = "vodkabottle"
 	list_reagents = list(/datum/reagent/consumable/ethanol/vodka = 100)
 
 /obj/item/reagent_containers/food/drinks/bottle/vodka/badminka
 	name = "Badminka vodka"
-	desc = "The label's written in Cyrillic. All you can make out is the name and a word that looks vaguely like 'Vodka'."
+	desc = "The label's written in some unknown language. All you can make out is the name and a word that looks vaguely like 'Vodka'."
 	icon_state = "badminka"
 	list_reagents = list(/datum/reagent/consumable/ethanol/vodka = 100)
 
@@ -661,7 +663,7 @@
 
 /obj/item/storage/bottles/Initialize()
 	. = ..()
-	update_icon()
+	update_appearance()
 
 /obj/item/storage/bottles/ComponentInitialize()
 	. = ..()
@@ -681,6 +683,7 @@
 		icon_state = "[initial(icon_state)]_seal"
 	else
 		icon_state = "[initial(icon_state)]_[contents.len]"
+	return ..()
 
 /obj/item/storage/bottles/examine(mob/user)
 	. = ..()
@@ -696,7 +699,7 @@
 		sealed = FALSE
 		S.locked = FALSE
 		new /obj/item/stack/sheet/mineral/wood(get_turf(src), 1)
-		update_icon()
+		update_appearance()
 		return TRUE
 
 /obj/item/storage/bottles/sandblast

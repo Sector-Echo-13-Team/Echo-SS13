@@ -78,8 +78,6 @@
 		init_sprite_accessory_subtypes(/datum/sprite_accessory/spider_legs, GLOB.spider_legs_list)
 	if(!GLOB.spider_spinneret_list.len)
 		init_sprite_accessory_subtypes(/datum/sprite_accessory/spider_spinneret, GLOB.spider_spinneret_list)
-	if(!GLOB.spider_mandibles_list.len)
-		init_sprite_accessory_subtypes(/datum/sprite_accessory/spider_mandibles, GLOB.spider_mandibles_list)
 	if(!GLOB.kepori_feathers_list.len)
 		init_sprite_accessory_subtypes(/datum/sprite_accessory/kepori_feathers, GLOB.kepori_feathers_list)
 	if(!GLOB.kepori_tail_feathers_list.len)
@@ -118,7 +116,6 @@
 		"moth_wings" = pick(GLOB.moth_wings_list),
 		"face_markings" = pick(GLOB.face_markings_list),
 		"spider_legs" = pick(GLOB.spider_legs_list),
-		"spider_mandibles" = pick(GLOB.spider_mandibles_list),
 		"spider_spinneret" = pick(GLOB.spider_spinneret_list),
 		"spines" = pick(GLOB.spines_list),
 		"squid_face" = pick(GLOB.squid_face_list),
@@ -244,9 +241,14 @@ GLOBAL_LIST_EMPTY(species_list)
 			return "unknown"
 
 ///Timed action involving two mobs, the user and the target.
-/proc/do_mob(mob/user , mob/target, time = 3 SECONDS, uninterruptible = FALSE, progress = TRUE, datum/callback/extra_checks = null)
+/proc/do_mob(mob/user , mob/target, time = 3 SECONDS, uninterruptible = FALSE, progress = TRUE, datum/callback/extra_checks = null, ignore_loc_change = FALSE)
 	if(!user || !target)
 		return FALSE
+
+	if(target && INTERACTING_WITH(user, target))
+		to_chat(user, "<span class='warning'>You're already interacting with [target]!</span>")
+		return
+
 	var/user_loc = user.loc
 
 	var/drifting = FALSE
@@ -255,6 +257,8 @@ GLOBAL_LIST_EMPTY(species_list)
 
 	var/target_loc = target.loc
 
+	LAZYADD(user.do_afters, target)
+	LAZYADD(target.targeted_by, user)
 	var/holding = user.get_active_held_item()
 	var/datum/progressbar/progbar
 	if (progress)
@@ -277,12 +281,19 @@ GLOBAL_LIST_EMPTY(species_list)
 			drifting = FALSE
 			user_loc = user.loc
 
-		if((!drifting && user.loc != user_loc) || target.loc != target_loc || user.get_active_held_item() != holding || user.incapacitated() || (extra_checks && !extra_checks.Invoke()))
+
+		if(!ignore_loc_change && ((!drifting && user.loc != user_loc) || target.loc != target_loc))
+			. = FALSE
+			break
+
+		if(user.get_active_held_item() != holding || user.incapacitated() || (extra_checks && !extra_checks.Invoke()))
 			. = FALSE
 			break
 	if(!QDELETED(progbar))
 		progbar.end_progress()
-
+	if(!QDELETED(target))
+		LAZYREMOVE(user.do_afters, target)
+		LAZYREMOVE(target.targeted_by, user)
 
 //some additional checks as a callback for for do_afters that want to break on losing health or on the mob taking action
 /mob/proc/break_do_after_checks(list/checked_health, check_clicks)
@@ -302,6 +313,11 @@ GLOBAL_LIST_EMPTY(species_list)
 /proc/do_after(mob/user, delay, needhand = TRUE, atom/target = null, progress = TRUE, datum/callback/extra_checks = null)
 	if(!user)
 		return FALSE
+
+	if(target && INTERACTING_WITH(user, target))
+		to_chat(user, "<span class='warning'>You're already interacting with [target]!</span>")
+		return
+
 	var/atom/Tloc = null
 	if(target && !isturf(target))
 		Tloc = target.loc
@@ -388,6 +404,14 @@ GLOBAL_LIST_EMPTY(species_list)
 		targets = list(targets)
 	if(!length(targets))
 		return FALSE
+
+	for(var/i in targets)
+		var/mob/living/target = i
+		if(INTERACTING_WITH(user, target))
+			to_chat(user, "<span class='warning'>You're already interacting with [target]!</span>")
+			return
+
+
 	var/user_loc = user.loc
 
 	var/drifting = FALSE
@@ -397,6 +421,8 @@ GLOBAL_LIST_EMPTY(species_list)
 	var/list/originalloc = list()
 	for(var/atom/target in targets)
 		originalloc[target] = target.loc
+		LAZYADD(user.do_afters, target)
+		LAZYADD(target.targeted_by, user)
 
 	var/holding = user.get_active_held_item()
 	var/datum/progressbar/progbar
@@ -427,6 +453,12 @@ GLOBAL_LIST_EMPTY(species_list)
 					break mainloop
 	if(!QDELETED(progbar))
 		progbar.end_progress()
+
+	for(var/thing in targets)
+		var/atom/target = thing
+		if(!QDELETED(target))
+			LAZYREMOVE(user.do_afters, target)
+			LAZYREMOVE(target.targeted_by, user)
 
 /proc/is_species(A, species_datum)
 	. = FALSE

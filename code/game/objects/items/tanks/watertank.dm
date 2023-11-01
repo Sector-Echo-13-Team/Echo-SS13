@@ -420,13 +420,13 @@
 
 	var/used_amount = injection_amount/usage_ratio
 	reagents.trans_to(user,used_amount,multiplier=usage_ratio, method = INJECT)
-	update_icon()
+	update_appearance()
 	user.update_inv_back() //for overlays update
 
 //Operator backpack spray
 /obj/item/watertank/op
 	name = "backpack water tank"
-	desc = "A New Russian backpack spray for systematic cleansing of carbon lifeforms."
+	desc = "A backpack spray for systematic cleansing of carbon lifeforms."
 	icon_state = "waterbackpackop"
 	item_state = "waterbackpackop"
 	w_class = WEIGHT_CLASS_NORMAL

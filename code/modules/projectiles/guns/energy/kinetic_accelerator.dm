@@ -18,6 +18,10 @@
 	internal_cell = TRUE
 	custom_price = 750
 	w_class = WEIGHT_CLASS_BULKY
+
+	muzzleflash_iconstate = "muzzle_flash_light"
+	muzzle_flash_color = COLOR_WHITE
+
 	var/overheat_time = 16
 	var/holds_charge = FALSE
 	var/unique_frequency = FALSE // modified by KA modkits
@@ -122,7 +126,7 @@
 /obj/item/gun/energy/kinetic_accelerator/proc/empty()
 	if(cell)
 		cell.use(cell.charge)
-	update_icon()
+	update_appearance()
 
 /obj/item/gun/energy/kinetic_accelerator/proc/attempt_reload(recharge_time)
 	if(!cell)
@@ -155,7 +159,7 @@
 		playsound(src.loc, 'sound/weapons/kenetic_reload.ogg', 60, TRUE)
 	else
 		to_chat(loc, "<span class='warning'>[src] silently charges up.</span>")
-	update_icon()
+	update_appearance()
 	overheat = FALSE
 
 /obj/item/gun/energy/kinetic_accelerator/update_overlays()
