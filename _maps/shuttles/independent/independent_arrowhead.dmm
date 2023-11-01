@@ -1103,8 +1103,8 @@
 	req_access_txt = "1"
 	},
 /obj/item/gun/ballistic/shotgun/winchester,
-/obj/item/ammo_box/c38_box/hunting,
-/obj/item/ammo_box/c38_box/hunting,
+/obj/item/ammo_box/c38_box,
+/obj/item/ammo_box/c38_box,
 /turf/open/floor/plasteel/tech/grid,
 /area/ship/security/armory)
 "sS" = (
