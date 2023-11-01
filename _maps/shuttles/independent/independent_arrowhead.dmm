@@ -791,15 +791,15 @@
 	pixel_x = 6;
 	pixel_y = 8
 	},
-/obj/item/paper/fluff{
-	info = "As a reminder, these ore processing lines may come unlinked from their control terminals due to background interference. In such cases simply use a multitool to restore the data link.";
-	name = "Memo - Processor Reliability";
-	pixel_x = -2;
-	pixel_y = -1
-	},
 /obj/item/multitool{
 	pixel_x = -9;
 	pixel_y = 9
+	},
+/obj/item/paper/fluff{
+	default_raw_text = "As a reminder, these ore processing lines may come unlinked from their control terminals due to background interference. In such cases simply use a multitool to restore the data link.";
+	name = "Memo - Processor Reliability";
+	pixel_x = -2;
+	pixel_y = -1
 	},
 /turf/open/floor/plasteel/patterned,
 /area/ship/cargo)
@@ -1512,18 +1512,18 @@
 	pixel_x = 7;
 	pixel_y = -3
 	},
-/obj/item/paper/fluff{
-	info = "The previous turbine was destroyed in some accident, and it was MUCH cheaper to simply buy the parts than to have it installed too, so, you gotta install it yourself. Remember, compressor goes INSIDE, and the turbine generator goes OUTSIDE. Might also need someone on the outside to help install the turbine generator part. All the wiring and such is still there, so assembling the turbine itself, and getting the computer set is mostly what we need to do.";
-	name = "IMPORTANT - Turbine Notes";
-	pixel_x = -5;
-	pixel_y = 4
-	},
 /obj/machinery/button/door{
 	dir = 1;
 	id = "arrowhead_turbine_shutter";
 	name = "Turbine Viewport Shutter";
 	pixel_x = -5;
 	pixel_y = -3
+	},
+/obj/item/paper/fluff{
+	default_raw_text = "The previous turbine was destroyed in some accident, and it was MUCH cheaper to simply buy the parts than to have it installed too, so, you gotta install it yourself. Remember, compressor goes INSIDE, and the turbine generator goes OUTSIDE. Might also need someone on the outside to help install the turbine generator part. All the wiring and such is still there, so assembling the turbine itself, and getting the computer set is mostly what we need to do.";
+	name = "IMPORTANT - Turbine Notes";
+	pixel_x = -5;
+	pixel_y = 4
 	},
 /turf/open/floor/plating,
 /area/ship/engineering/engine)

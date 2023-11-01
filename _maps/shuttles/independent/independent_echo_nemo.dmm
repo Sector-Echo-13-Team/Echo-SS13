@@ -367,7 +367,9 @@
 /obj/structure/disposalpipe/trunk{
 	dir = 4
 	},
-/obj/machinery/igniter/incinerator_atmos,
+/obj/machinery/igniter{
+	id = "nemo_TEG_igniter"
+	},
 /turf/open/floor/engine,
 /area/ship/engineering/atmospherics)
 "dF" = (
@@ -1940,7 +1942,7 @@
 /obj/machinery/light/directional/south,
 /obj/structure/frame/machine,
 /obj/item/paper{
-	info = "Missing protolathe. Lost in transit."
+	default_raw_text = "Missing protolathe. Lost in transit."
 	},
 /turf/open/floor/circuit,
 /area/ship/science)
@@ -3384,23 +3386,17 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 9
 	},
-/obj/machinery/button/ignition/incinerator/atmos{
-	pixel_x = -26;
-	pixel_y = -3
-	},
 /obj/machinery/atmospherics/pipe/manifold/green/visible/layer5{
 	dir = 8
 	},
 /obj/structure/table,
-/obj/item/weldingtool,
-/obj/item/weldingtool,
-/obj/item/weldingtool,
-/obj/item/weldingtool,
-/obj/item/paper{
-	info = "The igniter in the chamber does not work very well. I suggest throwing lit welders down the disposal chute over there to ignite the chamber."
-	},
 /obj/effect/turf_decal/trimline/opaque/red/line{
 	dir = 6
+	},
+/obj/machinery/button/ignition{
+	dir = 4;
+	id = "nemo_TEG_igniter";
+	pixel_x = -21
 	},
 /turf/open/floor/plating,
 /area/ship/engineering/atmospherics)
@@ -3950,14 +3946,14 @@
 	name = "Chamber Mixer"
 	},
 /obj/machinery/light/directional/east,
-/obj/item/paper/crumpled{
-	info = "A mix of 67/33 ratio of oxygen (node 1) and plasma (node 2) works very well, even at 500 kPa."
-	},
 /obj/effect/turf_decal/trimline/opaque/blue/line{
 	dir = 1
 	},
 /obj/effect/turf_decal/trimline/opaque/purple/corner{
 	dir = 8
+	},
+/obj/item/paper/crumpled{
+	default_raw_text = "A mix of 67/33 ratio of oxygen (node 1) and plasma (node 2) works very well, even at 500 kPa."
 	},
 /turf/open/floor/engine,
 /area/ship/engineering/atmospherics)
