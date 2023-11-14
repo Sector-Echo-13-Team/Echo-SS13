@@ -74,18 +74,6 @@
 #define GAME_STATE_PLAYING 3
 #define GAME_STATE_FINISHED 4
 
-//FONTS:
-// Used by Paper and PhotoCopier (and PaperBin once a year).
-// Used by PDA's Notekeeper.
-// Used by NewsCaster and NewsPaper.
-// Used by Modular Computers
-#define PEN_FONT "Verdana"
-#define FOUNTAIN_PEN_FONT "Segoe Script"
-#define CRAYON_FONT "Comic Sans MS"
-#define PRINTER_FONT "Times New Roman"
-#define SIGNFONT "Times New Roman"
-#define CHARCOAL_FONT "Candara"
-
 #define RESIZE_DEFAULT_SIZE 1
 
 //transfer_ai() defines. Main proc in ai_core.dm
@@ -161,6 +149,13 @@ GLOBAL_LIST_EMPTY(bloody_footprints_cache)
 //subtypesof(), typesof() without the parent path
 #define subtypesof(typepath) (typesof(typepath) - typepath)
 
+/// Takes a datum as input, returns its ref string, or a cached version of it
+/// This allows us to cache \ref creation, which ensures it'll only ever happen once per datum, saving string tree time
+/// It is slightly less optimal then a []'d datum, but the cost is massively outweighed by the potential savings
+/// It will only work for datums mind, for datum reasons
+/// : because of the embedded typecheck
+#define text_ref(datum) (isdatum(datum) ? (datum:cached_ref ||= "\ref[datum]") : ("\ref[datum]"))
+
 //Gets the turf this atom inhabits
 #define get_turf(A) (get_step(A, 0))
 
@@ -203,13 +198,6 @@ GLOBAL_LIST_INIT(ghost_accs_options, list(GHOST_ACCS_NONE, GHOST_ACCS_DIR, GHOST
 
 GLOBAL_LIST_INIT(ghost_others_options, list(GHOST_OTHERS_SIMPLE, GHOST_OTHERS_DEFAULT_SPRITE, GHOST_OTHERS_THEIR_SETTING)) //Same as ghost_accs_options.
 
-//pda fonts
-#define MONO "Monospaced"
-#define VT "VT323"
-#define ORBITRON "Orbitron"
-#define SHARE "Share Tech Mono"
-
-GLOBAL_LIST_INIT(pda_styles, sortList(list(MONO, VT, ORBITRON, SHARE)))
 
 /////////////////////////////////////
 // atom.appearence_flags shortcuts //

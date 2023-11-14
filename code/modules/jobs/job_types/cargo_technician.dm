@@ -1,7 +1,5 @@
 /datum/job/cargo_tech
 	name = "Cargo Technician"
-	total_positions = 3
-	spawn_positions = 2
 	wiki_page = "Cargo_technician" //WS Edit - Wikilinks/Warning
 
 	outfit = /datum/outfit/job/cargo_tech
@@ -37,11 +35,6 @@
 	gloves = /obj/item/clothing/gloves/fingerless
 	glasses = /obj/item/clothing/glasses/sunglasses/big
 
-/datum/outfit/job/cargo_tech/donk
-	name = "Customer Associate (Donk! Co.)"
-	id = /obj/item/card/id/syndicate_command/crew_id
-	uniform = /obj/item/clothing/under/syndicate/donk
-	suit = /obj/item/clothing/suit/hazardvest/donk
 
 /datum/outfit/job/cargo_tech/frontiersmen
 	name = "Cargo Tech (frontiersmen)"

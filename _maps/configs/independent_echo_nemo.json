@@ -1,0 +1,45 @@
+{
+	"$schema": "https://raw.githubusercontent.com/shiptest-ss13/Shiptest/master/_maps/ship_config_schema.json",
+	"map_name": "Nemo-class Fauna Research Vessel",
+	"prefix": "ISV",
+	"namelists": [
+		"NATURAL",
+		"NATURAL_AGGRESSIVE",
+		"SPACE"
+	],
+	"map_short_name": "Nemo-class",
+	"description": "The Nemo-Class is an eccentric collector’s dream vessel, perfectly suited to all the journalists, antiquarians and kooks of the Frontier. Featuring a comfortable study, a full robotics workshop (perfectly suited to building yourself some assistants!) and a host of esoteric weapons suitable for hunting creatures to mount above your fireplace. Other highlights include a compact-yet-functional medical bay, a reasonably well-designed engineering bay and a large array of mining equipment.",
+	"tags": [
+		"Engineering",
+		"Science",
+		"Robotics"
+	],
+	"starting_funds": 500,
+	"map_path": "_maps/shuttles/independent/independent_echo_nemo.dmm",
+	"job_slots": {
+		"Research Director": 1,
+		"Wildlife Biologist": {
+			"outfit": "/datum/outfit/job/scientist",
+			"slots": 1
+		},
+		"Biomechanical Engineer": {
+			"outfit": "/datum/outfit/job/roboticist",
+			"slots": 1
+		},
+		"Biomineralogist": {
+			"outfit": "/datum/outfit/job/miner/scientist",
+			"slots": 1
+		},
+		"Ship Engineer": {
+			"outfit": "/datum/outfit/job/engineer/independent/ship_engineer",
+			"slots": 1
+		},
+		"Atmospheric Technician": 1,
+		"Curator": 1,
+		"Lab Assistant": {
+			"outfit": "/datum/outfit/job/assistant/sciencespecialist",
+			"slots": 1
+		}
+	},
+	"enabled": true
+}

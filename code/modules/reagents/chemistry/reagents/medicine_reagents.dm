@@ -415,7 +415,7 @@
 	if(iscarbon(M))
 		if (M.stat == DEAD)
 			show_message = 0
-		if(method in list(PATCH, TOUCH))
+		if(method in list(PATCH, TOUCH, SMOKE))
 			M.adjustBruteLoss(-1.25 * reac_volume)
 			M.adjustFireLoss(-1.25 * reac_volume)
 			if(show_message)
@@ -523,9 +523,9 @@
 	taste_description = "acid"
 
 /datum/reagent/medicine/calomel/on_mob_life(mob/living/carbon/M)
-	for(var/datum/reagent/R in M.reagents.reagent_list)				//WS Edit Begin - Actually purges all chems
+	for(var/datum/reagent/R in M.reagents.reagent_list)
 		if(R != src)
-			M.reagents.remove_reagent(R.type,3)		//WS Edit End
+			M.reagents.remove_reagent(R.type,3)
 	if(M.health > 20)
 		M.adjustToxLoss(1*REM, 0)
 		. = 1
@@ -556,6 +556,19 @@
 	for(var/datum/reagent/R in M.reagents.reagent_list)
 		if(R != src)
 			M.reagents.remove_reagent(R.type,2)
+	..()
+	. = 1
+
+/datum/reagent/medicine/anti_rad
+	name = "Emergency Radiation Purgant" //taking real names
+	description = "Rapidly purges radiation from the body."
+	reagent_state = LIQUID
+	color = "#E6FFF0"
+	metabolization_rate = 0.5 * REAGENTS_METABOLISM
+
+/datum/reagent/medicine/anti_rad/on_mob_life(mob/living/carbon/M)
+	M.radiation -= M.radiation - rand(50,150)
+	M.adjust_disgust(7*REM, 0)
 	..()
 	. = 1
 
@@ -929,9 +942,9 @@
 	M.notify_ghost_cloning("Your body is being revived with Strange Reagent!")
 	M.do_jitter_animation(10)
 	var/excess_healing = 5*(reac_volume-amount_to_revive) //excess reagent will heal blood and organs across the board
-	addtimer(CALLBACK(M, /mob/living/carbon.proc/do_jitter_animation, 10), 40) //jitter immediately, then again after 4 and 8 seconds
-	addtimer(CALLBACK(M, /mob/living/carbon.proc/do_jitter_animation, 10), 80)
-	addtimer(CALLBACK(M, /mob/living.proc/revive, FALSE, FALSE, excess_healing), 79)
+	addtimer(CALLBACK(M, TYPE_PROC_REF(/mob/living/carbon, do_jitter_animation), 10), 40) //jitter immediately, then again after 4 and 8 seconds
+	addtimer(CALLBACK(M, TYPE_PROC_REF(/mob/living/carbon, do_jitter_animation), 10), 80)
+	addtimer(CALLBACK(M, TYPE_PROC_REF(/mob/living, revive), FALSE, FALSE, excess_healing), 79)
 	..()
 
 /datum/reagent/medicine/strange_reagent/on_mob_life(mob/living/carbon/M)
@@ -1629,7 +1642,7 @@
 	. = 1
 
 /datum/reagent/medicine/polypyr/expose_mob(mob/living/M, method=TOUCH, reac_volume)
-	if(method == TOUCH || method == VAPOR)
+	if(method == TOUCH || method == SMOKE || method == VAPOR)
 		if(M && ishuman(M) && reac_volume >= 0.5)
 			var/mob/living/carbon/human/H = M
 			H.hair_color = "92f"

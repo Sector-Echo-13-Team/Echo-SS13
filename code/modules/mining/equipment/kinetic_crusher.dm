@@ -33,8 +33,8 @@
 
 /obj/item/kinetic_crusher/Initialize()
 	. = ..()
-	RegisterSignal(src, COMSIG_TWOHANDED_WIELD, .proc/on_wield)
-	RegisterSignal(src, COMSIG_TWOHANDED_UNWIELD, .proc/on_unwield)
+	RegisterSignal(src, COMSIG_TWOHANDED_WIELD, PROC_REF(on_wield))
+	RegisterSignal(src, COMSIG_TWOHANDED_UNWIELD, PROC_REF(on_unwield))
 
 /obj/item/kinetic_crusher/ComponentInitialize()
 	. = ..()
@@ -110,8 +110,8 @@
 		playsound(user, 'sound/weapons/plasma_cutter.ogg', 100, TRUE)
 		D.fire()
 		charged = FALSE
-		update_icon()
-		addtimer(CALLBACK(src, .proc/Recharge), charge_time)
+		update_appearance()
+		addtimer(CALLBACK(src, PROC_REF(Recharge)), charge_time)
 		return
 	if(proximity_flag && isliving(target))
 		var/mob/living/L = target
@@ -142,17 +142,18 @@
 /obj/item/kinetic_crusher/proc/Recharge()
 	if(!charged)
 		charged = TRUE
-		update_icon()
+		update_appearance()
 		playsound(src.loc, 'sound/weapons/kenetic_reload.ogg', 60, TRUE)
 
 /obj/item/kinetic_crusher/ui_action_click(mob/user, actiontype)
 	set_light_on(!light_on)
 	playsound(user, 'sound/weapons/empty.ogg', 100, TRUE)
-	update_icon()
+	update_appearance()
 
 
 /obj/item/kinetic_crusher/update_icon_state()
 	item_state = "crusher[wielded]" // this is not icon_state and not supported by 2hcomponent
+	return ..()
 
 /obj/item/kinetic_crusher/update_overlays()
 	. = ..()
@@ -351,7 +352,7 @@
 
 /obj/item/crusher_trophy/magma_wing/on_mark_detonation(mob/living/target, mob/living/user)
 	deadly_shot = TRUE
-	addtimer(CALLBACK(src, .proc/reset_deadly_shot), 300, TIMER_UNIQUE|TIMER_OVERRIDE)
+	addtimer(CALLBACK(src, PROC_REF(reset_deadly_shot)), 300, TIMER_UNIQUE|TIMER_OVERRIDE)
 
 /obj/item/crusher_trophy/magma_wing/proc/reset_deadly_shot()
 	deadly_shot = FALSE
@@ -404,7 +405,7 @@
 
 /obj/item/crusher_trophy/watcher_wing_forgotten/on_mark_detonation(mob/living/target, mob/living/user)
 	deadly_shot = TRUE
-	addtimer(CALLBACK(src, .proc/reset_deadly_shot), 300, TIMER_UNIQUE|TIMER_OVERRIDE)
+	addtimer(CALLBACK(src, PROC_REF(reset_deadly_shot)), 300, TIMER_UNIQUE|TIMER_OVERRIDE)
 
 /obj/item/crusher_trophy/watcher_wing_forgotten/proc/reset_deadly_shot()
 	deadly_shot = FALSE
@@ -537,7 +538,7 @@
 			continue
 		playsound(L, 'sound/magic/fireball.ogg', 20, TRUE)
 		new /obj/effect/temp_visual/fire(L.loc)
-		addtimer(CALLBACK(src, .proc/pushback, L, user), 1) //no free backstabs, we push AFTER module stuff is done
+		addtimer(CALLBACK(src, PROC_REF(pushback), L, user), 1) //no free backstabs, we push AFTER module stuff is done
 		L.adjustFireLoss(bonus_value, forced = TRUE)
 
 /obj/item/crusher_trophy/tail_spike/proc/pushback(mob/living/target, mob/living/user)
@@ -571,7 +572,7 @@
 			continue
 		playsound(L, 'sound/magic/fireball.ogg', 20, TRUE)
 		new /obj/effect/temp_visual/fire(L.loc)
-		addtimer(CALLBACK(src, .proc/pushback, L, user), 1) //no free backstabs, we push AFTER module stuff is done
+		addtimer(CALLBACK(src, PROC_REF(pushback), L, user), 1) //no free backstabs, we push AFTER module stuff is done
 		L.adjustFireLoss(bonus_value, forced = TRUE)
 
 /obj/item/crusher_trophy/ash_spike/proc/pushback(mob/living/target, mob/living/user)
@@ -639,7 +640,7 @@
 
 /obj/item/crusher_trophy/blaster_tubes/on_mark_detonation(mob/living/target, mob/living/user)
 	deadly_shot = TRUE
-	addtimer(CALLBACK(src, .proc/reset_deadly_shot), 300, TIMER_UNIQUE|TIMER_OVERRIDE)
+	addtimer(CALLBACK(src, PROC_REF(reset_deadly_shot)), 300, TIMER_UNIQUE|TIMER_OVERRIDE)
 
 /obj/item/crusher_trophy/blaster_tubes/proc/reset_deadly_shot()
 	deadly_shot = FALSE
@@ -749,6 +750,7 @@
 
 /obj/item/kinetic_crusher/old/update_icon_state()
 	item_state = "crusherold[wielded]" // still not supported by 2hcomponent
+	return ..()
 
 //100% original syndicate oc, plz do not steal. More effective against human targets then the typical crusher, with a bit of block chance.
 /obj/item/kinetic_crusher/syndie_crusher
@@ -807,6 +809,7 @@
 
 /obj/item/kinetic_crusher/syndie_crusher/update_icon_state()
 	item_state = "crushersyndie[wielded]" // this is not icon_state and not supported by 2hcomponent
+	return ..()
 
 /obj/item/kinetic_crusher/syndie_crusher/update_overlays()
 	. = ..()

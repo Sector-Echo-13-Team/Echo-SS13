@@ -1,7 +1,5 @@
 /datum/job/atmos
 	name = "Atmospheric Technician"
-	total_positions = 3
-	spawn_positions = 2
 	wiki_page = "Guide_to_Atmospherics" //WS Edit - Wikilinks/Warning
 
 	outfit = /datum/outfit/job/atmos
@@ -41,14 +39,6 @@
 	suit = /obj/item/clothing/suit/space/hardsuit/engine/atmos
 	suit_store = /obj/item/tank/internals/oxygen
 	internals_slot = ITEM_SLOT_SUITSTORE
-
-/datum/outfit/job/atmos/gec
-	name = "Atmospheric Technician (GEC)"
-
-	uniform = /obj/item/clothing/under/syndicate/gec/atmos_tech
-	suit = /obj/item/clothing/suit/toggle/hazard
-	head = /obj/item/clothing/head/hardhat
-	id = /obj/item/card/id/syndicate_command/crew_id
 
 /datum/outfit/job/atmos/frontiersmen
 	name = "Atmospheric Technician (Frontiersmen)"

@@ -70,14 +70,6 @@
 	item_state = "g_suit"
 	can_adjust = FALSE
 
-/obj/item/clothing/under/syndicate/soviet
-	name = "Ratnik 5 tracksuit"
-	desc = "Badly translated labels tell you to clean this in Vodka. Great for squatting in."
-	icon_state = "trackpants"
-	can_adjust = FALSE
-	armor = list("melee" = 10, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 0, "acid" = 0)
-	resistance_flags = NONE
-
 /obj/item/clothing/under/syndicate/combat
 	name = "combat uniform"
 	desc = "With a suit lined with this many pockets, you are ready to operate."
@@ -222,6 +214,9 @@
 	uplink_type = /obj/item/uplink/nuclear
 	uplink_slot = ITEM_SLOT_BELT
 
+//INTEQ
+//maybe split it into it's own file?
+
 /obj/item/clothing/under/syndicate/inteq
 	name = "inteq turtleneck"
 	desc = "A rich brown turtleneck with black pants, it has a small 'IRMG' embroidered onto the shoulder."
@@ -281,3 +276,10 @@
 	. = ..()
 	var/obj/item/clothing/accessory/maidapron/inteq/A = new (src)
 	attach_accessory(A)
+
+/obj/item/clothing/under/syndicate/inteq/honorable
+	name = "honorable vanguard turtleneck"
+	desc = "a midnight black turtleneck worn by honorable Vanguards of the IRMG."
+	icon_state = "inteq_honorable"
+	item_state = "inteq_honorable"
+	supports_variations = KEPORI_VARIATION | DIGITIGRADE_VARIATION
