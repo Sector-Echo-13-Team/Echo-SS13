@@ -1,4 +1,0 @@
-author: TypeVar
-changes:
-  - {rscadd: Readds the Nemo-Class.}
-delete-after: true
