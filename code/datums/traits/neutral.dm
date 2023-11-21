@@ -287,7 +287,7 @@
 		return
 	if(!C.client) //Can't blame no one for no disconnects
 		return
-	C.blood_volume -= max(C.blood_volume/4000, 0.07)
+	C.blood_volume -= max(C.blood_volume/3500, 0.07)
 	if(C.blood_volume <= BLOOD_VOLUME_BAD)
 		if(prob(5) && C.blood_volume > BLOOD_VOLUME_SURVIVE)
 			to_chat(C, "<span class='danger'>You're running out of blood!</span>")
