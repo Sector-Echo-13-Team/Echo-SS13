@@ -24,9 +24,11 @@ PROCESSING_SUBSYSTEM_DEF(quirks)
 							list("Ananas Affinity","Ananas Aversion"), \
 							list("Alcohol Tolerance","Light Drinker"), \
 							list("Clown Fan","Mime Fan"), \
-							list("Bad Touch", "Friendly"))
+							list("Bad Touch", "Friendly"), \
+							list("Blood Deficiency", "Vampirism"))
 
-	species_blacklist = list("Blood Deficiency" = list(SPECIES_IPC, SPECIES_JELLYPERSON, SPECIES_PLASMAMAN, SPECIES_VAMPIRE))
+	species_blacklist = list("Blood Deficiency" = list(SPECIES_IPC, SPECIES_JELLYPERSON, SPECIES_PLASMAMAN, SPECIES_VAMPIRE), \
+	"Vampirism" = (SPECIES_IPC, SPECIES_JELLYPERSON, SPECIES_PLASMAMAN, SPECIES_ETHEREAL, SPECIES_VAMPIRE))
 
 	for(var/client/client in GLOB.clients)
 		client?.prefs.check_quirk_compatibility()
