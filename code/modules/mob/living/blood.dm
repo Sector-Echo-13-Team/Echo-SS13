@@ -201,7 +201,7 @@
 		else if(last_mind)
 			blood_data["ckey"] = ckey(last_mind.key)
 
-			blood_data["blood_type"] = dna.blood_type
+		blood_data["blood_type"] = dna.blood_type
 		blood_data["gender"] = gender
 		blood_data["real_name"] = real_name
 		blood_data["features"] = dna.features
