@@ -23,7 +23,7 @@ PROCESSING_SUBSYSTEM_DEF(quirks)
 							list("Ageusia","Vegetarian","Deviant Tastes"), \
 							list("Ananas Affinity","Ananas Aversion"), \
 							list("Alcohol Tolerance","Light Drinker"), \
-							list("Blood Deficiency", "Vampirism"))
+							list("Blood Deficiency", "Vampirism"), \
 							list("Clown Fan","Mime Fan", "RILENA Super Fan"), \
 							list("Bad Touch", "Friendly"))
 
