@@ -77,9 +77,9 @@
 		shuttle_area.rename_area("[new_name] [initial(shuttle_area.name)]")
 	if(!force)
 		COOLDOWN_START(src, rename_cooldown, 5 MINUTES)
-		if(shuttle_port.virtual_z() == null)
+		if(shuttle_port?.virtual_z() == null)
 			return TRUE
-		priority_announce("The [oldname] has been renamed to the [new_name].", "Docking Announcement", sender_override = new_name, zlevel = shuttle_port.virtual_z())
+		priority_announce("The [oldname] has been renamed to the [new_name].", "Docking Announcement", sender_override = new_name, zlevel = shuttle_port?.virtual_z())
 	return TRUE
 
 /**
@@ -116,6 +116,7 @@
 	. = ..()
 	SSovermap.controlled_ships -= src
 	helms.Cut()
+	QDEL_LIST(missions)
 	LAZYCLEARLIST(owner_candidates)
 	if(!QDELETED(shuttle_port))
 		shuttle_port.current_ship = null

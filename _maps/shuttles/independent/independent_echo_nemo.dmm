@@ -353,6 +353,7 @@
 	dir = 8
 	},
 /obj/machinery/button/door{
+	dir = 1;
 	id = "nemobridge";
 	name = "Bridge Lockdown";
 	pixel_x = 7;
@@ -360,6 +361,11 @@
 	},
 /obj/effect/turf_decal/siding/thinplating/dark{
 	dir = 6
+	},
+/obj/machinery/light_switch{
+	dir = 1;
+	pixel_x = -7;
+	pixel_y = -23
 	},
 /turf/open/floor/carpet/black,
 /area/ship/bridge)
@@ -431,6 +437,10 @@
 	icon_state = "2-8"
 	},
 /obj/machinery/portable_atmospherics/canister/oxygen,
+/obj/machinery/light_switch{
+	dir = 8;
+	pixel_x = 22
+	},
 /turf/open/floor/plating,
 /area/ship/maintenance/port)
 "el" = (
@@ -457,26 +467,11 @@
 	icon_state = "0-2"
 	},
 /obj/machinery/power/apc/auto_name/directional/north,
-/obj/structure/closet/secure_closet/freezer/meat,
-/obj/item/storage/fancy/egg_box,
-/obj/item/storage/fancy/egg_box,
-/obj/item/reagent_containers/food/snacks/grown/potato,
-/obj/item/reagent_containers/food/snacks/grown/potato,
-/obj/item/reagent_containers/food/snacks/grown/potato,
-/obj/item/reagent_containers/food/snacks/grown/potato,
-/obj/item/reagent_containers/food/snacks/grown/potato,
-/obj/item/reagent_containers/food/snacks/grown/potato,
-/obj/item/reagent_containers/food/condiment/milk,
-/obj/item/reagent_containers/food/condiment/milk,
-/obj/item/reagent_containers/food/condiment/enzyme,
-/obj/item/reagent_containers/food/condiment/sugar,
-/obj/item/reagent_containers/food/condiment/flour,
-/obj/item/reagent_containers/food/condiment/flour,
-/obj/item/kitchen/knife,
 /obj/effect/turf_decal/siding/wood{
 	dir = 1
 	},
-/obj/item/storage/box/drinkingglasses,
+/obj/structure/table/reinforced,
+/obj/item/reagent_containers/food/snacks/burger/fish,
 /turf/open/floor/wood,
 /area/ship/crew/canteen)
 "ey" = (
@@ -507,6 +502,9 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/dark/visible/layer2{
 	dir = 1
+	},
+/obj/structure/chair/office{
+	dir = 8
 	},
 /turf/open/floor/plating,
 /area/ship/engineering/atmospherics)
@@ -691,6 +689,15 @@
 	},
 /turf/open/floor/plating,
 /area/ship/external)
+"hc" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/structure/chair{
+	dir = 1
+	},
+/turf/open/floor/wood,
+/area/ship/crew/canteen)
 "hf" = (
 /obj/effect/turf_decal/siding/purple{
 	dir = 4
@@ -895,11 +902,25 @@
 /turf/open/floor/wood,
 /area/ship/crew/library)
 "iR" = (
-/obj/structure/table/reinforced,
 /obj/effect/turf_decal/siding/wood{
 	dir = 1
 	},
-/obj/machinery/chem_dispenser/drinks,
+/obj/structure/closet/secure_closet/freezer/meat,
+/obj/item/storage/box/drinkingglasses,
+/obj/item/kitchen/knife,
+/obj/item/reagent_containers/food/condiment/flour,
+/obj/item/reagent_containers/food/condiment/flour,
+/obj/item/reagent_containers/food/condiment/sugar,
+/obj/item/reagent_containers/food/condiment/enzyme,
+/obj/item/reagent_containers/food/condiment/milk,
+/obj/item/reagent_containers/food/condiment/milk,
+/obj/item/reagent_containers/food/snacks/grown/potato,
+/obj/item/reagent_containers/food/snacks/grown/potato,
+/obj/item/reagent_containers/food/snacks/grown/potato,
+/obj/item/reagent_containers/food/snacks/grown/potato,
+/obj/item/storage/fancy/egg_box,
+/obj/item/reagent_containers/food/snacks/grown/potato,
+/obj/item/reagent_containers/food/snacks/grown/potato,
 /turf/open/floor/wood,
 /area/ship/crew/canteen)
 "iZ" = (
@@ -973,8 +994,9 @@
 /turf/open/floor/plasteel/tech,
 /area/ship/engineering/electrical)
 "kf" = (
-/obj/machinery/advanced_airlock_controller{
-	pixel_x = 25
+/obj/machinery/door/poddoor/preopen{
+	dir = 1;
+	id = "nemoairlock"
 	},
 /turf/open/floor/pod,
 /area/ship/hallway/central)
@@ -1759,7 +1781,17 @@
 /obj/effect/turf_decal/siding/purple{
 	dir = 6
 	},
-/obj/item/kirbyplants/photosynthetic,
+/obj/structure/closet/crate/science,
+/obj/item/lazarus_injector,
+/obj/item/lazarus_injector,
+/obj/item/lazarus_injector,
+/obj/item/lazarus_injector,
+/obj/item/lazarus_injector,
+/obj/item/lazarus_injector,
+/obj/item/lazarus_injector,
+/obj/item/lazarus_injector,
+/obj/item/lazarus_injector,
+/obj/item/lazarus_injector,
 /turf/open/floor/plasteel/white,
 /area/ship/medical)
 "wC" = (
@@ -1927,6 +1959,10 @@
 /area/ship/crew/library)
 "zD" = (
 /obj/structure/closet/emcloset,
+/obj/machinery/light_switch{
+	dir = 8;
+	pixel_x = 22
+	},
 /turf/open/floor/plating,
 /area/ship/maintenance/starboard)
 "zE" = (
@@ -2123,8 +2159,8 @@
 /turf/open/floor/engine,
 /area/ship/engineering/atmospherics)
 "CQ" = (
-/obj/machinery/door/airlock/external/glass,
 /obj/effect/mapping_helpers/airlock/cyclelink_helper,
+/obj/machinery/door/airlock/external,
 /turf/open/floor/pod,
 /area/ship/hallway/central)
 "CS" = (
@@ -3036,12 +3072,6 @@
 	},
 /obj/structure/frame/machine,
 /obj/item/circuitboard/machine/rdserver,
-/obj/machinery/button/door{
-	id = "nemobridgewindows";
-	name = "Bridge Shutters";
-	pixel_x = 7;
-	pixel_y = 25
-	},
 /obj/effect/turf_decal/siding/thinplating/dark{
 	dir = 5
 	},
@@ -3214,6 +3244,13 @@
 	},
 /turf/open/floor/pod,
 /area/ship/hallway/central)
+"Py" = (
+/obj/structure/bed,
+/obj/structure/curtain/bounty,
+/obj/item/bedsheet/orange,
+/obj/machinery/light/directional/west,
+/turf/open/floor/carpet/black,
+/area/ship/crew/dorm)
 "PL" = (
 /obj/effect/turf_decal/siding/purple{
 	dir = 8
@@ -3351,17 +3388,14 @@
 /obj/effect/turf_decal/siding/thinplating/dark{
 	dir = 4
 	},
+/obj/machinery/button/door{
+	dir = 4;
+	id = "nemoairlock";
+	name = "Airlock Lockdown";
+	pixel_x = -24
+	},
 /turf/open/floor/plasteel/dark,
 /area/ship/hallway/central)
-"RN" = (
-/obj/structure/bed,
-/obj/structure/curtain/bounty,
-/obj/item/bedsheet/purple,
-/obj/machinery/light_switch{
-	pixel_y = 23
-	},
-/turf/open/floor/carpet/black,
-/area/ship/crew/dorm)
 "RR" = (
 /obj/machinery/door/airlock/maintenance_hatch{
 	name = "Port Maintenance"
@@ -3431,8 +3465,11 @@
 /turf/closed/wall/mineral/plastitanium/nodiagonal,
 /area/ship/cargo)
 "SS" = (
-/obj/machinery/light/directional/east,
 /obj/machinery/atmospherics/components/unary/vent_pump/layer2,
+/obj/machinery/advanced_airlock_controller{
+	pixel_x = 25
+	},
+/obj/machinery/light/directional/west,
 /turf/open/floor/pod,
 /area/ship/hallway/central)
 "SU" = (
@@ -3672,6 +3709,10 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/siding/wood,
+/obj/machinery/light_switch{
+	dir = 1;
+	pixel_y = -23
+	},
 /turf/open/floor/wood,
 /area/ship/crew/dorm)
 "Wm" = (
@@ -3860,20 +3901,10 @@
 /obj/effect/turf_decal/siding/purple{
 	dir = 5
 	},
-/obj/item/lazarus_injector,
-/obj/item/lazarus_injector,
-/obj/item/lazarus_injector,
-/obj/item/lazarus_injector,
-/obj/item/lazarus_injector,
-/obj/item/lazarus_injector,
-/obj/item/lazarus_injector,
-/obj/item/lazarus_injector,
-/obj/item/lazarus_injector,
-/obj/item/lazarus_injector,
-/obj/structure/closet/crate/science,
 /obj/machinery/light_switch{
 	pixel_y = 23
 	},
+/obj/item/kirbyplants/photosynthetic,
 /turf/open/floor/plasteel/white,
 /area/ship/medical)
 "Yp" = (
@@ -4659,7 +4690,7 @@ tb
 tb
 Yk
 es
-wh
+hc
 wh
 TE
 aF
@@ -4668,7 +4699,7 @@ XT
 WD
 VF
 Rz
-Zh
+Py
 Bz
 tb
 tb
@@ -4688,7 +4719,7 @@ Bz
 Ww
 Wa
 Bz
-RN
+pU
 GO
 Zh
 WE

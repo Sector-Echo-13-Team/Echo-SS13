@@ -17,27 +17,36 @@
 	"starting_funds": 500,
 	"map_path": "_maps/shuttles/independent/independent_echo_nemo.dmm",
 	"job_slots": {
-		"Research Director": 1,
+		"Research Director": {
+			"outfit": "/datum/outfit/job/independent/rd",
+			"slots": 1
+		},
 		"Wildlife Biologist": {
-			"outfit": "/datum/outfit/job/scientist",
+			"outfit": "/datum/outfit/job/independent/scientist",
 			"slots": 1
 		},
 		"Biomechanical Engineer": {
-			"outfit": "/datum/outfit/job/roboticist",
+			"outfit": "/datum/outfit/job/independent/roboticist",
 			"slots": 1
 		},
 		"Biomineralogist": {
-			"outfit": "/datum/outfit/job/miner/scientist",
+			"outfit": "/datum/outfit/job/independent/miner/scientist",
 			"slots": 1
 		},
 		"Ship Engineer": {
-			"outfit": "/datum/outfit/job/engineer/independent/ship_engineer",
+			"outfit": "/datum/outfit/job/independent/engineer",
 			"slots": 1
 		},
-		"Atmospheric Technician": 1,
-		"Curator": 1,
+		"Atmospheric Technician": {
+			"outfit": "/datum/outfit/job/independent/atmos",
+			"slots": 1
+		},
+		"Curator": {
+			"outfit": "/datum/outfit/job/independent/curator",
+			"slots": 1
+		},
 		"Lab Assistant": {
-			"outfit": "/datum/outfit/job/assistant/sciencespecialist",
+			"outfit": "/datum/outfit/job/independent/assistant",
 			"slots": 1
 		}
 	},
