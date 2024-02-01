@@ -1,0 +1,4 @@
+author: TypeVar
+changes:
+  - {rscadd: Minor changes to the Nemo-Class.}
+delete-after: true
