@@ -39,7 +39,7 @@
 /proc/random_backpack()
 	return pick(GLOB.backpacklist)
 
-/proc/random_features()
+/* /proc/random_features() // Echo 13 - Start - Mirrored to mobs.dm
 	if(!GLOB.tails_list_human.len)
 		init_sprite_accessory_subtypes(/datum/sprite_accessory/tails/human, GLOB.tails_list_human)
 	if(!GLOB.tails_list_lizard.len)
@@ -125,7 +125,7 @@
 		"vox_head_quills" = pick(GLOB.vox_head_quills_list),
 		"vox_neck_quills" = pick(GLOB.vox_neck_quills_list),
 		"wings" = "None",
-	)
+	) */ // Echo 13 - End - Mirrored to mobs.dm
 
 /proc/random_hairstyle(gender)
 	switch(gender)

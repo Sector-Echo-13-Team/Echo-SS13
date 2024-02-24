@@ -733,7 +733,7 @@
 	process_flags = ORGANIC | SYNTHETIC
 	color = "#FFEBEB"
 
-/datum/reagent/flightpotion/expose_mob(mob/living/M, method=TOUCH, reac_volume, show_message = 1)
+/* /datum/reagent/flightpotion/expose_mob(mob/living/M, method=TOUCH, reac_volume, show_message = 1) // Echo 13 - Start - Mirrored to preferences.dm
 	if(iscarbon(M) && M.stat != DEAD)
 		var/mob/living/carbon/C = M
 		var/holycheck = ishumanbasic(C)
@@ -753,7 +753,7 @@
 		playsound(C.loc, 'sound/items/poster_ripped.ogg', 50, TRUE, -1)
 		C.adjustBruteLoss(20)
 		C.emote("scream")
-	..()
+	..() */ // Echo 13 - End - Mirrored to necropolis_chests.dm
 
 //nerfed necrostone
 /obj/item/necromantic_stone/lava

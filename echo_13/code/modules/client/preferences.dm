@@ -1,4 +1,3 @@
-// Echo 13 - Mirrored to preferences.dm
 GLOBAL_LIST_EMPTY(preferences_datums)
 
 /datum/preferences
@@ -123,7 +122,9 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 							"elzu_horns" = "None",
 							"elzu_tail" = "None",
 							"flavor_text" = "",
-							"body_size" = "Normal"
+							"body_size" = "Normal",
+							"phyto_hair" = "Cabbage",
+							"phyto_flower" = "Cabbage"
 						)
 	var/list/randomise = list(
 							RANDOM_UNDERWEAR = TRUE,
@@ -763,6 +764,30 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				dat += "<a href='?_src_=prefs;preference=vox_neck_quills;task=input'>[features["vox_neck_quills"]]</a><BR>"
 				//dat += "<span style='border:1px solid #161616; background-color: #[facial_hair_color];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=facial;task=input'>Change</a><BR>"
 				//dat += "<a href='?_src_=prefs;preference=toggle_random;random_type=[RANDOM_FACIAL_HAIR_COLOR]'>[(randomise[RANDOM_FACIAL_HAIR_COLOR]) ? "Lock" : "Unlock"]</A><BR>"
+
+				mutant_category++
+				if(mutant_category >= MAX_MUTANT_ROWS)
+					dat += "</td>"
+					mutant_category = 0
+
+			if("phyto_hair" in pref_species.default_features)
+				if(!mutant_category)
+					dat += APPEARANCE_CATEGORY_COLUMN
+
+				dat += "<h3>Head Vegitation Style</h3>"
+				dat += "<a href='?_src_=prefs;preference=phyto_hair;task=input'>[features["phyto_hair"]]</a>"
+				dat += "<span style='border:1px solid #161616; background-color: #[hair_color];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=phyto_hair_color;task=input'>Change</a>"
+
+				mutant_category++
+				if(mutant_category >= MAX_MUTANT_ROWS)
+					dat += "</td>"
+					mutant_category = 0
+
+			if("phyto_flower" in pref_species.default_features)
+				if(!mutant_category)
+					dat += APPEARANCE_CATEGORY_COLUMN
+				dat += "<h3>Head Flowers Color</h3>"
+				dat += "<span style='border: 1px solid #161616; background-color: #[facial_hair_color];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=phyto_flower_color;task=input'>Change</a>"
 
 				mutant_category++
 				if(mutant_category >= MAX_MUTANT_ROWS)
@@ -1819,6 +1844,37 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					new_tail = input(user, "Choose your character's tail:", "Character Preference") as null|anything in GLOB.tails_list_human
 					if(new_tail)
 						features["tail_human"] = new_tail
+
+				if("phyto_hair")
+					var/new_phyto_hair
+					new_phyto_hair = input(user, "Choose the style of your head vegitation", "Character Preference") as null|anything in GLOB.phyto_hair_list
+					if(new_phyto_hair)
+						features["phyto_hair"] = new_phyto_hair
+						features["phyto_flower"] = new_phyto_hair
+
+				if("phyto_hair_color")
+					var/new_hair = input(user, "Choose your character's \"hair\" colour:", "Character Preference","#"+hair_color) as color|null
+					if(new_hair)
+						var/temp_hsv = RGBtoHSV(new_hair)
+						if(new_hair == "#000000")
+							hair_color = pref_species.default_color
+							to_chat(user, span_danger("Invalid \"hair\" color. Your color is not bright enough."))
+						else if(ReadHSV(temp_hsv)[3] >= ReadHSV("#7F7F7F")[3]) // mutantcolors must be bright, but only if they affect the skin
+							hair_color = sanitize_hexcolor(new_hair)
+						else
+							to_chat(user, span_danger("Invalid \"hair\" color. Your color is not bright enough."))
+
+				if("phyto_flower_color")
+					var/new_facial = input(user, "Choose your character's head flower colour:", "Character Preference","#"+facial_hair_color) as color|null
+					if(new_facial)
+						var/temp_hsv = RGBtoHSV(new_facial)
+						if(new_facial == "#000000")
+							facial_hair_color = pref_species.default_color
+							to_chat(user, span_danger("Invalid \"hair\" color. Your color is not bright enough."))
+						else if(ReadHSV(temp_hsv)[3] >= ReadHSV("#7F7F7F")[3]) // mutantcolors must be bright, but only if they affect the skin
+							facial_hair_color = sanitize_hexcolor(new_facial)
+						else
+							to_chat(user, span_danger("Invalid head flower color. Your color is not bright enough."))
 
 				if("face_markings")
 					var/new_face_markings

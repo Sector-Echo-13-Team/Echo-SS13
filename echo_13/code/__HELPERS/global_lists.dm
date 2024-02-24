@@ -1,8 +1,6 @@
-//////////////////////////
-/////Initial Building/////
-//////////////////////////
+//Echo 13 - Add phyto hairs to the proc
 
-/* /proc/make_datum_references_lists() // Echo 13 - Start - Mirrored to global_lists.dm
+/proc/make_datum_references_lists() // Echo 13 - Start - Mirrored to global_lists.dm
 	//hair
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/hair, GLOB.hairstyles_list, GLOB.hairstyles_male_list, GLOB.hairstyles_female_list)
 	//facial hair
@@ -47,6 +45,8 @@
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/elzu_horns,GLOB.elzu_horns_list)
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/tails/elzu, GLOB.tails_list_elzu)
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/tails_animated/elzu, GLOB.animated_tails_list_elzu)
+	init_sprite_accessory_subtypes(/datum/sprite_accessory/phyto_hair, GLOB.phyto_hair_list)
+	init_sprite_accessory_subtypes(/datum/sprite_accessory/phyto_flower, GLOB.phyto_flower_list)
 
 	//Species
 	for(var/spath in subtypesof(/datum/species))
@@ -87,23 +87,4 @@
 
 	GLOB.emote_list = init_emote_list()
 
-	init_subtypes(/datum/crafting_recipe, GLOB.crafting_recipes) */ // Echo 13 - End - Mirrored to global_lists.dm
-
-//creates every subtype of prototype (excluding prototype) and adds it to list L.
-//if no list/L is provided, one is created.
-/proc/init_subtypes(prototype, list/L)
-	if(!istype(L))
-		L = list()
-	for(var/path in subtypesof(prototype))
-		L += new path()
-	return L
-
-//returns a list of paths to every subtype of prototype (excluding prototype)
-//if no list/L is provided, one is created.
-/proc/init_paths(prototype, list/L)
-	if(!istype(L))
-		L = list()
-		for(var/path in subtypesof(prototype))
-			L+= path
-		return L
-
+	init_subtypes(/datum/crafting_recipe, GLOB.crafting_recipes)

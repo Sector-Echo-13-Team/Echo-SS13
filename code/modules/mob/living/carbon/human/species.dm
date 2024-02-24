@@ -498,7 +498,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
  * * new_species - The new species that the carbon became, used for genetics mutations.
  * * pref_load - Preferences to be loaded from character setup, loads in preferred mutant things like bodyparts, digilegs, skin color, etc.
  */
-/datum/species/proc/on_species_loss(mob/living/carbon/human/C, datum/species/new_species, pref_load)
+/* /datum/species/proc/on_species_loss(mob/living/carbon/human/C, datum/species/new_species, pref_load) // Echo 13 - Start - Mirrored to species.dm
 	if(C.dna.species.exotic_bloodtype)
 		C.dna.blood_type = random_blood_type()
 
@@ -535,7 +535,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		C.update_body()
 
 	C.remove_movespeed_modifier(/datum/movespeed_modifier/species)
-	SEND_SIGNAL(C, COMSIG_SPECIES_LOSS, src)
+	SEND_SIGNAL(C, COMSIG_SPECIES_LOSS, src) */ // Echo 13 - End - Mirrored to species.dm
 
 /**
  * Handles hair icons and dynamic hair.
@@ -545,7 +545,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
  * * H - Human, whoever we're handling the hair for
  * * forced_colour - The colour of hair we're forcing on this human. Leave null to not change. Mind the british spelling!
  */
-/datum/species/proc/handle_hair(mob/living/carbon/human/H, forced_colour)
+/* /datum/species/proc/handle_hair(mob/living/carbon/human/H, forced_colour) // Echo 13 - Start - Mirrored to species.dm
 	H.remove_overlay(HAIR_LAYER)
 	var/obj/item/bodypart/head/HD = H.get_bodypart(BODY_ZONE_HEAD)
 	if(!HD) //Decapitated
@@ -702,7 +702,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	if(standing.len)
 		H.overlays_standing[HAIR_LAYER] = standing
 
-	H.apply_overlay(HAIR_LAYER)
+	H.apply_overlay(HAIR_LAYER) */ // Echo 13 - End - Mirrored to species.dm
 
 /**
  * Handles the body of a human
@@ -813,7 +813,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
  * * H - Human, whoever we're handling the body for
  * * forced_colour - The forced color of an accessory. Leave null to use mutant color.
  */
-/datum/species/proc/handle_mutant_bodyparts(mob/living/carbon/human/H, forced_colour)
+/* /datum/species/proc/handle_mutant_bodyparts(mob/living/carbon/human/H, forced_colour) // Echo 13 - Start - Mirrored to species.dm
 	var/list/bodyparts_to_add = mutant_bodyparts.Copy()
 	var/list/relevent_layers = list(BODY_BEHIND_LAYER, BODY_ADJ_LAYER, BODY_FRONT_LAYER)
 	var/list/standing	= list()
@@ -1069,7 +1069,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 
 	H.apply_overlay(BODY_BEHIND_LAYER)
 	H.apply_overlay(BODY_ADJ_LAYER)
-	H.apply_overlay(BODY_FRONT_LAYER)
+	H.apply_overlay(BODY_FRONT_LAYER) */ // Echo 13 - End - Mirrored to species.dm
 
 //This exists so sprite accessories can still be per-layer without having to include that layer's
 //number in their sprite name, which causes issues when those numbers change.
@@ -2141,7 +2141,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 //FLIGHT SHIT//
 ///////////////
 
-/datum/species/proc/GiveSpeciesFlight(mob/living/carbon/human/H)
+/* /datum/species/proc/GiveSpeciesFlight(mob/living/carbon/human/H) // Echo 13 - Start - Mirrored to species.dm
 	if(flying_species) //species that already have flying traits should not work with this proc
 		return
 	flying_species = TRUE
@@ -2170,7 +2170,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	if(H.dna.features["wings"] != wings_icon)
 		mutant_bodyparts |= "wings"
 		H.dna.features["wings"] = wings_icon
-		H.update_body()
+		H.update_body() */ // Echo 13 - End - Mirrored to species.dm
 
 /datum/species/proc/HandleFlight(mob/living/carbon/human/H)
 	if(H.movement_type & FLYING)

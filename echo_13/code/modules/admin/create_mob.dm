@@ -1,16 +1,4 @@
-
-/datum/admins/proc/create_mob(mob/user)
-	var/static/create_mob_html
-	if (!create_mob_html)
-		var/mobjs = null
-		mobjs = jointext(typesof(/mob), ";")
-		create_mob_html = file2text('html/create_object.html')
-		create_mob_html = replacetext(create_mob_html, "Create Object", "Create Mob")
-		create_mob_html = replacetext(create_mob_html, "null; /* object types */", "\"[mobjs]\"")
-
-	user << browse(create_panel_helper(create_mob_html), "window=create_mob;size=425x475")
-
-/* /proc/randomize_human(mob/living/carbon/human/H) // Echo 13 - Start - Mirrored to create_mob.dm
+/proc/randomize_human(mob/living/carbon/human/H)
 	H.gender = pick(MALE, FEMALE)
 	H.real_name = random_unique_name(H.gender)
 	H.name = H.real_name
@@ -45,6 +33,8 @@
 	H.dna.features["vox_neck_quills"] = pick(GLOB.vox_neck_quills_list)
 	H.dna.features["elzu_horns"] = pick(GLOB.elzu_horns_list)
 	H.dna.features["tail_elzu"] = pick(GLOB.tails_list_elzu)
+	H.dna.features["phyto_hair"] = pick(GLOB.phyto_hair_list)
+	H.dna.features["phyto_flower"] = GLOB.phyto_flower_list[H.dna.features["phyto_hair"]]
 
 	H.update_body()
-	H.update_hair() */ // Echo 13 - End - Mirrored to create_mob.dm
+	H.update_hair()
