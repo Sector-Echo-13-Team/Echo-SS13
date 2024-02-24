@@ -125,7 +125,7 @@
 	if(world.time > (last_pump + pump_delay))
 		if(ishuman(owner) && owner.client) //While this entire item exists to make people suffer, they can't control disconnects.
 			var/mob/living/carbon/human/H = owner
-			if(H.dna && (!(NOBLOOD in H.dna.species.species_traits) || ((NOHEART in H.dna.species.species_traits) && H.blood_volume > BLOOD_VOLUME_BAD)))
+			if(H.dna && !(NOBLOOD in H.dna.species.species_traits))
 				H.blood_volume = max(H.blood_volume - blood_loss, 0)
 				to_chat(H, "<span class='userdanger'>You have to keep pumping your blood!</span>")
 				if(add_colour)

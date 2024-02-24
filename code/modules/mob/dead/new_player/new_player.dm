@@ -314,6 +314,17 @@
 	if(isliving(equip))	//Borgs get borged in the equip, so we need to make sure we handle the new mob.
 		character = equip
 
+	if(job && !job.override_latejoin_spawn(character))
+		var/atom/spawn_point = pick(ship.shuttle_port.spawn_points)
+		spawn_point.join_player_here(character)
+		var/atom/movable/screen/splash/Spl = new(character.client, TRUE)
+		Spl.Fade(TRUE)
+		character.playsound_local(get_turf(character), 'sound/voice/ApproachingTG.ogg', 25)
+
+		character.update_parallax_teleport()
+
+	character.client.init_verbs() // init verbs for the late join
+
 	if(ishuman(character))	//These procs all expect humans
 		var/mob/living/carbon/human/humanc = character
 		ship.manifest_inject(humanc, client, job)
@@ -330,17 +341,6 @@
 			give_madness(humanc, GLOB.curse_of_madness_triggered)
 		if(CONFIG_GET(flag/roundstart_traits))
 			SSquirks.AssignQuirks(humanc, humanc.client, TRUE)
-
-	if(job && !job.override_latejoin_spawn(character))
-		var/atom/spawn_point = pick(ship.shuttle_port.spawn_points)
-		spawn_point.join_player_here(character)
-		var/atom/movable/screen/splash/Spl = new(character.client, TRUE)
-		Spl.Fade(TRUE)
-		character.playsound_local(get_turf(character), 'sound/voice/ApproachingTG.ogg', 25)
-
-		character.update_parallax_teleport()
-
-	character.client.init_verbs() // init verbs for the late join
 
 	GLOB.joined_player_list += character.ckey
 

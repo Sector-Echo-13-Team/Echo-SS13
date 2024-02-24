@@ -431,12 +431,9 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod/retro, 17)
 
 /obj/machinery/cryopod/apply_effects_to_mob(mob/living/carbon/sleepyhead)
 	//it always sucks a little to get up
-	if(HAS_TRAIT(sleepyhead, TRAIT_NOHUNGER))
-		to_chat(sleepyhead, "<span class='notice'>Unlike most, you're fortunate enough to feel no hunger...")
-	else
-		sleepyhead.set_nutrition(200)
-		to_chat(sleepyhead, "<span class='userdanger'>A dull hunger pangs in your stomach as you awaken...")
+	sleepyhead.set_nutrition(200)
 	sleepyhead.SetSleeping(60) //if you read this comment and feel like shitting together something to adjust elzu and IPC charge on wakeup, be my guest.
+	to_chat(sleepyhead, "<span class='userdanger'>A dull hunger pangs in your stomach as you awaken...")
 
 
 
@@ -445,8 +442,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod/retro, 17)
 	desc = "Keeps crew frozen in cryostasis until they are needed in order to cut down on supply usage. This one seems cheaply made."
 
 /obj/machinery/cryopod/poor/apply_effects_to_mob(mob/living/carbon/sleepyhead)
-	if(!HAS_TRAIT(sleepyhead, TRAIT_NOHUNGER))
-		sleepyhead.set_nutrition(200)
+	sleepyhead.set_nutrition(200)
 	sleepyhead.SetSleeping(80)
 	if(prob(90))
 		sleepyhead.apply_effect(rand(5,15), EFFECT_DROWSY)
