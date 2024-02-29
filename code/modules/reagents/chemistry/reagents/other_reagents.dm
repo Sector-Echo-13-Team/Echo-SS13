@@ -10,7 +10,7 @@
 	glass_desc = "Are you sure this is tomato juice?"
 	shot_glass_icon_state = "shotglassred"
 
-/datum/reagent/blood/expose_mob(mob/living/L, method=TOUCH, reac_volume)
+/* /datum/reagent/blood/expose_mob(mob/living/L, method=TOUCH, reac_volume) // Echo 13 - Start - Mirrored to others_reagents.dm
 	if(data && data["viruses"])
 		for(var/thing in data["viruses"])
 			var/datum/disease/D = thing
@@ -31,7 +31,7 @@
 				if(blood_type.type in exposed_carbon.dna.blood_type.compatible_types)
 					exposed_carbon.blood_volume = min(exposed_carbon.blood_volume + round(reac_volume, 0.1), BLOOD_VOLUME_MAXIMUM)
 					return
-			exposed_carbon.reagents.add_reagent(/datum/reagent/toxin, reac_volume * 0.5)
+			exposed_carbon.reagents.add_reagent(/datum/reagent/toxin, reac_volume * 0.5) */ // Echo 13 - End - Mirrored to others_reagents.dm
 
 
 /datum/reagent/blood/on_new(list/data)

@@ -56,7 +56,7 @@
 	C.remove_movespeed_modifier(/datum/movespeed_modifier/species)
 	SEND_SIGNAL(C, COMSIG_SPECIES_LOSS, src)
 
- // Echo 13 - Add phyto hairs to the proc
+// Echo 13 - Add phyto hairs to the proc
 /**
  * Handles hair icons and dynamic hair.
  *

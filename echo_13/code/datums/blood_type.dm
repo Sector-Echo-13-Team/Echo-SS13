@@ -1,4 +1,3 @@
-// Echo 13 - Mirrored to blood_type.dm
 /datum/blood_type
 	/// Displayed name of the blood type.
 	var/name = "?"

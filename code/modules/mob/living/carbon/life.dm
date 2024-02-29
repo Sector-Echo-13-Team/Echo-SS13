@@ -759,12 +759,12 @@ All effects don't start immediately, but rather get worse over time; the rate is
 		return FALSE
 	return TRUE
 
-/mob/living/carbon/proc/needs_heart()
+/* /mob/living/carbon/proc/needs_heart() // Echo 13 - Start - Mirrored to life.dm
 	if(HAS_TRAIT(src, TRAIT_STABLEHEART))
 		return FALSE
 	if(dna && dna.species && (NOBLOOD in dna.species.species_traits)) //not all carbons have species!
 		return FALSE
-	return TRUE
+	return TRUE */ // Echo 13 - End - Mirrored to life.dm
 
 /*
  * The mob is having a heart attack

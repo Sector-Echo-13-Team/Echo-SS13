@@ -5,7 +5,7 @@
 	name = "Phytosian"
 	id = SPECIES_POD
 	default_color = "59CE00"
-	species_traits = list(MUTCOLORS,EYECOLOR)
+	species_traits = list(MUTCOLORS,EYECOLOR,NO_BONES,NOHEART)
 	inherent_traits = list(TRAIT_ALWAYS_CLEAN)
 	inherent_factions = list("plants", "vines")
 	mutant_bodyparts = list("phyto_hair", "phyto_flower")
@@ -22,6 +22,7 @@
 	punchstunthreshold = 9
 	mutantlungs = /obj/item/organ/lungs/plant //let them breathe CO2
 	meat = /obj/item/reagent_containers/food/snacks/meat/slab/human/mutant/plant
+	exotic_blood = /datum/reagent/phyto_sap
 	disliked_food = NONE //let them eat!!
 	toxic_food = ALCOHOL
 	liked_food = VEGETABLES | FRUIT | GRAIN | CLOTH | SUGAR //sumgar
@@ -29,7 +30,7 @@
 	species_language_holder = /datum/language_holder/plant
 	wings_icons = list("Plant")
 	wings_detail = "Plantdetails"
-	loreblurb = "Phytosians, sometimes known as podpeople."
+	loreblurb = "Phytosians, sometimes known as podpeople. Product of either the injection of a dna sample into a replica pod(Brassica Oleracea Replicata) or the visceral replacement of an organism's tissues by an aggressive invasive strain of it. Phytosians REQUIRE light to breathe, can breathe both CO2 and O2, do not need to eat food directly and passively heal. Their blood is a thick sap that slows down bleeding while also having very minor curative properties if applied to the skin. Alcohol is severely toxic to them, and they are affected by most plant chemicals. \"Becoming\" a Phytosian may cause a degree of memory loss in regards to previous life, though not particularly often."
 
 	var/no_light_heal = FALSE
 	var/light_heal_multiplier = 1
@@ -37,6 +38,18 @@
 	var/last_light_level = 0
 	var/last_light_message = -STATUS_MESSAGE_COOLDOWN
 	var/last_plantbgone_message = -STATUS_MESSAGE_COOLDOWN
+
+/datum/species/pod/on_species_gain(mob/living/carbon/C, datum/species/old_species, pref_load, robotic)
+	. = ..()
+	if(ishuman(C))
+		var/mob/living/carbon/human/H = C
+		H?.physiology?.bleed_mod *= 0.25
+
+/datum/species/pod/on_species_loss(mob/living/carbon/human/C, datum/species/new_species, pref_load)
+	. = ..()
+	if(ishuman(C))
+		var/mob/living/carbon/human/H = C
+		H?.physiology?.bleed_mod *= 4
 
 /datum/species/pod/spec_life(mob/living/carbon/human/H)
 	if(H.stat == DEAD || H.stat == UNCONSCIOUS)
@@ -65,7 +78,9 @@
 				H.nutrition -= light_amount * 10
 				//enough to make you faint but get back up consistently
 				if(H.getOxyLoss() < 55)
-					H.adjustOxyLoss(min(5 * dark_damage_multiplier, 55 - H.getOxyLoss()), 1)
+					if(H.losebreath < 1)
+						H.losebreath += 1
+					H.adjustOxyLoss(min(3 * dark_damage_multiplier, 55 - H.getOxyLoss()), 1)
 				if((H.getOxyLoss() > 50) && H.stat)
 					H.adjustOxyLoss(-4)
 			if (0.16 to 0.3)
@@ -75,7 +90,9 @@
 				H.nutrition -= light_amount * 3
 				//not enough to faint but enough to slow you down
 				if(H.getOxyLoss() < 50)
-					H.adjustOxyLoss(min(3 * dark_damage_multiplier, 50 - H.getOxyLoss()), 1)
+					if(H.losebreath < 1)
+						H.losebreath += 1
+					H.adjustOxyLoss(min(dark_damage_multiplier, 50 - H.getOxyLoss()), 1)
 			if (0.31 to 0.5)
 				//medium, average, doing nothing for now
 				light_level = 3
@@ -109,6 +126,8 @@
 		light_msg = span_userdanger("Darkness! Your insides churn and your skin screams in pain!")
 		H.nutrition -= 10
 		//enough to make you faint for good, and eventually die
+		if(H.losebreath < 1)
+			H.losebreath += 1
 		if(H.getOxyLoss() < 60)
 			H.adjustOxyLoss(min(5 * dark_damage_multiplier, 60 - H.getOxyLoss()), 1)
 			H.adjustToxLoss(1 * dark_damage_multiplier, 1)
@@ -234,7 +253,7 @@
 		if(ethanol.boozepwr > 0)
 			H.adjustOrganLoss(ORGAN_SLOT_BRAIN, 2*REAGENTS_EFFECT_MULTIPLIER)
 			H.adjustToxLoss(0.4*REAGENTS_EFFECT_MULTIPLIER)
-			H.confused += 1 SECONDS
+			H.confused = min(H.confused + 1 SECONDS, 2 SECONDS)
 			if(ethanol.boozepwr > 80 && chem.volume > 30)
 				if(chem.current_cycle > 50)
 					H.IsSleeping(3)

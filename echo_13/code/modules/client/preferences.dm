@@ -776,7 +776,11 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 				dat += "<h3>Head Vegitation Style</h3>"
 				dat += "<a href='?_src_=prefs;preference=phyto_hair;task=input'>[features["phyto_hair"]]</a>"
-				dat += "<span style='border:1px solid #161616; background-color: #[hair_color];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=phyto_hair_color;task=input'>Change</a>"
+				dat += "<a href='?_src_=prefs;preference=previous_phytohair;task=input'>&lt;</a> <a href='?_src_=prefs;preference=next_phytohair;task=input'>&gt;</a>"
+
+				dat += "<br><span style='border:1px solid #161616; background-color: #[hair_color];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=hair;task=input'>Change</a>"
+				dat += "<a href='?_src_=prefs;preference=toggle_random;random_type=[RANDOM_HAIR_COLOR]'>[(randomise[RANDOM_HAIR_COLOR]) ? "Lock" : "Unlock"]</A>"
+				dat += "<br>"
 
 				mutant_category++
 				if(mutant_category >= MAX_MUTANT_ROWS)
@@ -787,7 +791,9 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				if(!mutant_category)
 					dat += APPEARANCE_CATEGORY_COLUMN
 				dat += "<h3>Head Flowers Color</h3>"
-				dat += "<span style='border: 1px solid #161616; background-color: #[facial_hair_color];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=phyto_flower_color;task=input'>Change</a>"
+				dat += "<br><span style='border: 1px solid #161616; background-color: #[facial_hair_color];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=facial;task=input'>Change</a>"
+				dat += "<a href='?_src_=prefs;preference=toggle_random;random_type=[RANDOM_FACIAL_HAIR_COLOR]'>[(randomise[RANDOM_FACIAL_HAIR_COLOR]) ? "Lock" : "Unlock"]</A>"
+				dat += "<br>"
 
 				mutant_category++
 				if(mutant_category >= MAX_MUTANT_ROWS)
@@ -1863,6 +1869,14 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 							hair_color = sanitize_hexcolor(new_hair)
 						else
 							to_chat(user, span_danger("Invalid \"hair\" color. Your color is not bright enough."))
+
+				if("next_phytohair")
+					if (gender == MALE)
+						features["phyto_hair"] = next_list_item(features["phyto_hair"], GLOB.phyto_hair_list)
+
+				if("previous_phytohair")
+					if (gender == MALE)
+						features["phyto_hair"] = previous_list_item(features["phyto_hair"], GLOB.phyto_hair_list)
 
 				if("phyto_flower_color")
 					var/new_facial = input(user, "Choose your character's head flower colour:", "Character Preference","#"+facial_hair_color) as color|null

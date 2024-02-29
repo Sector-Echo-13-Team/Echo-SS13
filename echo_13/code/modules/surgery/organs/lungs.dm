@@ -1,4 +1,4 @@
-
+// Echo 13 - Account for multiple breath products dependant on what was breathed in.
 /obj/item/organ/lungs/proc/check_breath(datum/gas_mixture/breath, mob/living/carbon/human/H)
 //TODO: add lung damage = less oxygen gains
 	var/breathModifier = (5-(5*(damage/maxHealth)/2)) //range 2.5 - 5
@@ -206,6 +206,7 @@
 			H.reagents.add_reagent(/datum/reagent/stimulum, max(0, 5 - existing))
 		breath.adjust_moles(GAS_STIMULUM, -gas_breathed)
 
+// Plant lungs
 /obj/item/organ/lungs/plant
 	name = "mesophyll"
 	desc = "A lung-shaped organ playing a key role in phytosian's photosynthesis." //phytosians don't need that for their light healing so that's just flavor, I might try to tie their light powers to it later(tm) //Not a promise made by me I am the thief

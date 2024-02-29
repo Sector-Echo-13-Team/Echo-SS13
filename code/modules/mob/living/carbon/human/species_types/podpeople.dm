@@ -75,4 +75,3 @@
 			H.Dizzy(15)
 			H.emote("flip")
 			H.emote("spin")
-

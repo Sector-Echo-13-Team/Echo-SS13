@@ -5,7 +5,7 @@
 //	You do not need to raise this if you are adding new values that have sane defaults.
 //	Only raise this value when changing the meaning/format/name/layout of an existing value
 //	where you would want the updater procs below to run
-#define SAVEFILE_VERSION_MAX 42
+#define SAVEFILE_VERSION_MAX 41
 
 /*
 SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Carn
@@ -440,6 +440,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	READ_FILE(S["feature_vox_neck_quills"], features["vox_neck_quills"])
 	READ_FILE(S["feature_elzu_horns"], features["elzu_horns"])
 	READ_FILE(S["feature_tail_elzu"], features["tail_elzu"])
+	READ_FILE(S["feature_phyto_hair"], features["phyto_hair"])
+	READ_FILE(S["feature_phyto_flower"], features["phyto_flower"])
 
 	READ_FILE(S["equipped_gear"], equipped_gear)
 	if(config) //This should *probably* always be there, but just in case.
@@ -551,6 +553,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	features["elzu_horns"]				= sanitize_inlist(features["elzu_horns"], GLOB.elzu_horns_list)
 	features["tail_elzu"]				= sanitize_inlist(features["tail_elzu"], GLOB.tails_list_elzu)
 	features["flavor_text"]				= sanitize_text(features["flavor_text"], initial(features["flavor_text"]))
+	features["phyto_hair"]	= sanitize_inlist(features["phyto_hair"], GLOB.phyto_hair_list)
+	features["phyto_flower"]	= sanitize_inlist(features["phyto_flower"], GLOB.phyto_flower_list)
 
 	all_quirks = SANITIZE_LIST(all_quirks)
 
@@ -627,6 +631,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["feature_vox_neck_quills"]		, features["vox_neck_quills"])
 	WRITE_FILE(S["feature_elzu_horns"]			, features["elzu_horns"])
 	WRITE_FILE(S["feature_tail_elzu"]			, features["tail_elzu"])
+	WRITE_FILE(S["feature_phyto_hair"]			, features["phyto_hair"])
+	WRITE_FILE(S["feature_phyto_flower"]			, features["phyto_flower"])
 	WRITE_FILE(S["fbp"]							, fbp)
 
 	//Flavor text

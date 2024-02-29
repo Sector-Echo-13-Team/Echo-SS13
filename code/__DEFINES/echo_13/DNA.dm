@@ -1,4 +1,4 @@
-// Echo 13 - Mirrored to DNA.dm
+// Echo 13 - Vampires and other stuff later
 /*ALL DNA, SPECIES, AND GENETICS-RELATED DEFINES GO HERE*/
 
 #define CHECK_DNA_AND_SPECIES(C) if(!(C.dna?.species)) return
@@ -136,6 +136,7 @@
 #define NO_BONES 25 //! You don't have any bones for breaking
 #define MUTCOLORS_SECONDARY 26 //! A second mutant colour for other things
 #define SKINCOLORS 27 //Human skintones
+#define NOHEART 28 //Heartless vampires!
 
 //organ slots
 #define ORGAN_SLOT_BRAIN "brain"
