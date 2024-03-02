@@ -8,35 +8,35 @@
 
 /datum/blood_type/a_minus
 	name = "A-"
-	compatible_types = list(/datum/blood_type/a_minus, /datum/blood_type/o_minus)
+	compatible_types = list(/datum/blood_type/a_minus, /datum/blood_type/o_minus, /datum/blood_type/morbius)
 
 /datum/blood_type/a_plus
 	name = "A+"
-	compatible_types = list(/datum/blood_type/a_minus, /datum/blood_type/a_plus, /datum/blood_type/o_minus, /datum/blood_type/o_plus)
+	compatible_types = list(/datum/blood_type/a_minus, /datum/blood_type/a_plus, /datum/blood_type/o_minus, /datum/blood_type/o_plus, /datum/blood_type/morbius)
 
 /datum/blood_type/b_minus
 	name = "B-"
-	compatible_types = list(/datum/blood_type/b_minus, /datum/blood_type/o_minus)
+	compatible_types = list(/datum/blood_type/b_minus, /datum/blood_type/o_minus, /datum/blood_type/morbius)
 
 /datum/blood_type/b_plus
 	name = "B+"
-	compatible_types = list(/datum/blood_type/b_minus, /datum/blood_type/b_plus, /datum/blood_type/o_minus, /datum/blood_type/o_plus)
+	compatible_types = list(/datum/blood_type/b_minus, /datum/blood_type/b_plus, /datum/blood_type/o_minus, /datum/blood_type/o_plus, /datum/blood_type/morbius)
 
 /datum/blood_type/ab_minus
 	name = "AB-"
-	compatible_types = list(/datum/blood_type/b_minus, /datum/blood_type/a_minus, /datum/blood_type/ab_minus, /datum/blood_type/o_minus)
+	compatible_types = list(/datum/blood_type/b_minus, /datum/blood_type/a_minus, /datum/blood_type/ab_minus, /datum/blood_type/o_minus, /datum/blood_type/morbius)
 
 /datum/blood_type/ab_plus
 	name = "AB+"
-	compatible_types = list(/datum/blood_type/b_minus, /datum/blood_type/a_minus, /datum/blood_type/ab_minus, /datum/blood_type/o_minus)
+	compatible_types = list(/datum/blood_type/b_minus, /datum/blood_type/b_plus, /datum/blood_type/a_minus, /datum/blood_type/a_plus, /datum/blood_type/ab_minus, /datum/blood_type/ab_plus, /datum/blood_type/o_minus, /datum/blood_type/o_plus, /datum/blood_type/morbius)
 
 /datum/blood_type/o_minus
 	name = "O-"
-	compatible_types = list(/datum/blood_type/o_minus)
+	compatible_types = list(/datum/blood_type/o_minus, /datum/blood_type/morbius)
 
 /datum/blood_type/o_plus
 	name = "O+"
-	compatible_types = list(/datum/blood_type/o_minus, /datum/blood_type/o_plus)
+	compatible_types = list(/datum/blood_type/o_minus, /datum/blood_type/o_plus, /datum/blood_type/morbius)
 
 /datum/blood_type/xenomorph //for xenomorph gib dna
 	name = "X"
@@ -50,7 +50,7 @@
 /datum/blood_type/lizard
 	name = "L"
 	color = "#009696"
-	compatible_types = list(/datum/blood_type/lizard)
+	compatible_types = list(/datum/blood_type/lizard, /datum/blood_type/morbius)
 
 /datum/blood_type/elzuosa
 	name = "E"
@@ -61,6 +61,11 @@
 	name = "Coolant"
 	color = "#dddeff"
 	compatible_types = list(/datum/blood_type/synthetic)
+
+/datum/blood_type/morbius //It's morbing blood!!
+	name = "Draculine"
+	color = "#6e1b42"
+	compatible_types = list(/datum/blood_type/b_minus, /datum/blood_type/b_plus, /datum/blood_type/a_minus, /datum/blood_type/a_plus, /datum/blood_type/ab_minus, /datum/blood_type/ab_plus, /datum/blood_type/o_minus, /datum/blood_type/o_plus, /datum/blood_type/lizard, /datum/blood_type/animal, /datum/blood_type/morbius, /datum/blood_type/universal, /datum/blood_type/lizard)
 
 /datum/blood_type/universal
 	name = "U"

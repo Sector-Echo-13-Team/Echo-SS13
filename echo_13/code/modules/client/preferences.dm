@@ -1408,7 +1408,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 		balance -= initial(quirk_type.value)
 		switch(change_type)
 			if("species")
-				if((quirk_name in SSquirks.species_blacklist) && (pref_species.id in SSquirks.species_blacklist[quirk_name]))
+				if((quirk_name in SSquirks.species_blacklist) && (target_species.id in SSquirks.species_blacklist[quirk_name]))
 					all_quirks_new -= quirk_name
 					balance += initial(quirk_type.value)
 			if("mood")
@@ -1449,6 +1449,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	if(all_quirks_new != all_quirks)
 		to_chat(user, "<span class='danger'>Your quirks have been altered.</span>")
 		return all_quirks_new
+	return all_quirks
 
 /datum/preferences/proc/GetQuirkBalance()
 	var/bal = 0

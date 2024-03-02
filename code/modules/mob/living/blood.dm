@@ -26,7 +26,7 @@
 				adjustOxyLoss(round((BLOOD_VOLUME_NORMAL - blood_volume) * 0.02, 1))
 
 // Takes care blood loss and regeneration
-/mob/living/carbon/human/handle_blood()
+/* /mob/living/carbon/human/handle_blood() // Echo 13 - Start - Mirrored to blood.dm
 
 	if(NOBLOOD in dna.species.species_traits)
 		bleed_rate = 0
@@ -100,7 +100,7 @@
 		bleed_rate = max(bleed_rate - 0.5, temp_bleed)//if no wounds, other bleed effects (heparin) naturally decreases
 
 		if(bleed_rate && !bleedsuppress && !(HAS_TRAIT(src, TRAIT_FAKEDEATH)))
-			bleed(bleed_rate)
+			bleed(bleed_rate) */ // Echo 13 - End - Mirrored to blood.dm
 
 //Makes a blood drop, leaking amt units of blood from the mob
 /mob/living/carbon/proc/bleed(amt)
@@ -132,7 +132,7 @@
 ****************************************************/
 
 //Gets blood from mob to a container or other mob, preserving all data in it.
-/mob/living/proc/transfer_blood_to(atom/movable/AM, amount, forced)
+/* /mob/living/proc/transfer_blood_to(atom/movable/AM, amount, forced) // Echo 13 - Start - Mirrored to blood.dm
 	if(!blood_volume || !AM.reagents)
 		return FALSE
 	if(blood_volume < BLOOD_VOLUME_BAD && !forced)
@@ -169,13 +169,13 @@
 			return TRUE
 
 	AM.reagents.add_reagent(blood_id, amount, blood_data, bodytemperature)
-	return TRUE
+	return TRUE */ // Echo 13 - End - Mirrored to blood.dm
 
 
 /mob/living/proc/get_blood_data(blood_id)
 	return
 
-/mob/living/carbon/get_blood_data(blood_id)
+/* /mob/living/carbon/get_blood_data(blood_id) // Echo 13 - Start - Mirrored to blood.dm
 	if(blood_id == /datum/reagent/blood) //actual blood reagent
 		var/blood_data = list()
 		//set the blood data
@@ -210,7 +210,7 @@
 		for(var/V in roundstart_quirks)
 			var/datum/quirk/T = V
 			blood_data["quirks"] += T.type
-		return blood_data
+		return blood_data */ // Echo 13 - End - Mirrored to blood.dm
 
 //get the id of the substance this mob use as blood.
 /mob/proc/get_blood_id()
@@ -246,7 +246,7 @@
 	return blood_type.color
 
 //to add a splatter of blood or other mob liquid.
-/mob/living/proc/add_splatter_floor(turf/T, small_drip)
+/* /mob/living/proc/add_splatter_floor(turf/T, small_drip) // Echo 13 - Start - Mirrored to blood.dm
 	if(get_blood_id() != /datum/reagent/blood)
 		return
 	if(!T)
@@ -284,7 +284,7 @@
 	B.bloodiness = min((B.bloodiness + BLOOD_AMOUNT_PER_DECAL), BLOOD_POOL_MAX)
 	B.transfer_mob_blood_dna(src) //give blood info to the blood decal.
 	if(temp_blood_DNA)
-		B.add_blood_DNA(temp_blood_DNA)
+		B.add_blood_DNA(temp_blood_DNA) */ // Echo 13 - End - Mirrored to blood.dm
 
 /mob/living/carbon/human/add_splatter_floor(turf/T, small_drip)
 	if(!(NOBLOOD in dna.species.species_traits))

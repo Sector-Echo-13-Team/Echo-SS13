@@ -14,7 +14,7 @@
 
 	if(iscarbon(L))
 		var/mob/living/carbon/exposed_carbon = L
-		if((exposed_carbon.get_blood_id() == /datum/reagent/blood || exposed_carbon.get_blood_id() == /datum/reagent/blood/true_draculine) && (method == INJECT || (method == INGEST && exposed_carbon.dna && exposed_carbon.dna.species && (DRINKSBLOOD in exposed_carbon.dna.species.species_traits))))
+		if((ispath(exposed_carbon.get_blood_id(), /datum/reagent/blood)) && (method == INJECT || (method == INGEST && exposed_carbon.dna && exposed_carbon.dna.species && (DRINKSBLOOD in exposed_carbon.dna.species.species_traits))))
 			if(data && data["blood_type"])
 				var/datum/blood_type/blood_type = data["blood_type"]
 				if(blood_type.type in exposed_carbon.dna.blood_type.compatible_types)
