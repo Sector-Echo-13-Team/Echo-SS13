@@ -156,8 +156,8 @@
 			blood_data["quirks"] += T.type
 		return blood_data
 
-/mob/living/proc/add_splatter_floor(turf/T, small_drip) // Echo 13 - Start - Mirrored to blood.dm
-	if(!get_blood_id())
+/mob/living/proc/add_splatter_floor(turf/T, small_drip)
+	if(!ispath(get_blood_id(), /datum/reagent/blood))
 		return
 	if(!T)
 		T = get_turf(src)
