@@ -1,4 +1,4 @@
-// Echo 13 - Mirrored to replicapod.dm
+// Echo 13 - Vampires, later allow phytosians and slightly change how pods work and look, related to the eventual cocoon for sap unhusking
 // A very special plant, deserving it's own file.
 
 /obj/item/seeds/replicapod
@@ -35,6 +35,8 @@
 /obj/item/seeds/replicapod/on_reagent_change(changetype)
 	if(changetype == ADD_REAGENT)
 		var/datum/reagent/blood/B = reagents.has_reagent(/datum/reagent/blood)
+		if(!B)
+			B = reagents.has_reagent(/datum/reagent/blood/true_draculine)
 		if(B)
 			if(B.data["mind"] && B.data["cloneable"])
 				mind = B.data["mind"]
