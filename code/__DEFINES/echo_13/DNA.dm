@@ -137,6 +137,7 @@
 #define MUTCOLORS_SECONDARY 26 //! A second mutant colour for other things
 #define SKINCOLORS 27 //Human skintones
 #define NOHEART 28 //Heartless vampires!
+#define NOTRAIL 29 //No blood decals for phytosians, for now
 
 //organ slots
 #define ORGAN_SLOT_BRAIN "brain"

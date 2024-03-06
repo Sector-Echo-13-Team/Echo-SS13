@@ -5,7 +5,7 @@
 	name = "Phytosian"
 	id = SPECIES_POD
 	default_color = "59CE00"
-	species_traits = list(MUTCOLORS,EYECOLOR,NO_BONES,NOHEART)
+	species_traits = list(MUTCOLORS,EYECOLOR,NO_BONES,NOHEART, NOTRAIL)
 	inherent_traits = list(TRAIT_ALWAYS_CLEAN)
 	inherent_factions = list("plants", "vines")
 	mutant_bodyparts = list("phyto_hair", "phyto_flower")
@@ -17,7 +17,7 @@
 	heatmod = 1.5
 	coldmod = 1.5
 	speedmod = 0.33
-	siemens_coeff = 0.75 //I wouldn't make semiconductors out of plant material
+	siemens_coeff = 0.375 //I wouldn't make semiconductors out of plant material
 	punchdamagehigh = 8 //sorry anvil your balance choice was wrong imo and I WILL be changing this soon.
 	punchstunthreshold = 9
 	mutantlungs = /obj/item/organ/lungs/plant //let them breathe CO2
@@ -33,8 +33,8 @@
 	loreblurb = "Phytosians, sometimes known as podpeople. Product of either the injection of a dna sample into a replica pod(Brassica Oleracea Replicata) or the visceral replacement of an organism's tissues by an aggressive invasive strain of it. Phytosians REQUIRE light to breathe, can breathe both CO2 and O2, do not need to eat food directly and passively heal. Their blood is a thick sap that slows down bleeding while also having very minor curative properties if applied to the skin. Alcohol is severely toxic to them, and they are affected by most plant chemicals. \"Becoming\" a Phytosian may cause a degree of memory loss in regards to previous life, though not particularly often."
 
 	var/no_light_heal = FALSE
-	var/light_heal_multiplier = 1
-	var/dark_damage_multiplier = 1
+	var/light_heal_multiplier = 3/5
+	var/dark_damage_multiplier = 3/5 //nerffff
 	var/last_light_level = 0
 	var/last_light_message = -STATUS_MESSAGE_COOLDOWN
 	var/last_plantbgone_message = -STATUS_MESSAGE_COOLDOWN
@@ -44,6 +44,7 @@
 	if(ishuman(C))
 		var/mob/living/carbon/human/H = C
 		H?.physiology?.bleed_mod *= 0.25
+		H?.dna.blood_type.color = "#af7011"
 
 /datum/species/pod/on_species_loss(mob/living/carbon/human/C, datum/species/new_species, pref_load)
 	. = ..()
@@ -62,7 +63,7 @@
 	var/light_level = 0
 	var/light_msg //for sending "low light!" messages to the player.
 	var/light_amount = T.get_lumcount() //how much light there is in the place, affects receiving nutrition and healing
-	if(istype(H.loc, /obj/mecha) || istype(H.loc, /obj/machinery/clonepod))
+	if(istype(H.loc, /obj/mecha) || istype(H.loc, /obj/machinery/clonepod) || istype(H.loc, /obj/machinery/cryopod))
 		//let's assume the interior is lit up
 		light_amount = 0.6
 	else if(!isturf(H.loc))
