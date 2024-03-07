@@ -1,0 +1,9 @@
+author: Ms-Mee
+changes:
+  - {rscadd: 'phytosian hairs, lungs and wings'}
+  - {code_imp: changed podpeople code and related sprite accessories}
+  - {code_imp: changed breathing code}
+  - {code_imp: "modularized my changes to echo, others' not yet"}
+  - {config: roundstart plant}
+  - {imageadd: 'phytosian hairs, lungs and wings'}
+delete-after: true
