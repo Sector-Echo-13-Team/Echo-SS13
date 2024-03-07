@@ -11,7 +11,7 @@
 			wakeupmessage += " A sickly feeling along with the pangs of hunger greet you upon your awakening."
 			sleepyhead.set_nutrition(100)
 		else
-			wakeupmessage += "You feel particularly drowsy..."
+			wakeupmessage += " You feel particularly drowsy..."
 		sleepyhead.apply_effect(rand(3,10), EFFECT_DROWSY)
 	to_chat(sleepyhead, span_danger(examine_block(wakeupmessage)))
 
