@@ -1094,7 +1094,7 @@
 	name = "armory locker";
 	req_access_txt = "1"
 	},
-/obj/item/gun/ballistic/shotgun/winchester,
+/obj/item/gun/ballistic/shotgun/flamingarrow,
 /obj/item/ammo_box/c38_box,
 /obj/item/ammo_box/c38_box,
 /turf/open/floor/plasteel/tech/grid,
@@ -1324,7 +1324,7 @@
 /obj/item/ammo_box/magazine/m45,
 /obj/item/ammo_box/magazine/m45,
 /obj/item/areaeditor/shuttle,
-/obj/item/gun/ballistic/automatic/pistol/m1911,
+/obj/item/gun/ballistic/automatic/pistol/candor,
 /obj/item/clothing/suit/armor/vest/capcarapace/alt,
 /obj/item/clothing/gloves/combat,
 /obj/item/clothing/shoes/jackboots,
