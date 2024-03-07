@@ -85,7 +85,7 @@
 		damage_type = safe_damage_type
 	)
 
-/obj/item/organ/lungs/proc/check_breath(datum/gas_mixture/breath, mob/living/carbon/human/H)
+/* /obj/item/organ/lungs/proc/check_breath(datum/gas_mixture/breath, mob/living/carbon/human/H) // Echo 13 - Start - Mirrored to lungs.dm
 //TODO: add lung damage = less oxygen gains
 	var/breathModifier = (5-(5*(damage/maxHealth)/2)) //range 2.5 - 5
 	if(H.status_flags & GODMODE)
@@ -116,11 +116,11 @@
 				alert_type = alert["alert_type"]
 		if(alert_category)
 			H.throw_alert(alert_category, alert_type)
-		return FALSE
+		return FALSE */
 
 	#define PP_MOLES(X) ((X / total_moles) * pressure)
 
-	#define PP(air, gas) PP_MOLES(air.get_moles(gas))
+	#define PP(air, gas) PP_MOLES(air.get_moles(gas)) /* // WHO DID THIS IT'S EVIL STRAGHT UP
 
 	var/gas_breathed = 0
 
@@ -289,7 +289,7 @@
 		if (gas_breathed > gas_stimulation_min)
 			var/existing = H.reagents.get_reagent_amount(/datum/reagent/stimulum)
 			H.reagents.add_reagent(/datum/reagent/stimulum, max(0, 5 - existing))
-		breath.adjust_moles(GAS_STIMULUM, -gas_breathed)
+		breath.adjust_moles(GAS_STIMULUM, -gas_breathed) */ // Echo 13 - End - Mirrored to lungs.dm
 
 /obj/item/organ/lungs/proc/handle_too_little_breath(mob/living/carbon/human/H = null, breath_pp = 0, safe_breath_min = 0, true_pp = 0)
 	. = 0

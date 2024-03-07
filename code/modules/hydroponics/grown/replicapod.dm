@@ -1,3 +1,4 @@
+// Echo 13 - Mirrored to replicapod.dm
 // A very special plant, deserving it's own file.
 
 /obj/item/seeds/replicapod

@@ -1,3 +1,4 @@
+
 /datum/emote/living/carbon/human
 	mob_type_allowed_typecache = list(/mob/living/carbon/human)
 
@@ -204,7 +205,7 @@
 	if(H.dna && H.dna.species && (H.dna.features["wings"] != "None"))
 		return TRUE
 
-/mob/living/carbon/human/proc/OpenWings()
+/* /mob/living/carbon/human/proc/OpenWings() // Echo 13 - Start - Mirrored to emote.dm
 	if(!dna || !dna.species)
 		return
 	if("wings" in dna.species.mutant_bodyparts)
@@ -221,7 +222,7 @@
 	update_body()
 	if(isturf(loc))
 		var/turf/T = loc
-		T.Entered(src)
+		T.Entered(src) */ // Echo 13 - End - Mirrored to emote.dm
 
 // Robotic Tongue emotes. Beep!
 

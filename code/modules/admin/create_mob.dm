@@ -10,7 +10,7 @@
 
 	user << browse(create_panel_helper(create_mob_html), "window=create_mob;size=425x475")
 
-/proc/randomize_human(mob/living/carbon/human/H)
+/* /proc/randomize_human(mob/living/carbon/human/H) // Echo 13 - Start - Mirrored to create_mob.dm
 	H.gender = pick(MALE, FEMALE)
 	H.real_name = random_unique_name(H.gender)
 	H.name = H.real_name
@@ -47,4 +47,4 @@
 	H.dna.features["tail_elzu"] = pick(GLOB.tails_list_elzu)
 
 	H.update_body()
-	H.update_hair()
+	H.update_hair() */ // Echo 13 - End - Mirrored to create_mob.dm

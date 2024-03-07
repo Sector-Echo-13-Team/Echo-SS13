@@ -2,7 +2,7 @@
 /////Initial Building/////
 //////////////////////////
 
-/proc/make_datum_references_lists()
+/* /proc/make_datum_references_lists() // Echo 13 - Start - Mirrored to global_lists.dm
 	//hair
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/hair, GLOB.hairstyles_list, GLOB.hairstyles_male_list, GLOB.hairstyles_female_list)
 	//facial hair
@@ -87,7 +87,7 @@
 
 	GLOB.emote_list = init_emote_list()
 
-	init_subtypes(/datum/crafting_recipe, GLOB.crafting_recipes)
+	init_subtypes(/datum/crafting_recipe, GLOB.crafting_recipes) */ // Echo 13 - End - Mirrored to global_lists.dm
 
 //creates every subtype of prototype (excluding prototype) and adds it to list L.
 //if no list/L is provided, one is created.

@@ -1,3 +1,4 @@
+// Echo 13 - Mirrored to preferences_savefile.dm
 //This is the lowest supported version, anything below this is completely obsolete and the entire savefile will be wiped.
 #define SAVEFILE_VERSION_MIN 33
 

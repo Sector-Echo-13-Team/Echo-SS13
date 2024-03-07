@@ -429,14 +429,11 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod/retro, 17)
 	linked_ship = port
 	linked_ship.spawn_points += src
 
-/obj/machinery/cryopod/apply_effects_to_mob(mob/living/carbon/sleepyhead)
+/* /obj/machinery/cryopod/apply_effects_to_mob(mob/living/carbon/sleepyhead) // Echo 13 - Start - Mirrored to cryopod.dm
 	//it always sucks a little to get up
-	if(HAS_TRAIT(sleepyhead, TRAIT_NOHUNGER))
-		to_chat(sleepyhead, "<span class='notice'>Unlike most, you're fortunate enough to feel no hunger...")
-	else
-		sleepyhead.set_nutrition(200)
-		to_chat(sleepyhead, "<span class='userdanger'>A dull hunger pangs in your stomach as you awaken...")
+	sleepyhead.set_nutrition(200)
 	sleepyhead.SetSleeping(60) //if you read this comment and feel like shitting together something to adjust elzu and IPC charge on wakeup, be my guest.
+	to_chat(sleepyhead, "<span class='userdanger'>A dull hunger pangs in your stomach as you awaken...") */ // Echo 13 - End - Mirrored to cryopod.dm
 
 
 
@@ -444,9 +441,8 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod/retro, 17)
 	name = "low quality cryogenic freezer"
 	desc = "Keeps crew frozen in cryostasis until they are needed in order to cut down on supply usage. This one seems cheaply made."
 
-/obj/machinery/cryopod/poor/apply_effects_to_mob(mob/living/carbon/sleepyhead)
-	if(!HAS_TRAIT(sleepyhead, TRAIT_NOHUNGER))
-		sleepyhead.set_nutrition(200)
+/* /obj/machinery/cryopod/poor/apply_effects_to_mob(mob/living/carbon/sleepyhead) // Echo 13 - Start - Mirrored to cryopod.dm
+	sleepyhead.set_nutrition(200)
 	sleepyhead.SetSleeping(80)
 	if(prob(90))
 		sleepyhead.apply_effect(rand(5,15), EFFECT_DROWSY)
@@ -460,4 +456,4 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod/retro, 17)
 		sleepyhead.adjust_disgust(rand(5,15))
 	if(prob(30))
 		sleepyhead.apply_damage_type(30, BURN)
-	to_chat(sleepyhead, "<span class='userdanger'>The symptoms of a horrid cryosleep set in as you awaken...")
+	to_chat(sleepyhead, "<span class='userdanger'>The symptoms of a horrid cryosleep set in as you awaken...") */ // Echo 13 - End - Mirrored to cryopod.dm

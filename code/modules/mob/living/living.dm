@@ -814,10 +814,10 @@
 						TH.add_overlay(image('icons/effects/blood.dmi', trail_type, dir = newdir))
 						TH.transfer_mob_blood_dna(src)
 
-/mob/living/carbon/human/makeTrail(turf/T)
+/* /mob/living/carbon/human/makeTrail(turf/T) // Echo 13 - Start - Mirrored to living.dm
 	if((NOBLOOD in dna.species.species_traits) || !bleed_rate || bleedsuppress)
 		return
-	..()
+	..() */ // Echo 13 - End - Mirrored to living.dm
 
 /mob/living/proc/getTrail()
 	if(getBruteLoss() < 300)

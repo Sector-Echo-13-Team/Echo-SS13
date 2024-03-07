@@ -833,7 +833,7 @@
 	return list("ANIMAL DNA" = get_blood_type("Y-"))
 
 ///Get the mobs dna list
-/mob/living/carbon/get_blood_dna_list()
+/* /mob/living/carbon/get_blood_dna_list() // Echo 13 - Start - Mirrored to atoms.dm
 	if(get_blood_id() != /datum/reagent/blood)
 		return
 	var/list/blood_dna = list()
@@ -841,7 +841,7 @@
 		blood_dna[dna.unique_enzymes] = dna.blood_type
 	else
 		blood_dna["UNKNOWN DNA"] = "X*"
-	return blood_dna
+	return blood_dna */ // Echo 13 - End - Mirrored to atoms.dm
 
 /mob/living/carbon/alien/get_blood_dna_list()
 	return list("UNKNOWN DNA" = get_blood_type("X"))

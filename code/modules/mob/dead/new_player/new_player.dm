@@ -287,7 +287,7 @@
 		return JOB_UNAVAILABLE_GENERIC
 	return JOB_AVAILABLE
 
-/mob/dead/new_player/proc/AttemptLateSpawn(datum/job/job, datum/overmap/ship/controlled/ship, check_playtime = TRUE)
+/* /mob/dead/new_player/proc/AttemptLateSpawn(datum/job/job, datum/overmap/ship/controlled/ship, check_playtime = TRUE) // Echo 13 - Start - Mirrored to new_player.dm
 	if(auth_check)
 		return
 
@@ -314,6 +314,17 @@
 	if(isliving(equip))	//Borgs get borged in the equip, so we need to make sure we handle the new mob.
 		character = equip
 
+	if(job && !job.override_latejoin_spawn(character))
+		var/atom/spawn_point = pick(ship.shuttle_port.spawn_points)
+		spawn_point.join_player_here(character)
+		var/atom/movable/screen/splash/Spl = new(character.client, TRUE)
+		Spl.Fade(TRUE)
+		character.playsound_local(get_turf(character), 'sound/voice/ApproachingTG.ogg', 25)
+
+		character.update_parallax_teleport()
+
+	character.client.init_verbs() // init verbs for the late join
+
 	if(ishuman(character))	//These procs all expect humans
 		var/mob/living/carbon/human/humanc = character
 		ship.manifest_inject(humanc, client, job)
@@ -331,24 +342,13 @@
 		if(CONFIG_GET(flag/roundstart_traits))
 			SSquirks.AssignQuirks(humanc, humanc.client, TRUE)
 
-	if(job && !job.override_latejoin_spawn(character))
-		var/atom/spawn_point = pick(ship.shuttle_port.spawn_points)
-		spawn_point.join_player_here(character)
-		var/atom/movable/screen/splash/Spl = new(character.client, TRUE)
-		Spl.Fade(TRUE)
-		character.playsound_local(get_turf(character), 'sound/voice/ApproachingTG.ogg', 25)
-
-		character.update_parallax_teleport()
-
-	character.client.init_verbs() // init verbs for the late join
-
 	GLOB.joined_player_list += character.ckey
 
 	log_manifest(character.mind.key, character.mind, character, TRUE)
 
 	if(length(ship.job_slots) > 1 && ship.job_slots[1] == job) // if it's the "captain" equivalent job of the ship. checks to make sure it's not a one-job ship
 		minor_announce("[job.name] [character.real_name] on deck!", zlevel = ship.shuttle_port.virtual_z())
-	return TRUE
+	return TRUE */ // Echo 13 - End - Mirrored to new_player.dm
 
 /mob/dead/new_player/proc/AddEmploymentContract(mob/living/carbon/human/employee)
 	//TODO:  figure out a way to exclude wizards/nukeops/demons from this.
