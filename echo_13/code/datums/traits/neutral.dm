@@ -27,6 +27,7 @@
 	H.dna.blood_type = get_blood_type("Draculine")
 	H.dna.species.species_traits |= species_traits
 	H.dna.species.inherent_biotypes = MOB_UNDEAD|MOB_HUMANOID
+	RegisterSignal(quirk_holder, COMSIG_MOB_GET_STATUS_TAB_ITEMS, PROC_REF(get_status_tab_item))
 
 /datum/quirk/vampire/post_add()
 	if(!quirk_holder.mind || quirk_holder.mind.special_role)
@@ -48,6 +49,7 @@
 			old_heart.Insert(H)
 		H.dna.species.species_traits ^= species_traits
 		H.dna.species.inherent_biotypes = old_biotypes
+	UnregisterSignal(quirk_holder, COMSIG_MOB_GET_STATUS_TAB_ITEMS)
 
 /datum/quirk/vampire/on_process()
 	var/mob/living/carbon/human/C = quirk_holder
@@ -167,7 +169,6 @@
 #undef VAMP_TRANSFER_AMOUNT
 
 
-/mob/living/carbon/get_status_tab_items()
-	. = ..()
-	if(has_quirk(/datum/quirk/vampire))
-		. += "Current blood level: [blood_volume]/[BLOOD_VOLUME_MAXIMUM]."
+/datum/quirk/vampire/proc/get_status_tab_item(mob/living/carbon/source, list/items)
+	SIGNAL_HANDLER
+	items += "Blood Level: [source.blood_volume]/[BLOOD_VOLUME_MAXIMUM]"

@@ -391,11 +391,11 @@
 "dJ" = (
 /obj/machinery/light/directional/west,
 /obj/structure/rack,
-/obj/item/gun/ballistic/rifle/boltaction{
+/obj/item/gun/ballistic/rifle/illestren{
 	pixel_x = -8;
 	pixel_y = 3
 	},
-/obj/item/gun/ballistic/rifle/boltaction{
+/obj/item/gun/ballistic/rifle/illestren{
 	pixel_x = -8;
 	pixel_y = -1
 	},
@@ -925,7 +925,7 @@
 /area/ship/crew/canteen)
 "iZ" = (
 /obj/structure/rack,
-/obj/item/storage/toolbox/ammo/a762{
+/obj/item/storage/toolbox/ammo/a850r{
 	pixel_y = 5
 	},
 /turf/open/floor/pod,
@@ -3810,7 +3810,7 @@
 	req_access = list(30)
 	},
 /obj/item/kitchen/knife/hunting,
-/obj/item/gun/ballistic/shotgun/contender,
+/obj/item/gun/ballistic/shotgun/doublebarrel/beacon,
 /obj/item/ammo_box/a4570,
 /obj/item/ammo_box/a4570,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{

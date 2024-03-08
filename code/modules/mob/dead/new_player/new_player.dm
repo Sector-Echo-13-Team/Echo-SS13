@@ -287,7 +287,7 @@
 		return JOB_UNAVAILABLE_GENERIC
 	return JOB_AVAILABLE
 
-/* /mob/dead/new_player/proc/AttemptLateSpawn(datum/job/job, datum/overmap/ship/controlled/ship, check_playtime = TRUE) // Echo 13 - Start - Mirrored to new_player.dm
+/mob/dead/new_player/proc/AttemptLateSpawn(datum/job/job, datum/overmap/ship/controlled/ship, check_playtime = TRUE)
 	if(auth_check)
 		return
 
@@ -348,7 +348,7 @@
 
 	if(length(ship.job_slots) > 1 && ship.job_slots[1] == job) // if it's the "captain" equivalent job of the ship. checks to make sure it's not a one-job ship
 		minor_announce("[job.name] [character.real_name] on deck!", zlevel = ship.shuttle_port.virtual_z())
-	return TRUE */ // Echo 13 - End - Mirrored to new_player.dm
+	return TRUE
 
 /mob/dead/new_player/proc/AddEmploymentContract(mob/living/carbon/human/employee)
 	//TODO:  figure out a way to exclude wizards/nukeops/demons from this.
@@ -493,8 +493,13 @@
 /mob/dead/new_player/proc/register_for_interview()
 	// First we detain them by removing all the verbs they have on client
 	for (var/procpath/client_verb as anything in client.verbs)
-		if(!(client_verb in GLOB.client_verbs_required))
-			remove_verb(client, client_verb)
+		if(client_verb in GLOB.client_verbs_required)
+			continue
+		remove_verb(client, client_verb)
+
+	// Then remove those on their mob as well
+	for (var/procpath/verb_path as anything in verbs)
+		remove_verb(src, verb_path)
 
 	// Then we create the interview form and show it to the client
 	var/datum/interview/I = GLOB.interviews.interview_for_client(client)

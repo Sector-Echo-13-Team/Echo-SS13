@@ -431,6 +431,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	READ_FILE(S["feature_squid_face"], features["squid_face"])
 	READ_FILE(S["feature_ipc_screen"], features["ipc_screen"])
 	READ_FILE(S["feature_ipc_antenna"], features["ipc_antenna"])
+	READ_FILE(S["feature_ipc_tail"], features["ipc_tail"])
 	READ_FILE(S["feature_ipc_chassis"], features["ipc_chassis"])
 	READ_FILE(S["feature_ipc_brain"], features["ipc_brain"])
 	READ_FILE(S["feature_kepori_feathers"], features["kepori_feathers"])
@@ -543,6 +544,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	features["squid_face"]				= sanitize_inlist(features["squid_face"], GLOB.squid_face_list, "Squidward")
 	features["ipc_screen"]				= sanitize_inlist(features["ipc_screen"], GLOB.ipc_screens_list)
 	features["ipc_antenna"]				= sanitize_inlist(features["ipc_antenna"], GLOB.ipc_antennas_list)
+	features["ipc_tail"]				= sanitize_inlist(features["ipc_tail"], GLOB.ipc_tail_list)
 	features["ipc_chassis"]				= sanitize_inlist(features["ipc_chassis"], GLOB.ipc_chassis_list)
 	features["ipc_brain"]				= sanitize_inlist(features["ipc_brain"], GLOB.ipc_brain_list)
 	features["kepori_feathers"]			= sanitize_inlist(features["kepori_feathers"], GLOB.kepori_feathers_list, "Plain")
@@ -553,8 +555,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	features["elzu_horns"]				= sanitize_inlist(features["elzu_horns"], GLOB.elzu_horns_list)
 	features["tail_elzu"]				= sanitize_inlist(features["tail_elzu"], GLOB.tails_list_elzu)
 	features["flavor_text"]				= sanitize_text(features["flavor_text"], initial(features["flavor_text"]))
-	features["phyto_hair"]	= sanitize_inlist(features["phyto_hair"], GLOB.phyto_hair_list)
-	features["phyto_flower"]	= sanitize_inlist(features["phyto_flower"], GLOB.phyto_flower_list)
+	features["phyto_hair"]				= sanitize_inlist(features["phyto_hair"], GLOB.phyto_hair_list)
+	features["phyto_flower"]			= sanitize_inlist(features["phyto_flower"], GLOB.phyto_flower_list)
 
 	all_quirks = SANITIZE_LIST(all_quirks)
 
@@ -622,6 +624,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["feature_squid_face"]			, features["squid_face"])
 	WRITE_FILE(S["feature_ipc_screen"]			, features["ipc_screen"])
 	WRITE_FILE(S["feature_ipc_antenna"]			, features["ipc_antenna"])
+	WRITE_FILE(S["feature_ipc_tail"] 			, features["ipc_tail"])
 	WRITE_FILE(S["feature_ipc_chassis"]			, features["ipc_chassis"])
 	WRITE_FILE(S["feature_ipc_brain"]			, features["ipc_brain"])
 	WRITE_FILE(S["feature_kepori_feathers"]		, features["kepori_feathers"])
@@ -632,7 +635,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["feature_elzu_horns"]			, features["elzu_horns"])
 	WRITE_FILE(S["feature_tail_elzu"]			, features["tail_elzu"])
 	WRITE_FILE(S["feature_phyto_hair"]			, features["phyto_hair"])
-	WRITE_FILE(S["feature_phyto_flower"]			, features["phyto_flower"])
+	WRITE_FILE(S["feature_phyto_flower"]		, features["phyto_flower"])
 	WRITE_FILE(S["fbp"]							, fbp)
 
 	//Flavor text
