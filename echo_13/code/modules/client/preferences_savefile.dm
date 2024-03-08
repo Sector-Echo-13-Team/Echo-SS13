@@ -5,7 +5,7 @@
 //	You do not need to raise this if you are adding new values that have sane defaults.
 //	Only raise this value when changing the meaning/format/name/layout of an existing value
 //	where you would want the updater procs below to run
-#define SAVEFILE_VERSION_MAX 41
+#define SAVEFILE_VERSION_MAX 42
 
 /*
 SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Carn
@@ -94,6 +94,10 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 			pref_species = new /datum/species/human
 			features["tail_human"] = "Cat"
 			features["ears"] = "Cat"
+	if(current_version < 42)
+		var/phobia
+		READ_FILE(S["phobia"], phobia)
+		quirk_preferences += list("Phobia"= list("Phobia" = list(phobia)))
 
 /// checks through keybindings for outdated unbound keys and updates them
 /datum/preferences/proc/check_keybindings()
@@ -404,7 +408,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	READ_FILE(S["backpack"], backpack)
 	READ_FILE(S["jumpsuit_style"], jumpsuit_style)
 	READ_FILE(S["uplink_loc"], uplink_spawn_loc)
-	READ_FILE(S["phobia"], phobia)
 	READ_FILE(S["randomise"],  randomise)
 	READ_FILE(S["body_size"], features["body_size"])
 	READ_FILE(S["prosthetic_limbs"], prosthetic_limbs)
@@ -469,6 +472,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 
 	//Quirks
 	READ_FILE(S["all_quirks"], all_quirks)
+	READ_FILE(S["quirk_preferences"], quirk_preferences)
 
 	//Flavor Text
 	S["feature_flavor_text"]		>> features["flavor_text"]
@@ -559,8 +563,10 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	features["phyto_flower"]			= sanitize_inlist(features["phyto_flower"], GLOB.phyto_flower_list)
 
 	all_quirks = SANITIZE_LIST(all_quirks)
+	quirk_preferences = SANITIZE_LIST(quirk_preferences)
 
 //Make sure all quirks are compatible
+	update_quirk_preferences()
 	check_quirk_compatibility()
 
 	return TRUE
@@ -597,7 +603,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["uplink_loc"]					, uplink_spawn_loc)
 	WRITE_FILE(S["randomise"]					, randomise)
 	WRITE_FILE(S["species"]						, pref_species.id)
-	WRITE_FILE(S["phobia"]						, phobia)
 	WRITE_FILE(S["body_size"]					, features["body_size"])
 	WRITE_FILE(S["prosthetic_limbs"]			, prosthetic_limbs)
 	WRITE_FILE(S["feature_mcolor"]				, features["mcolor"])
@@ -652,6 +657,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["selected_outfit"]				, selected_outfit)
 	//Quirks
 	WRITE_FILE(S["all_quirks"]					, all_quirks)
+	WRITE_FILE(S["quirk_preferences"]			, quirk_preferences)
 
 	return TRUE
 
