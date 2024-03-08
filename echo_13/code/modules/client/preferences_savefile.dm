@@ -95,9 +95,10 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 			features["tail_human"] = "Cat"
 			features["ears"] = "Cat"
 	if(current_version < 42)
+		update_quirk_preferences()
 		var/phobia
 		READ_FILE(S["phobia"], phobia)
-		quirk_preferences += list("Phobia"= list("Phobia" = list(phobia)))
+		quirk_preferences["Phobia"]["Fears"] = list(phobia)
 
 /// checks through keybindings for outdated unbound keys and updates them
 /datum/preferences/proc/check_keybindings()

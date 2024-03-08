@@ -164,7 +164,17 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/list/all_quirks = list()
 
 	///Preferences specialized for each quirk that needs them, such as selected addictions or phobias.
-	var/list/quirk_preferences = list()
+	var/list/quirk_preferences = list(
+		"Addicted" = list(
+			"Addictions" = list("Random")
+		),
+		"Smoker" = list(
+			"Favorite Brand" = list("None")
+		),
+		"Phobia" = list(
+			"Fears" = list("spiders")
+		)
+	)
 
 	//Job preferences 2.0 - indexed by job title , no key or value implies never
 	var/list/job_preferences = list()
@@ -253,8 +263,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 #define MAX_MUTANT_ROWS 4
 
 /datum/preferences/proc/ShowChoices(mob/user)
-	show_loadout = (current_tab != 1) ? show_loadout : FALSE
-	show_gear = (current_tab != 1)
+	show_loadout = (current_setup != 2) ? show_loadout : FALSE
+	show_gear = (current_setup != 2)
 	if(!user || !user.client)
 		return
 	if(slot_randomized)
@@ -1401,73 +1411,16 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	popup.open(FALSE)
 	QDEL_NULL(S)
 
-/datum/preferences/proc/SetQuirks(mob/user)
-	if(!SSquirks)
-		to_chat(user, "<span class='danger'>The quirk subsystem is still initializing! Try again in a minute.</span>")
-		return
-
-	var/list/dat = list()
-	if(!SSquirks.quirks.len)
-		dat += "The quirk subsystem hasn't finished initializing, please hold..."
-		dat += "<center><a href='?_src_=prefs;preference=trait;task=close'>Done</a></center><br>"
-	else
-		var/list/quirk_conflicts = check_quirk_compatibility(user)
-		dat += "<center><b>Choose quirk setup</b></center><br>"
-		dat += "<div align='center'>Left-click to add or remove quirks. You need negative quirks to have positive ones.<br>\
-		Quirks are applied at roundstart and cannot normally be removed.</div>"
-		dat += "<center><a href='?_src_=prefs;preference=trait;task=close'>Done</a></center>"
-		dat += "<hr>"
-		dat += "<center><b>Current quirks:</b> [all_quirks.len ? all_quirks.Join(", ") : "None"]</center>"
-		dat += "<center>[GetPositiveQuirkCount()] / [MAX_QUIRKS] max positive quirks<br>\
-		<b>Quirk balance remaining:</b> [GetQuirkBalance()]</center><br>"
-		for(var/quirk_index in SSquirks.quirks)
-			var/datum/quirk/quirk_datum = SSquirks.quirks[quirk_index]
-			var/has_quirk
-			var/quirk_cost = initial(quirk_datum.value)
-			for(var/quirk_owned in all_quirks)
-				if(quirk_owned == initial(quirk_datum.name))
-					has_quirk = TRUE
-			if(has_quirk)
-				quirk_cost *= -1 //invert it.
-			if(quirk_cost > 0)
-				quirk_cost = "+[quirk_cost]"
-			var/font_color = "#AAAAFF"
-			if(initial(quirk_datum.value) != 0)
-				font_color = initial(quirk_datum.value) > 0 ? "#AAFFAA" : "#FFAAAA"
-			if(quirk_conflicts[initial(quirk_datum.name)])
-				if(!has_quirk)
-					dat += "<font color='[font_color]'>[initial(quirk_datum.name)]</font> - [initial(quirk_datum.desc)] \
-					<font color='red'><b>LOCKED: [quirk_conflicts[initial(quirk_datum.name)]]</b></font><br>"
-				else
-					alert(user, "Something went wrong, you had somehow had a conflicting quirk that didn't get cleared during conflict checks, please open an issue or otherwise notify coders of such.")
-					all_quirks = list()
-					user << browse(null, "window=mob_occupation")
-					ShowChoices(user)
-					save_preferences()
-			else
-				if(has_quirk)
-					dat += "<a href='?_src_=prefs;preference=trait;task=update;trait=[initial(quirk_datum.name)]'>[has_quirk ? "Remove" : "Take"] ([quirk_cost] pts.)</a> \
-					<b><font color='[font_color]'>[initial(quirk_datum.name)]</font></b> - [initial(quirk_datum.desc)]<br>"
-				else
-					dat += "<a href='?_src_=prefs;preference=trait;task=update;trait=[initial(quirk_datum.name)]'>[has_quirk ? "Remove" : "Take"] ([quirk_cost] pts.)</a> \
-					<font color='[font_color]'>[initial(quirk_datum.name)]</font> - [initial(quirk_datum.desc)]<br>"
-		dat += "<br><center><a href='?_src_=prefs;preference=trait;task=reset'>Reset Quirks</a></center>"
-
-	var/datum/browser/popup = new(user, "mob_trait", "<div align='center'>Quirk Preferences</div>", 900, 600) //no reason not to reuse the occupation window, as it's cleaner that way
-	popup.set_window_options("can_close=0")
-	popup.set_content(dat.Join())
-	popup.open(FALSE)
-
 /**
  * Proc called to handle empty quirk_preference data
 **/
 /datum/preferences/proc/update_quirk_preferences()
 	for(var/quirk_index in SSquirks.quirk_customizations)
 		if(!(quirk_index in quirk_preferences))
-			quirk_preferences[quirk_index] = list()
+			quirk_preferences += list(quirk_index = list())
 		for(var/quirk_option in SSquirks.quirk_customizations[quirk_index])
 			if(!(quirk_option in quirk_preferences[quirk_index]))
-				quirk_preferences[quirk_index][quirk_option] = list()
+				quirk_preferences[quirk_index] += list(quirk_option = list())
 
 /**
  * Proc called to track what quirks conflict with someone's preferences, returns a list with all quirks that conflict.
@@ -1695,22 +1648,59 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 		ShowSpeciesChoices(user)
 		return TRUE
 
-	if(href_list["preference"] == "trait")
+	if(href_list["preference"] == "quirk")
 		switch(href_list["task"])
-			if("close")
-				user << browse(null, "window=mob_trait")
-				ShowChoices(user)
+			if("customize_quirk")
+				var/quirk = href_list["quirk"]
+				var/value = href_list["value"]
+				var/list/options = splittext(href_list["options"], ", ")
+				var/value_address
+				if(href_list["value_address"] != "")
+					value_address = href_list["value_address"]
+				var/type = href_list["type"]
+				if(!SSquirks.quirks[quirk] || !value)
+					return
+				switch(type)
+					if("edit")
+						if(!value_address)
+							var/status = input(user, "You are modifying your [value] selection, what should it be changed to?", "Character Preference", quirk_preferences[quirk][value]) as null|anything in options
+							if(status)
+								quirk_preferences[quirk][value] = list(status)
+						else
+							var/status = input(user, "You are swapping [value_address] for another option, what should it be changed to?", "Character Preference") as null|anything in options
+							if(status)
+								var/limit_tracker = 0
+								var/option_limit = SSquirks.quirk_customizations[quirk][value]["limit"]
+								for(var/quirk_option in quirk_preferences[quirk][value]["options"])
+									limit_tracker += SSquirks.quirk_customizations[quirk][value]["options"][quirk_option]["cost"]
+								if(status != "remove")
+									limit_tracker += SSquirks.quirk_customizations[quirk][value]["options"][status]["cost"]
+								if(limit_tracker <= option_limit)
+									quirk_preferences[quirk][value] -= value_address
+									if(status != "remove")
+										quirk_preferences[quirk][value] += status
+					if("add")
+						var/status = input(user, "You are adding to your [value] selection, what should be added?", "Character Preference") as null|anything in options
+						if(status)
+							var/limit_tracker = 0
+							var/option_limit = SSquirks.quirk_customizations[quirk][value]["limit"]
+							for(var/quirk_option in quirk_preferences[quirk][value]["options"])
+								limit_tracker += SSquirks.quirk_customizations[quirk][value]["options"][quirk_option]["cost"]
+							limit_tracker += SSquirks.quirk_customizations[quirk][value]["options"][status]["cost"]
+							if(limit_tracker <= option_limit)
+								quirk_preferences[quirk][value] += status
 			if("update")
-				var/quirk = href_list["trait"]
+				var/quirk = href_list["quirk"]
 				if(!SSquirks.quirks[quirk])
 					return
 				var/value = SSquirks.quirk_points[quirk]
-				var/balance = GetQuirkBalance()
+				var/balance = get_quirk_balance()
 				if(quirk in all_quirks)
 					if(balance + value < 0)
 						to_chat(user, "<span class='warning'>Refunding this would cause you to go below your balance!</span>")
 						return
 					all_quirks -= quirk
+					save_preferences()
 				else
 					var/is_positive_quirk = SSquirks.quirk_points[quirk] > 0
 					if(is_positive_quirk && GetPositiveQuirkCount() >= MAX_QUIRKS)
@@ -1720,12 +1710,10 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 						to_chat(user, "<span class='warning'>You don't have enough balance to gain this quirk!</span>")
 						return
 					all_quirks += quirk
-				SetQuirks(user)
+					save_preferences()
 			if("reset")
 				all_quirks = list()
-				SetQuirks(user)
-			else
-				SetQuirks(user)
+		ShowChoices(user)
 		return TRUE
 
 	if(href_list["preference"] == "gear")
@@ -2593,7 +2581,11 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				if("tab")
 					if (href_list["tab"])
 						current_tab = text2num(href_list["tab"])
-						if(current_tab == 2)
+
+				if("setup_tab")
+					if(href_list["tab"])
+						current_setup = text2num(href_list["tab"])
+						if(current_tab == 3)
 							show_loadout = TRUE
 
 	ShowChoices(user)
