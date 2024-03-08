@@ -1,0 +1,6 @@
+author: Ms-Mee
+changes:
+  - {code_imp: 'Vampirism blood level tracking now uses signals, same way the species
+      was changed to behave'}
+  - {code_imp: 'Unmirrored new_player.dm, changed cryopod logic'}
+delete-after: true
