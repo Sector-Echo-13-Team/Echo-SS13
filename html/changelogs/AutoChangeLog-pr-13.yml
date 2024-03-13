@@ -1,0 +1,4 @@
+author: Ms-Mee
+changes:
+  - {rscdel: April fools no longer randomizes decal colors}
+delete-after: true
