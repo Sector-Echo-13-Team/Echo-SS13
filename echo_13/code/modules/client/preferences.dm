@@ -230,6 +230,24 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	///The outfit we currently want to preview on our character
 	var/datum/outfit/job/selected_outfit
 
+	//BACKGROUND STUFF
+	var/general_record = ""
+	var/security_record = ""
+	var/medical_record = ""
+
+	var/background_info = ""
+	var/exploitable_info = ""
+	/// Chosen cultural informations
+	var/pref_culture = /datum/cultural_info/culture/generic
+	var/pref_location = /datum/cultural_info/location/generic
+	var/pref_faction = /datum/cultural_info/faction/generic
+	/// Whether someone wishes to see more information regarding either of those
+	var/culture_more_info = FALSE
+	var/location_more_info = FALSE
+	var/faction_more_info = FALSE
+	//Associative list, keyed by language typepath, pointing to LANGUAGE_UNDERSTOOD, or LANGUAGE_SPOKEN, for whether we understand or speak the language
+	var/list/languages = list()
+
 /datum/preferences/New(client/C)
 	parent = C
 
@@ -378,6 +396,115 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					dat += "<br><b>Outerwear Style:</b><BR><a href ='?_src_=prefs;preference=exo;task=input'>[exowear]</a>"
 
 					dat += "<br><b>Uplink Spawn Location:</b><BR><a href ='?_src_=prefs;preference=uplink_loc;task=input'>[uplink_spawn_loc]</a><BR></td>"
+
+				if(1)
+					dat += "<table width='100%'>"
+					dat += "<tr>"
+					dat += "<td width='21%'></td>"
+					dat += "<td width='70%'></td>"
+					dat += "<td width='9%'></td>"
+					dat += "</tr>"
+					for(var/cultural_thing in list(CULTURE_CULTURE, CULTURE_LOCATION, CULTURE_FACTION))
+						var/datum/cultural_info/cult
+						var/prefix
+						var/more = FALSE
+						switch(cultural_thing)
+							if(CULTURE_CULTURE)
+								cult = GLOB.culture_cultures[pref_culture]
+								prefix = "Culture"
+								more = culture_more_info
+							if(CULTURE_LOCATION)
+								cult = GLOB.culture_locations[pref_location]
+								prefix = "Location"
+								more = location_more_info
+							if(CULTURE_FACTION)
+								cult = GLOB.culture_factions[pref_faction]
+								prefix = "Faction"
+								more = faction_more_info
+						var/cult_desc
+						if(more || length(cult.description) <= 160)
+							cult_desc = cult.description
+						else
+							cult_desc = "[copytext(cult.description, 1, 160)]..."
+						dat += "<tr style='background-color:#373737'>"
+						dat += "<td valign='top'><b>[prefix]:</b> <a href='?_src_=prefs;preference=cultural_info_change;info=[cultural_thing];task=input'>[cult.name]</a><font color='#AAAAAA' size=1><b>[cult.get_extra_desc(more)]</b></font></td>"
+						dat += "<td><i>[cult_desc]</i></td>"
+						dat += "<td valign='top'><a href='?_src_=prefs;preference=cultural_info_toggle;info=[cultural_thing];task=input'>[more ? "Show Less" : "Show More"]</a></td>"
+						dat += "</tr>"
+					dat += "</table>"
+					dat += "<table width='100%'><tr>"
+					dat += "<td valign='top' width=33%>"
+					dat += "<center><h2>Languages</h2></center>"
+					dat += "<b>Linguistic points: [get_linguistic_points()]</b>"
+					for(var/language_path in languages)
+						var/datum/language/lang_datum = language_path
+						dat += "<BR>[initial(lang_datum.name)] - [languages[language_path] == LANGUAGE_SPOKEN ? "Spoken" : "Understood" ]"
+					dat += "<BR><a href='?_src_=prefs;preference=language_button;task=input'>Change Languages...</a>"
+					dat += "</td>"
+					dat += "<td valign='top' width=33%>"
+					dat += "<center><h2>Records</h2></center>"
+					dat += "<h2>General</h2>"
+					dat += "<a href='?_src_=prefs;preference=general_record;task=input'><b>Set general record</b></a><br>"
+					if(length(general_record) <= 40)
+						if(!length(general_record))
+							dat += "\[...\]"
+						else
+							dat += "[html_encode(general_record)]"
+					else
+						dat += "[copytext(html_encode(general_record), 1, 40)]..."
+					dat += "<br>"
+
+
+					dat += "<h2>Medical</h2>"
+					dat += "<a href='?_src_=prefs;preference=medical_record;task=input'><b>Set medical record</b></a><br>"
+					if(length(medical_record) <= 40)
+						if(!length(medical_record))
+							dat += "\[...\]"
+						else
+							dat += "[html_encode(medical_record)]"
+					else
+						dat += "[copytext(html_encode(medical_record), 1, 40)]..."
+					dat += "<br>"
+
+
+					dat += "<h2>Security</h2>"
+					dat += "<a href='?_src_=prefs;preference=security_record;task=input'><b>Set security record</b></a><br>"
+					if(length(security_record) <= 40)
+						if(!length(security_record))
+							dat += "\[...\]"
+						else
+							dat += "[html_encode(security_record)]"
+					else
+						dat += "[copytext(html_encode(security_record), 1, 40)]..."
+					dat += "<br>"
+					dat += "</td>"
+
+
+					dat += "<td valign='top' width=33%>"
+					dat += "<center><h2>Information</h2></center>"
+					dat += "<h2>Background</h2>"
+					dat += "<a href='?_src_=prefs;preference=background_info;task=input'><b>Set background information</b></a><br>"
+					if(length(background_info) <= 40)
+						if(!length(background_info))
+							dat += "\[...\]"
+						else
+							dat += "[html_encode(background_info)]"
+					else
+						dat += "[copytext(html_encode(background_info), 1, 40)]..."
+					dat += "<h2>Exploitable</h2>"
+					dat += "<a href='?_src_=prefs;preference=exploitable_info;task=input'><b>Set exploitable information</b></a><br>"
+					if(length(exploitable_info) <= 40)
+						if(!length(exploitable_info))
+							dat += "\[...\]"
+						else
+							dat += "[html_encode(exploitable_info)]"
+					else
+						dat += "[copytext(html_encode(exploitable_info), 1, 40)]..."
+					dat += "</td>"
+					dat += "<td width=33%>"
+					//Empty column for future stuff here
+					dat += "</td>"
+					dat += "</tr></table>"
 
 				if(2) //Character Appearance
 
@@ -1845,6 +1972,86 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					if(msg) //WS edit - "Cancel" does not clear flavor text
 						features["flavor_text"] = html_decode(msg)
 
+				if("cultural_info_change")
+					var/thing = href_list["info"]
+					var/list/choice_list = list()
+					var/list/list_things
+					switch(thing)
+						if(CULTURE_CULTURE)
+							list_things = GLOB.culture_cultures
+						if(CULTURE_FACTION)
+							list_things = GLOB.culture_factions
+						if(CULTURE_LOCATION)
+							list_things = GLOB.culture_locations
+					for(var/cultural_entity in list_things)
+						var/datum/cultural_info/CINFO = list_things[cultural_entity]
+						choice_list[CINFO.name] = cultural_entity
+					var/new_cultural_thing = input(user, "Choose your character's [thing]:", "Character Preference")  as null|anything in choice_list
+					if(new_cultural_thing)
+						switch(thing)
+							if(CULTURE_CULTURE)
+								pref_culture = choice_list[new_cultural_thing]
+							if(CULTURE_FACTION)
+								pref_faction = choice_list[new_cultural_thing]
+							if(CULTURE_LOCATION)
+								pref_location = choice_list[new_cultural_thing]
+						validate_languages()
+
+				if("cultural_info_toggle")
+					var/thing = href_list["info"]
+					switch(thing)
+						if(CULTURE_CULTURE)
+							culture_more_info = !culture_more_info
+						if(CULTURE_FACTION)
+							faction_more_info = !faction_more_info
+						if(CULTURE_LOCATION)
+							location_more_info = !location_more_info
+
+				if("language")
+					var/target_lang = text2path(href_list["lang"])
+					var/level = text2num(href_list["level"])
+					var/required_lang = get_required_languages()
+					if(required_lang[target_lang]) //Can't do anything to a required language
+						return TRUE
+					var/opt_langs = get_optional_languages()
+					if(!opt_langs[target_lang])
+						return TRUE
+					if(!level)
+						languages -= target_lang
+					else if(can_buy_language(target_lang, level))
+						languages[target_lang] = level
+					ShowLangMenu(user)
+					return TRUE
+
+				if("language_button")
+					ShowLangMenu(user)
+					return TRUE
+
+				if("general_record")
+					var/msg = input(usr, "Set your general record. This is more or less public information, available from security, medical and command consoles", "General Record", general_record) as message|null
+					if(!isnull(msg))
+						general_record =  html_decode(msg)
+
+				if("medical_record")
+					var/msg = input(usr, "Set your medical record. ", "Medical Record", medical_record) as message|null
+					if(!isnull(msg))
+						medical_record =  html_decode(msg)
+
+				if("security_record")
+					var/msg = input(usr, "Set your security record. ", "Medical Record", security_record) as message|null
+					if(!isnull(msg))
+						security_record =  html_decode(msg)
+
+				if("background_info")
+					var/msg = input(usr, "Set your background information. (Where you come from, which culture were you raised in and why you are working here etc.)", "Background Info", background_info) as message|null
+					if(!isnull(msg))
+						background_info =  html_decode(msg)
+
+				if("exploitable_info")
+					var/msg = input(usr, "Set your exploitable information. This is sensitive informations that antagonists may get to see, recommended for better roleplay experience", "Exploitable Info", exploitable_info) as message|null
+					if(!isnull(msg))
+						exploitable_info =  html_decode(msg)
+
 				if("hair")
 					var/new_hair = input(user, "Choose your character's hair colour:", "Character Preference","#"+hair_color) as color|null
 					if(new_hair)
@@ -2289,6 +2496,10 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					var/desiredlength = input(user, "Choose the max character length of shown Runechat messages. Valid range is 1 to [CHAT_MESSAGE_MAX_LENGTH] (default: [initial(max_chat_length)]))", "Character Preference", max_chat_length)  as null|num
 					if (!isnull(desiredlength))
 						max_chat_length = clamp(desiredlength, 1, CHAT_MESSAGE_MAX_LENGTH)
+
+		if("close_language")
+			user << browse(null, "window=culture_lang")
+			ShowChoices(user)
 
 		else
 			switch(href_list["preference"])
@@ -2741,3 +2952,146 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			return
 		else
 			custom_names[name_id] = sanitized_name
+
+// EchoPrefs procs
+/datum/preferences/proc/get_linguistic_points()
+	var/points = LINGUISTIC_POINTS_DEFAULT
+	for(var/langpath in languages)
+		if(langpath in get_required_languages())
+			continue
+		points -= languages[langpath]
+	return points
+
+/datum/preferences/proc/get_required_languages()
+	var/list/lang_list = list()
+	for(var/cultural_thing in list(CULTURE_CULTURE, CULTURE_LOCATION, CULTURE_FACTION))
+		var/datum/cultural_info/cult
+		switch(cultural_thing)
+			if(CULTURE_CULTURE)
+				cult = GLOB.culture_cultures[pref_culture]
+			if(CULTURE_LOCATION)
+				cult = GLOB.culture_locations[pref_location]
+			if(CULTURE_FACTION)
+				cult = GLOB.culture_factions[pref_faction]
+		if(cult.required_langs)
+			for(var/langtype in cult.required_langs)
+				lang_list[langtype] = TRUE
+	return lang_list
+
+/datum/preferences/proc/get_optional_languages()
+	var/list/lang_list = list()
+	for(var/cultural_thing in list(CULTURE_CULTURE, CULTURE_LOCATION, CULTURE_FACTION))
+		var/datum/cultural_info/cult
+		switch(cultural_thing)
+			if(CULTURE_CULTURE)
+				cult = GLOB.culture_cultures[pref_culture]
+			if(CULTURE_LOCATION)
+				cult = GLOB.culture_locations[pref_location]
+			if(CULTURE_FACTION)
+				cult = GLOB.culture_factions[pref_faction]
+		if(cult.additional_langs)
+			for(var/langtype in cult.additional_langs)
+				lang_list[langtype] = TRUE
+	return lang_list
+
+/datum/preferences/proc/get_available_languages()
+	var/list/lang_list = get_required_languages()
+	for(var/lang_key in get_optional_languages())
+		lang_list[lang_key] = TRUE
+	return lang_list
+
+/datum/preferences/proc/validate_languages()
+	var/list/opt_langs = get_optional_languages()
+	var/list/req_langs = get_required_languages()
+	for(var/langkey in languages)
+		if(!opt_langs[langkey] && !req_langs[langkey])
+			languages -= langkey
+	for(var/req_lang in req_langs)
+		if(!languages[req_lang])
+			languages[req_lang] = LANGUAGE_SPOKEN
+	var/left_points = get_linguistic_points()
+	//If we're below 0 points somehow, remove all optional languages
+	if(left_points < 0)
+		for(var/lang in languages)
+			if(!req_langs[lang])
+				languages -= lang
+
+/datum/preferences/proc/can_buy_language(language_path, level)
+	var/points = get_linguistic_points()
+	if(languages[language_path])
+		points += languages[language_path]
+	if(points < level)
+		return FALSE
+	if(level == 2)
+		// THIS IS HORRIBLE SHOOT ME IF I KEEP IT LIKE THIS
+		var/obj/item/organ/tongue/species_tongue = new pref_species.mutanttongue
+		if(!(language_path in species_tongue.languages_possible))
+			qdel(species_tongue)
+			return FALSE
+		qdel(species_tongue)
+	return TRUE
+
+//Whenever we switch a species, we'll try to get common if we can to not confuse anyone
+/datum/preferences/proc/try_get_common_language()
+	var/list/langs = get_available_languages()
+	if(langs[/datum/language/common])
+		languages[/datum/language/common] = LANGUAGE_SPOKEN
+
+/datum/preferences/proc/ShowLangMenu(mob/user)
+	var/list/dat = list()
+	dat += "<center><b>Choose your languages:</b></center><br>"
+	dat += "Availability of the languages to choose from depends on your background. If you can't unlearn one, it means it is required for your background."
+	dat += "<br><b>If your species starts with a language, you may ignore it's cost. Language is very WIP and will require a partial rework of language handling so I can't do this as I would like yet.</b>"
+	dat += "<br><center><a href='?_src_=prefs;task=close_language'>Done</a></center>"
+	dat += "<hr>"
+	var/current_ling_points = get_linguistic_points()
+	dat += "<b>Linguistic Points remaining: [current_ling_points]</b>"
+	dat += "<table width='100%' align='center'><tr>"
+	dat += "<td width=10%></td>"
+	dat += "<td width=60%></td>"
+	dat += "<td width=10%></td>"
+	dat += "<td width=10%></td>"
+	dat += "<td width=10%></td>"
+	dat += "</tr>"
+	var/list/avail_langs = get_available_languages()
+	var/list/req_langs = get_required_languages()
+	var/background_cl
+	for(var/lang_path in avail_langs)
+		var/datum/language/lang_datum = lang_path
+		var/required = (req_langs[lang_path] ? TRUE : FALSE)
+		background_cl = (required ? "#7A5A00" : "#373737")
+		var/language_skill = 0
+		if(languages[lang_path])
+			language_skill = languages[lang_path]
+		var/unlearn_button
+		if(language_skill && !required)
+			unlearn_button = "<a href='?_src_=prefs;lang=[lang_path];level=0;preference=language;task=input'>Unlearn</a>"
+		else
+			unlearn_button = "<span class='linkOff'>Unlearn</span>"
+		var/understood_button
+		if(languages[lang_path])
+			//Has a href in case you want to downgrade from spoken to understood
+			understood_button = "<a class='linkOn' href='?_src_=prefs;lang=[lang_path];level=1;preference=language;task=input'>Understood</a>"
+		else if(can_buy_language(lang_path, LANGUAGE_UNDERSTOOD))
+			understood_button = "<a href='?_src_=prefs;lang=[lang_path];level=1;preference=language;task=input'>Understood</a>"
+		else
+			understood_button = "<span class='linkOff'>Understood</span>"
+		var/spoken_button
+		if(languages[lang_path] >= LANGUAGE_SPOKEN)
+			spoken_button = "<a class='linkOn' href='?_src_=prefs;lang=[lang_path];level=2;preference=language;task=input'>Spoken</a>"
+		else if(can_buy_language(lang_path, LANGUAGE_SPOKEN))
+			spoken_button = "<a href='?_src_=prefs;lang=[lang_path];level=2;preference=language;task=input'>Spoken</a>"
+		else
+			spoken_button = "<span class='linkOff'>Spoken</span>"
+		dat += "<tr style='background-color: [background_cl]'>"
+		dat += "<td><b>[initial(lang_datum.name)]</b></td>"
+		dat += "<td><i>[initial(lang_datum.desc)]</i></td>"
+		dat += "<td>[unlearn_button]</td>"
+		dat += "<td>[understood_button]</td>"
+		dat += "<td>[spoken_button]</td>"
+		dat += "</tr>"
+	dat += "<table>"
+	var/datum/browser/popup = new(user, "culture_lang", "<div align='center'>Language Choice</div>", 900, 600)
+	popup.set_window_options("can_close=0")
+	popup.set_content(dat.Join())
+	popup.open(FALSE)

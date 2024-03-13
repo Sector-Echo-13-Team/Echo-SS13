@@ -570,6 +570,18 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	update_quirk_preferences()
 	check_quirk_compatibility()
 
+// EchoPrefs
+	languages = SANITIZE_LIST(languages)
+
+	if(!pref_culture || !GLOB.culture_cultures[pref_culture])
+		pref_culture = /datum/cultural_info/culture/generic
+	if(!pref_location || !GLOB.culture_locations[pref_location])
+		pref_location = /datum/cultural_info/location/generic
+	if(!pref_faction || !GLOB.culture_factions[pref_faction])
+		pref_faction = /datum/cultural_info/faction/generic
+
+	validate_languages()
+
 	return TRUE
 
 /datum/preferences/proc/save_character()
