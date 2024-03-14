@@ -270,7 +270,7 @@
 /datum/quirk/nearsighted/add()
 	quirk_holder.become_nearsighted(ROUNDSTART_TRAIT)
 
-/datum/quirk/nearsighted/on_spawn()
+/* /datum/quirk/nearsighted/on_spawn() // Echo 13 - Start - Mirrored to negative.dm
 	var/mob/living/carbon/human/H = quirk_holder
 	var/obj/item/glasses_type
 
@@ -314,7 +314,7 @@
 		"in your backpack." = ITEM_SLOT_BACKPACK,
 		"in your hands." = ITEM_SLOT_HANDS
 	)
-	where = H.equip_in_one_of_slots(glasses, slots, FALSE) || "at your feet, don't drop them next time!"
+	where = H.equip_in_one_of_slots(glasses, slots, FALSE) || "at your feet, don't drop them next time!" */ // Echo 13 - End - Mirrored to negative.dm
 
 /datum/quirk/nearsighted/post_add()
 	if(where == "in your backpack.")
@@ -512,7 +512,7 @@
 	mood_change = -5
 	timeout = 3 MINUTES
 
-/datum/quirk/junkie
+/* /datum/quirk/junkie Echo 13 - Start - Replaced by quirks in variable.dm
 	name = "Junkie"
 	desc = "You can't get enough of hard drugs."
 	value = -2
@@ -611,7 +611,7 @@
 		if(istype(I, initial(C.spawn_type)))
 			SEND_SIGNAL(quirk_holder, COMSIG_CLEAR_MOOD_EVENT, "wrong_cigs")
 			return
-		SEND_SIGNAL(quirk_holder, COMSIG_ADD_MOOD_EVENT, "wrong_cigs", /datum/mood_event/wrong_brand)
+		SEND_SIGNAL(quirk_holder, COMSIG_ADD_MOOD_EVENT, "wrong_cigs", /datum/mood_event/wrong_brand) */ // Echo 13 - // End replaced by quirks in variable.dm
 
 /datum/quirk/unstable
 	name = "Unstable"
