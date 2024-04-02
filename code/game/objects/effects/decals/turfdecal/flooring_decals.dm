@@ -2,19 +2,19 @@
 	layer = TURF_PLATING_DECAL_LAYER
 	icon_state = "corner_white"
 
-/obj/effect/turf_decal/corner/Initialize()
+/* /obj/effect/turf_decal/corner/Initialize() // Echo 13 - Start - Fools no more (no mirror file necessary)
 	if(SSevents.holidays && SSevents.holidays[APRIL_FOOLS])
 		color = "#[random_short_color()]"
-	. = ..()
+	. = ..() */ // Echo 13 - End - Fools no more (no mirror file necessary)
 
 /obj/effect/turf_decal/trimline
 	layer = TURF_PLATING_DECAL_LAYER
 	icon_state = "trimline_box"
 
-/obj/effect/turf_decal/trimline/Initialize()
+/* /obj/effect/turf_decal/trimline/Initialize() // Echo 13 - Start - Fools no more (no mirror file necessary)
 	if(SSevents.holidays && SSevents.holidays[APRIL_FOOLS])
 		color = "#[random_short_color()]"
-	. = ..()
+	. = ..() */ // Echo 13 - End - Fools no more (no mirror file necessary)
 
 //forgive me for my sins
 #define TURF_DECAL_COLOR_HELPER(color_name, tile_color, tile_alpha)		\
