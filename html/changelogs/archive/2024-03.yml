@@ -61,6 +61,8 @@
   PositiveEntropy:
   - imageadd: Tables have been completely cleaned up and polished into new iterations!
 2024-03-08:
+  Martinpachu:
+  - rscadd: The SSG-04, GAL and EBR can now use their scopes!
   Ms-Mee:
   - rscadd: phytosian hairs, lungs and wings
   - code_imp: changed podpeople code and related sprite accessories
@@ -187,8 +189,6 @@
       cabinets, reagent tanks.'
   Ms-Mee:
   - rscdel: April fools no longer randomizes decal colors
-  Martinpachu:
-  - rscadd: The SSG-04, GAL and EBR can now use their scopes!
 2024-03-15:
   cuddleandtea:
   - rscadd: volume setting for play local sound

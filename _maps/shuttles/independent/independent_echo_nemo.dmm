@@ -109,7 +109,7 @@
 /obj/item/clothing/glasses/meson/engine,
 /obj/item/clothing/head/welding,
 /obj/item/multitool,
-/obj/item/radio/off,
+/obj/item/radio,
 /obj/item/clothing/suit/hooded/wintercoat/engineering,
 /obj/item/clothing/head/hardhat/weldhat,
 /turf/open/floor/plasteel/tech,
@@ -402,9 +402,7 @@
 /turf/open/floor/pod,
 /area/ship/hallway/central)
 "dL" = (
-/obj/structure/chair/comfy/black{
-	dir = 4
-	},
+/obj/structure/chair/comfy/grey/directional/east,
 /turf/open/floor/carpet/black,
 /area/ship/crew/library)
 "dN" = (
@@ -1547,7 +1545,7 @@
 /turf/template_noop,
 /area/template_noop)
 "te" = (
-/obj/structure/chair/comfy/black,
+/obj/structure/chair/comfy/grey/directional/south,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 5
@@ -1652,7 +1650,7 @@
 /turf/open/floor/plating,
 /area/ship/bridge)
 "uX" = (
-/obj/structure/chair/comfy/black,
+/obj/structure/chair/comfy/grey/directional/south,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 10
 	},
@@ -2073,7 +2071,7 @@
 /obj/effect/turf_decal/siding/purple{
 	dir = 10
 	},
-/obj/machinery/computer/cargo/express/retro{
+/obj/machinery/computer/cargo/retro{
 	dir = 4
 	},
 /turf/open/floor/plasteel/patterned/cargo_one,
@@ -3358,7 +3356,7 @@
 /obj/item/camera,
 /obj/item/gps,
 /obj/item/binoculars,
-/obj/item/radio/off,
+/obj/item/radio,
 /obj/effect/turf_decal/siding/wood{
 	dir = 1
 	},
@@ -3371,7 +3369,7 @@
 /turf/open/floor/carpet/black,
 /area/ship/crew/dorm)
 "RE" = (
-/obj/structure/chair/comfy/black,
+/obj/structure/chair/comfy/grey/directional/south,
 /mob/living/simple_animal/pet/penguin/baby{
 	name = "Ned"
 	},
@@ -3499,7 +3497,7 @@
 /obj/item/card/id/captains_spare,
 /obj/item/pen/survival,
 /obj/item/areaeditor/shuttle,
-/obj/item/radio/off,
+/obj/item/radio,
 /obj/structure/closet/secure_closet{
 	icon_state = "rd";
 	name = "research director's locker";
@@ -3651,11 +3649,11 @@
 	dir = 4;
 	pixel_x = -32
 	},
-/obj/item/radio/off,
-/obj/item/radio/off,
-/obj/item/radio/off,
-/obj/item/radio/off,
-/obj/item/radio/off,
+/obj/item/radio,
+/obj/item/radio,
+/obj/item/radio,
+/obj/item/radio,
+/obj/item/radio,
 /turf/open/floor/carpet/black,
 /area/ship/crew/dorm)
 "VK" = (
@@ -4039,9 +4037,7 @@
 /turf/open/floor/plating,
 /area/ship/engineering/electrical)
 "ZF" = (
-/obj/structure/chair/comfy/black{
-	dir = 8
-	},
+/obj/structure/chair/comfy/grey/directional/west,
 /turf/open/floor/carpet/black,
 /area/ship/crew/library)
 

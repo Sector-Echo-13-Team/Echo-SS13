@@ -49,9 +49,7 @@
 /turf/closed/wall/r_wall,
 /area/ship/engineering/engine)
 "aX" = (
-/obj/structure/chair/sofa/right{
-	dir = 1
-	},
+/obj/structure/chair/sofa/brown/right/directional/north,
 /obj/structure/window/reinforced,
 /turf/open/floor/plasteel/mono/dark,
 /area/ship/crew/canteen)
@@ -766,9 +764,7 @@
 /turf/open/floor/engine/vacuum,
 /area/ship/engineering/engine)
 "lQ" = (
-/obj/structure/chair/sofa/right{
-	dir = 1
-	},
+/obj/structure/chair/sofa/brown/right/directional/north,
 /turf/open/floor/plasteel/mono/dark,
 /area/ship/crew/canteen)
 "mA" = (
@@ -950,7 +946,7 @@
 "qj" = (
 /obj/machinery/airalarm/directional/east,
 /obj/machinery/light/directional/north,
-/obj/structure/chair/sofa/left,
+/obj/structure/chair/sofa/brown/left/directional/south,
 /turf/open/floor/plasteel/mono/dark,
 /area/ship/crew/canteen)
 "qo" = (
@@ -1263,7 +1259,7 @@
 /turf/open/floor/plasteel/tech/grid,
 /area/ship/security/armory)
 "vw" = (
-/obj/structure/chair/sofa/left,
+/obj/structure/chair/sofa/brown/left/directional/south,
 /obj/structure/window/reinforced{
 	dir = 1
 	},
@@ -1325,12 +1321,12 @@
 /obj/item/ammo_box/magazine/m45,
 /obj/item/areaeditor/shuttle,
 /obj/item/gun/ballistic/automatic/pistol/candor,
-/obj/item/clothing/suit/armor/vest/capcarapace/alt,
+/obj/item/clothing/suit/armor/vest/capcarapace/captunic,
 /obj/item/clothing/gloves/combat,
 /obj/item/clothing/shoes/jackboots,
 /obj/item/radio/headset/heads/captain,
 /obj/item/clothing/head/caphat,
-/obj/item/clothing/under/rank/command/captain/parade,
+/obj/item/clothing/under/rank/command/captain,
 /turf/open/floor/carpet/blue,
 /area/ship/crew/dorm)
 "wY" = (
@@ -1590,9 +1586,7 @@
 /turf/open/floor/carpet/nanoweave,
 /area/ship/crew)
 "zF" = (
-/obj/structure/chair/sofa/left{
-	dir = 1
-	},
+/obj/structure/chair/sofa/brown/left/directional/north,
 /turf/open/floor/plasteel/mono/dark,
 /area/ship/crew/canteen)
 "zL" = (
@@ -1804,9 +1798,7 @@
 /turf/open/floor/plasteel/dark,
 /area/ship/bridge)
 "DR" = (
-/obj/structure/chair/sofa/left{
-	dir = 1
-	},
+/obj/structure/chair/sofa/brown/left/directional/north,
 /obj/structure/window/reinforced,
 /turf/open/floor/plasteel/mono/dark,
 /area/ship/crew/canteen)
@@ -2015,9 +2007,7 @@
 /turf/open/floor/plasteel/white,
 /area/ship/crew/canteen)
 "Gy" = (
-/obj/structure/chair/comfy/black{
-	dir = 4
-	},
+/obj/structure/chair/comfy/grey/directional/east,
 /turf/open/floor/carpet/blue,
 /area/ship/crew/dorm)
 "Gz" = (
@@ -2369,7 +2359,7 @@
 /turf/open/floor/carpet/blue,
 /area/ship/crew/dorm)
 "Mn" = (
-/obj/machinery/computer/cargo/express{
+/obj/machinery/computer/cargo{
 	dir = 8
 	},
 /turf/open/floor/plasteel/dark,
@@ -3221,7 +3211,7 @@
 /turf/open/floor/carpet/blue,
 /area/ship/crew)
 "WL" = (
-/obj/structure/chair/sofa/right,
+/obj/structure/chair/sofa/brown/right/directional/south,
 /obj/structure/window/reinforced{
 	dir = 1
 	},
@@ -3595,7 +3585,7 @@
 /obj/structure/cable{
 	icon_state = "0-8"
 	},
-/obj/structure/chair/sofa/right,
+/obj/structure/chair/sofa/brown/right/directional/south,
 /turf/open/floor/plasteel/mono/dark,
 /area/ship/crew/canteen)
 
