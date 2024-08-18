@@ -10,7 +10,6 @@
 		/obj/item/reagent_containers/food/snacks/grown/ash_flora/cactus_fruit =1,
 		/datum/reagent/consumable/ethanol = 100
 	)
-	blacklist = list(/obj/item/organ/tail/lizard/fake)
 	result = /obj/item/reagent_containers/food/drinks/bottle/lizardwine
 	category = CAT_DRINK
 
@@ -140,7 +139,7 @@
 	time = 30
 	reqs = list(
 		/obj/item/storage/bag/trash = 1,
-		/obj/item/reagent_containers/food/snacks/breadslice/moldy = 1,
+		/obj/item/food/breadslice/moldy = 1,
 		/obj/item/reagent_containers/food/snacks/grown = 4,
 		/obj/item/reagent_containers/food/snacks/candy_corn = 2,
 		/datum/reagent/water = 15

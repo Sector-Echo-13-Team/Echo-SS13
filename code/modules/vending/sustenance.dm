@@ -7,7 +7,7 @@
 	icon_state = "sustenance"
 	products = list(
 		/obj/item/reagent_containers/food/snacks/tofu/prison = 24,
-		/obj/item/reagent_containers/food/snacks/breadslice/moldy = 15,
+		/obj/item/food/breadslice/moldy = 15,
 		/obj/item/reagent_containers/food/drinks/ice/prison = 12,
 		/obj/item/reagent_containers/food/snacks/candy_corn/prison = 6)
 	contraband = list(
@@ -18,7 +18,6 @@
 	refill_canister = /obj/item/vending_refill/sustenance
 	default_price = 0
 	extra_price = 0
-	payment_department = NO_FREEBIES
 
 /obj/item/vending_refill/sustenance
 	machine_name = "Sustenance Vendor"
