@@ -13,7 +13,7 @@
 							list("Bad Touch", "Friendly"))
 
 	species_blacklist = list("Blood Deficiency" = list(SPECIES_IPC, SPECIES_JELLYPERSON, SPECIES_PLASMAMAN, SPECIES_VAMPIRE), \
-	"Vampirism" = list(SPECIES_IPC, SPECIES_JELLYPERSON, SPECIES_PLASMAMAN, SPECIES_ETHEREAL, SPECIES_VAMPIRE, SPECIES_POD))
+	"Vampirism" = list(SPECIES_IPC, SPECIES_JELLYPERSON, SPECIES_PLASMAMAN, SPECIES_ELZUOSE, SPECIES_VAMPIRE, SPECIES_POD))
 
 	for(var/client/client in GLOB.clients)
 		client?.prefs.check_quirk_compatibility()

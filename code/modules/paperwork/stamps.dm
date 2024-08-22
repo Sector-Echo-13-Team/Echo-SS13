@@ -125,8 +125,8 @@
 	icon_state = "stamp-artificer"
 	dye_color = DYE_QM
 
-/obj/item/stamp/cmm
-	name = "Colonial Minutemen rubber stamp"
+/obj/item/stamp/clip
+	name = "CLIP Minutemen rubber stamp"
 	icon_state = "stamp-cmm"
 	dye_color = DYE_FO
 
@@ -139,6 +139,11 @@
 	name = "BARD rubber stamp"
 	icon_state = "stamp-bard"
 	dye_color = DYE_FO
+
+/obj/item/stamp/suns
+	name = "SUNS rubber stamp"
+	icon_state = "stamp-suns"
+	dye_color = DYE_PURPLE
 
 /obj/item/stamp/attack_paw(mob/user)
 	return attack_hand(user)

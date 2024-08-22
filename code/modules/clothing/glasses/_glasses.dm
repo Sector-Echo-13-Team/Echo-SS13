@@ -2,6 +2,8 @@
 /obj/item/clothing/glasses
 	name = "glasses"
 	icon = 'icons/obj/clothing/glasses.dmi'
+	lefthand_file = 'icons/mob/inhands/clothing/glasses_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/clothing/glasses_righthand.dmi'
 	w_class = WEIGHT_CLASS_SMALL
 	flags_cover = GLASSESCOVERSEYES
 	slot_flags = ITEM_SLOT_EYES
@@ -165,7 +167,6 @@
 	name = "monocle"
 	desc = "Such a dapper eyepiece!"
 	icon_state = "monocle"
-	item_state = "headset" // lol
 	supports_variations = VOX_VARIATION
 
 /obj/item/clothing/glasses/material
@@ -313,7 +314,7 @@
 	flash_protect = FLASH_PROTECTION_WELDER
 	custom_materials = list(/datum/material/iron = 250)
 	tint = 2
-	visor_vars_to_toggle = VISOR_FLASHPROTECT | VISOR_TINT
+	visor_vars_to_toggle = VISOR_FLASHPROTECT | VISOR_TINT | SEALS_EYES
 	flags_cover = GLASSESCOVERSEYES
 	glass_colour_type = /datum/client_colour/glass_colour/gray
 	supports_variations = VOX_VARIATION
@@ -484,12 +485,14 @@
 	desc = "A pair of goggles meant for low temperatures."
 	icon_state = "cold"
 	item_state = "cold"
+	flags_cover = GLASSESCOVERSEYES | SEALS_EYES
 
 /obj/item/clothing/glasses/heat
 	name = "heat goggles"
 	desc = "A pair of goggles meant for high temperatures."
 	icon_state = "heat"
 	item_state = "heat"
+	flags_cover = GLASSESCOVERSEYES | SEALS_EYES
 
 /obj/item/clothing/glasses/orange
 	name = "orange glasses"
@@ -571,7 +574,7 @@
 	desc = "Medical, security and diagnostic hud. Alt click to toggle xray."
 	icon_state = "nvgmeson"
 	item_state = "nvgmeson"
-	flags_cover = GLASSESCOVERSEYES
+	flags_cover = GLASSESCOVERSEYES | SEALS_EYES
 	darkness_view = 8
 	flash_protect = FLASH_PROTECTION_WELDER
 	lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_INVISIBLE
