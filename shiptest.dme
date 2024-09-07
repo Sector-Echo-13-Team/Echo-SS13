@@ -165,6 +165,7 @@
 #include "code\__DEFINES\dcs\signals\signals_obj\signals_machine\signals_aquarium.dm"
 #include "code\__DEFINES\dcs\signals\signals_obj\signals_machine\signals_machinery.dm"
 #include "code\__DEFINES\dcs\signals\signals_obj\signals_machine\signals_supermatter.dm"
+#include "code\__DEFINES\echo_13\culture.dm"
 #include "code\__DEFINES\echo_13\mobs.dm"
 #include "code\__DEFINES\echo_13\DNA.dm"
 #include "code\__HELPERS\_auxtools_api.dm"

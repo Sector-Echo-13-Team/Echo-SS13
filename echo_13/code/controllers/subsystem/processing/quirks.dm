@@ -63,12 +63,12 @@ PROCESSING_SUBSYSTEM_DEF(quirks)
 				"limit" = 1,
 				"options" = list(
 					"None" =				list("cost" = 1, "value" = 0),
-					"Carp Classic"=			list("cost" = 1, "value" = 2),
-					"Midori Tabako" =		list("cost" = 1, "value" = 2),
-					"Robust" =				list("cost" = 1, "value" = 2),
-					"Robust Gold" =			list("cost" = 1, "value" = 2),
-					"Space Cigarettes"=		list("cost" = 1, "value" = 2),
-					"Uplift Smooth" =		list("cost" = 1, "value" = 2)
+					"Carp Classic"=			list("cost" = 1, "value" = -2),
+					"Midori Tabako" =		list("cost" = 1, "value" = -2),
+					"Robust" =				list("cost" = 1, "value" = -2),
+					"Robust Gold" =			list("cost" = 1, "value" = -2),
+					"Space Cigarettes"=		list("cost" = 1, "value" = -2),
+					"Uplift Smooth" =		list("cost" = 1, "value" = -2)
 				)
 			)
 		)
@@ -86,10 +86,8 @@ PROCESSING_SUBSYSTEM_DEF(quirks)
 							list("Clown Fan","Mime Fan", "RILENA Super Fan"), \
 							list("Bad Touch", "Friendly"))
 	quirk_species_locks = list("Blood Deficiency" = TRAIT_SPECIES_BLACKLIST(SPECIES_IPC, SPECIES_JELLYPERSON, SPECIES_PLASMAMAN, SPECIES_VAMPIRE), \
-	"Vampirism" = TRAIT_SPECIES_BLACKLIST(SPECIES_IPC, SPECIES_JELLYPERSON, SPECIES_PLASMAMAN, SPECIES_ETHEREAL, SPECIES_VAMPIRE, SPECIES_POD))
+	"Vampirism" = TRAIT_SPECIES_BLACKLIST(SPECIES_IPC, SPECIES_JELLYPERSON, SPECIES_PLASMAMAN, SPECIES_ELZUOSE, SPECIES_VAMPIRE, SPECIES_POD))
 
-	species_blacklist = list("Blood Deficiency" = list(SPECIES_IPC, SPECIES_JELLYPERSON, SPECIES_PLASMAMAN, SPECIES_VAMPIRE), \
-	"Vampirism" = list(SPECIES_IPC, SPECIES_JELLYPERSON, SPECIES_PLASMAMAN, SPECIES_ELZUOSE, SPECIES_VAMPIRE, SPECIES_POD))
 
 	for(var/client/client in GLOB.clients)
 		client?.prefs.check_quirk_compatibility()
