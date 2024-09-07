@@ -1,3 +1,4 @@
+// Echo 13 - Mirrored to quirks.dm
 //Used to process and handle roundstart quirks
 // - Quirk strings are used for faster checking in code
 // - Quirk datums are stored and hold different effects, as well as being a vector for applying trait string
@@ -14,7 +15,7 @@ PROCESSING_SUBSYSTEM_DEF(quirks)
 	var/list/quirk_blacklist = list()	//A list a list of quirks that can not be used with each other. Format: list(quirk1,quirk2),list(quirk3,quirk4)
 	var/list/species_blacklist = list()	//A list of quirks and the species they can't be used by
 
-/* /datum/controller/subsystem/processing/quirks/Initialize(timeofday) // Echo 13 - Start - Vampires
+/datum/controller/subsystem/processing/quirks/Initialize(timeofday)
 	if(!quirks.len)
 		SetupQuirks()
 
@@ -29,7 +30,7 @@ PROCESSING_SUBSYSTEM_DEF(quirks)
 
 	for(var/client/client in GLOB.clients)
 		client?.prefs.check_quirk_compatibility()
-	return ..() */ // Echo 13 - End - Vampires
+	return ..()
 
 /datum/controller/subsystem/processing/quirks/proc/SetupQuirks()
 	// Sort by Positive, Negative, Neutral; and then by name

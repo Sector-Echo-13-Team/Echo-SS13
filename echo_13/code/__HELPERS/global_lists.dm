@@ -90,3 +90,29 @@
 	GLOB.emote_list = init_emote_list()
 
 	init_subtypes(/datum/crafting_recipe, GLOB.crafting_recipes)
+
+	make_echo_datum_references()
+
+// Echo 13 - Echoprefs
+/proc/make_echo_datum_references()
+	make_culture_references()
+
+/proc/make_culture_references()
+	for(var/path in subtypesof(/datum/cultural_info/culture))
+		var/datum/cultural_info/L = path
+		if(!initial(L.name))
+			continue
+		L = new path()
+		GLOB.culture_cultures[path] = L
+	for(var/path in subtypesof(/datum/cultural_info/location))
+		var/datum/cultural_info/L = path
+		if(!initial(L.name))
+			continue
+		L = new path()
+		GLOB.culture_locations[path] = L
+	for(var/path in subtypesof(/datum/cultural_info/faction))
+		var/datum/cultural_info/L = path
+		if(!initial(L.name))
+			continue
+		L = new path()
+		GLOB.culture_factions[path] = L
