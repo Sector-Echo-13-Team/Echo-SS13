@@ -10,7 +10,7 @@
 	throwforce = 12
 	throw_speed = 2
 	throw_range = 7
-	w_class = WEIGHT_CLASS_BULKY
+	w_class = WEIGHT_CLASS_NORMAL
 	custom_materials = list(/datum/material/iron = 500)
 	attack_verb = list("robusted")
 	hitsound = 'sound/weapons/smash.ogg'
@@ -56,7 +56,7 @@
 			new /obj/item/flashlight/glowstick(src)
 		if(3)
 			new /obj/item/flashlight/flare(src)
-	new /obj/item/radio/off(src)
+	new /obj/item/radio(src)
 
 /obj/item/storage/toolbox/emergency/old
 	name = "rusty red toolbox"
@@ -238,8 +238,8 @@
 /obj/item/storage/toolbox/ammo/a850r/PopulateContents()
 	name = "ammo can (8x50mmR)"
 	icon_state = "ammobox_850"
-	for(var/i in 1 to 7)
-		new /obj/item/ammo_box/magazine/illestren_a850r(src)
+	for(var/i in 1 to 4)
+		new /obj/item/ammo_box/c8x50mm_box(src)
 
 /obj/item/storage/toolbox/ammo/a762_40/PopulateContents()
 	name = "ammo can (7.62x40mm CLIP)"
@@ -299,7 +299,7 @@
 		/obj/item/clothing/gloves/color/latex/nitrile/infiltrator,
 		/obj/item/clothing/mask/infiltrator,
 		/obj/item/clothing/shoes/combat/sneakboots,
-		/obj/item/gun/ballistic/automatic/pistol,
+		/obj/item/gun/ballistic/automatic/pistol/syndicate,
 		/obj/item/gun/ballistic/revolver,
 		/obj/item/ammo_box
 		))
@@ -311,6 +311,18 @@
 	new /obj/item/clothing/gloves/color/latex/nitrile/infiltrator(src)
 	new /obj/item/clothing/mask/infiltrator(src)
 	new /obj/item/clothing/shoes/combat/sneakboots(src)
+
+/obj/item/storage/toolbox/bounty
+	name = "defused explosives case"
+	desc = "Store defused landmines in here."
+	icon_state = "infiltrator_case"
+	item_state = "infiltrator_case"
+
+/obj/item/storage/toolbox/bounty/ComponentInitialize()
+	. = ..()
+	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
+	STR.max_combined_w_class = 4
+	STR.max_items = 2
 
 //floorbot assembly
 /obj/item/storage/toolbox/attackby(obj/item/stack/tile/plasteel/T, mob/user, params)

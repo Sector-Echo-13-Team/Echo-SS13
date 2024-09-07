@@ -22,7 +22,14 @@ GLOBAL_VAR_INIT(embedpocalypse, FALSE) // if true, all items will be able to emb
 	///Icon file for right inhand overlays
 	var/righthand_file = 'icons/mob/inhands/items_righthand.dmi'
 
-	var/supports_variations = null //This is a bitfield that defines what variations exist for bodyparts like Digi legs.
+	///This is a bitfield that defines what variations exist for bodyparts like Digi legs.
+	var/supports_variations = null
+
+	///If set, kepori wearing this use this instead of their clothing file
+	var/kepoi_override_icon
+
+	///If set, vox wearing this use this instead of their clothing file
+	var/vox_override_icon
 
 	/// Needs to follow this syntax: either a list() with the x and y coordinates of the pixel you want to get the colour from, or a hexcolour. Colour one replaces red, two replaces blue, and three replaces green in the icon state.
 	var/list/greyscale_colors[3]
@@ -69,8 +76,11 @@ GLOBAL_VAR_INIT(embedpocalypse, FALSE) // if true, all items will be able to emb
 	///Whether or not we use stealthy audio levels for this item's attack sounds
 	var/stealthy_audio = FALSE
 
-	///How large is the object, used for stuff like whether it can fit in backpacks or not
+	/// Weight class for how much storage capacity it uses and how big it physically is meaning storages can't hold it if their maximum weight class isn't as high as it.
 	var/w_class = WEIGHT_CLASS_NORMAL
+	/// Volume override for the item, otherwise automatically calculated from w_class.
+	var/w_volume
+
 	///This is used to determine on which slots an item can fit.
 	var/slot_flags = 0
 	pass_flags = PASSTABLE
@@ -191,6 +201,10 @@ GLOBAL_VAR_INIT(embedpocalypse, FALSE) // if true, all items will be able to emb
 	var/outline_filter
 
 	var/canMouseDown = FALSE
+
+	//for setting world icons on the go
+	var/inventory_state
+	var/world_state
 
 /obj/item/Initialize()
 
@@ -381,7 +395,7 @@ GLOBAL_VAR_INIT(embedpocalypse, FALSE) // if true, all items will be able to emb
 	if(grav > STANDARD_GRAVITY)
 		var/grav_power = min(3,grav - STANDARD_GRAVITY)
 		to_chat(user,"<span class='notice'>You start picking up [src]...</span>")
-		if(!do_mob(user,src,30*grav_power))
+		if(!do_after(user, 30*grav_power, src))
 			return
 
 
@@ -508,12 +522,12 @@ GLOBAL_VAR_INIT(embedpocalypse, FALSE) // if true, all items will be able to emb
 /obj/item/proc/equipped(mob/user, slot, initial = FALSE)
 	SHOULD_CALL_PARENT(1)
 	visual_equipped(user, slot, initial)
-	SEND_SIGNAL(src, COMSIG_ITEM_EQUIPPED, user, slot)
 	for(var/X in actions)
 		var/datum/action/A = X
 		if(item_action_slot_check(slot, user)) //some items only give their actions buttons when in a specific slot.
 			A.Grant(user)
 	item_flags |= IN_INVENTORY
+	SEND_SIGNAL(src, COMSIG_ITEM_EQUIPPED, user, slot)
 	if(!initial)
 		if(equip_sound && (slot_flags & slot))
 			playsound(src, equip_sound, EQUIP_SOUND_VOLUME, TRUE, ignore_walls = FALSE)
@@ -684,7 +698,7 @@ GLOBAL_VAR_INIT(embedpocalypse, FALSE) // if true, all items will be able to emb
 	if (callback) //call the original callback
 		. = callback.Invoke()
 	item_flags &= ~IN_INVENTORY
-	if(!pixel_y && !pixel_x)
+	if(!pixel_y && !pixel_x && !(item_flags & NO_PIXEL_RANDOM_DROP))
 		pixel_x = rand(-8,8)
 		pixel_y = rand(-8,8)
 
@@ -698,6 +712,9 @@ GLOBAL_VAR_INIT(embedpocalypse, FALSE) // if true, all items will be able to emb
 
 /obj/item/proc/get_belt_overlay() //Returns the icon used for overlaying the object on a belt
 	return mutable_appearance('icons/obj/clothing/belt_overlays.dmi', icon_state)
+
+/obj/item/proc/get_helmet_overlay() // returns the icon for overlaying on a helmet
+	return mutable_appearance('icons/mob/clothing/helmet_overlays.dmi', icon_state)
 
 /obj/item/proc/update_slot_icon()
 	if(!ismob(loc))
@@ -800,7 +817,8 @@ GLOBAL_VAR_INIT(embedpocalypse, FALSE) // if true, all items will be able to emb
 		..()
 
 /obj/item/proc/microwave_act(obj/machinery/microwave/M)
-	SEND_SIGNAL(src, COMSIG_ITEM_MICROWAVE_ACT, M)
+	if(SEND_SIGNAL(src, COMSIG_ITEM_MICROWAVE_ACT, M) & COMPONENT_SUCCESFUL_MICROWAVE)
+		return
 	if(istype(M) && M.dirty < 100)
 		M.dirty++
 
@@ -842,6 +860,7 @@ GLOBAL_VAR_INIT(embedpocalypse, FALSE) // if true, all items will be able to emb
 
 /obj/item/MouseEntered(location, control, params)
 	. = ..()
+	SEND_SIGNAL(src, COMSIG_ITEM_MOUSE_ENTER, location, control, params)
 	if((item_flags & IN_INVENTORY || item_flags & IN_STORAGE) && usr.client.prefs.enable_tips && !QDELETED(src))
 		var/timedelay = usr.client.prefs.tip_delay/100
 		var/user = usr
@@ -856,7 +875,8 @@ GLOBAL_VAR_INIT(embedpocalypse, FALSE) // if true, all items will be able to emb
 	. = ..()
 	remove_outline()
 
-/obj/item/MouseExited()
+/obj/item/MouseExited(location,control,params)
+	SEND_SIGNAL(src, COMSIG_ITEM_MOUSE_EXIT, location, control, params)
 	deltimer(tip_timer)//delete any in-progress timer if the mouse is moved off the item before it finishes
 	closeToolTip(usr)
 	remove_outline()
@@ -907,7 +927,7 @@ GLOBAL_VAR_INIT(embedpocalypse, FALSE) // if true, all items will be able to emb
 		var/datum/callback/tool_check = CALLBACK(src, PROC_REF(tool_check_callback), user, amount, extra_checks)
 
 		if(ismob(target))
-			if(!do_mob(user, target, delay, extra_checks=tool_check))
+			if(!do_after(user, delay, target, extra_checks=tool_check))
 				return
 
 		else
@@ -979,6 +999,11 @@ GLOBAL_VAR_INIT(embedpocalypse, FALSE) // if true, all items will be able to emb
 			dropped(M, FALSE)
 	return ..()
 
+/// Get an item's volume that it uses when being stored.
+/obj/item/proc/get_w_volume()
+	// if w_volume is 0 you fucked up.
+	return w_volume || AUTO_SCALE_VOLUME(w_class)
+
 /obj/item/proc/embedded(mob/living/carbon/human/embedded_mob)
 	return
 
@@ -1025,7 +1050,7 @@ GLOBAL_VAR_INIT(embedpocalypse, FALSE) // if true, all items will be able to emb
  * * forced- Do we want this to go through 100%?
  */
 /obj/item/proc/tryEmbed(atom/target, forced=FALSE, silent=FALSE)
-	if(!isbodypart(target) && !iscarbon(target) && !isclosedturf(target))
+	if(!isbodypart(target) && !iscarbon(target))
 		return
 	if(!forced && !LAZYLEN(embedding))
 		return
@@ -1102,3 +1127,95 @@ GLOBAL_VAR_INIT(embedpocalypse, FALSE) // if true, all items will be able to emb
  */
 /obj/item/proc/get_writing_implement_details()
 	return null
+
+/// How many different types of mats will be counted in a bite?
+#define MAX_MATS_PER_BITE 2
+
+/*
+ * On accidental consumption: when you somehow end up eating an item accidentally (currently, this is used for when items are hidden in food like bread or cake)
+ *
+ * The base proc will check if the item is sharp and has a decent force.
+ * Then, it checks the item's mat datums for the effects it applies afterwards.
+ * Then, it checks tiny items.
+ * After all that, it returns TRUE if the item is set to be discovered. Otherwise, it returns FALSE.
+ *
+ * This works similarily to /suicide_act: if you want an item to have a unique interaction, go to that item
+ * and give it an /on_accidental_consumption proc override. For a simple example of this, check out the nuke disk.
+ *
+ * Arguments
+ * * M - the mob accidentally consuming the item
+ * * user - the mob feeding M the item - usually, it's the same as M
+ * * source_item - the item that held the item being consumed - bread, cake, etc
+ * * discover_after - if the item will be discovered after being chomped (FALSE will usually mean it was swallowed, TRUE will usually mean it was bitten into and discovered)
+ */
+/obj/item/proc/on_accidental_consumption(mob/living/carbon/victim, mob/living/carbon/user, obj/item/source_item, discover_after = TRUE)
+	if(get_sharpness() && force >= 5) //if we've got something sharp with a decent force (ie, not plastic)
+		INVOKE_ASYNC(victim, TYPE_PROC_REF(/mob, emote), "scream")
+		victim.visible_message("<span class='warning'>[victim] looks like [victim.p_theyve()] just bit something they shouldn't have!</span>", \
+							"<span class='boldwarning'>OH GOD! Was that a crunch? That didn't feel good at all!!</span>")
+
+		victim.apply_damage(max(15, force), BRUTE, BODY_ZONE_HEAD)
+		victim.losebreath += 2
+		if(tryEmbed(victim.get_bodypart(BODY_ZONE_CHEST), forced = TRUE)) //and if it embeds successfully in their chest, cause a lot of pain
+			victim.apply_damage(max(25, force*1.5), BRUTE, BODY_ZONE_CHEST)
+			victim.losebreath += 6
+			discover_after = FALSE
+		if(QDELETED(src)) // in case trying to embed it caused its deletion (say, if it's DROPDEL)
+			return
+		source_item?.reagents?.add_reagent(/datum/reagent/blood, 2)
+
+	else if(custom_materials?.len) //if we've got materials, lets see whats in it
+		/// How many mats have we found? You can only be affected by two material datums by default
+		var/found_mats = 0
+		/// How much of each material is in it? Used to determine if the glass should break
+		var/total_material_amount = 0
+
+		for(var/mats in custom_materials)
+			total_material_amount += custom_materials[mats]
+			if(found_mats >= MAX_MATS_PER_BITE)
+				continue //continue instead of break so we can finish adding up all the mats to the total
+
+			var/datum/material/discovered_mat = mats
+			if(discovered_mat.on_accidental_mat_consumption(victim, source_item))
+				found_mats++
+
+		//if there's glass in it and the glass is more than 60% of the item, then we can shatter it
+		if(custom_materials[SSmaterials.GetMaterialRef(/datum/material/glass)] >= total_material_amount * 0.60)
+			if(prob(66)) //66% chance to break it
+				/// The glass shard that is spawned into the source item
+				var/obj/item/shard/broken_glass = new /obj/item/shard(loc)
+				broken_glass.name = "broken [name]"
+				broken_glass.desc = "This used to be \a [name], but it sure isn't anymore."
+				playsound(victim, "shatter", 25, TRUE)
+				qdel(src)
+				if(QDELETED(source_item))
+					broken_glass.on_accidental_consumption(victim, user)
+			else //33% chance to just "crack" it (play a sound) and leave it in the bread
+				playsound(victim, "shatter", 15, TRUE)
+			discover_after = FALSE
+
+		victim.adjust_disgust(33)
+		victim.visible_message(
+			"<span class='warning'>[victim] looks like [victim.p_theyve()] just bitten into something hard.</span>", \
+			"<span class='warning'>Eugh! Did I just bite into something?</span>")
+
+	else if(w_class == WEIGHT_CLASS_TINY) //small items like soap or toys that don't have mat datums
+		/// victim's chest (for cavity implanting the item)
+		var/obj/item/bodypart/chest/victim_cavity = victim.get_bodypart(BODY_ZONE_CHEST)
+		if(victim_cavity.cavity_item)
+			victim.vomit(5, FALSE, FALSE, distance = 0)
+			forceMove(drop_location())
+			to_chat(victim, "<span class='warning'>You vomit up a [name]! [source_item? "Was that in \the [source_item]?" : ""]</span>")
+		else
+			victim.transferItemToLoc(src, victim, TRUE)
+			victim.losebreath += 2
+			victim_cavity.cavity_item = src
+			to_chat(victim, "<span class='warning'>You swallow hard. [source_item? "Something small was in \the [source_item]..." : ""]</span>")
+		discover_after = FALSE
+
+	else
+		to_chat(victim, "<span class='warning'>[source_item? "Something strange was in the \the [source_item]..." : "I just bit something strange..."] </span>")
+
+	return discover_after
+
+#undef MAX_MATS_PER_BITE

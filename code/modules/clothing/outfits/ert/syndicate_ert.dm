@@ -9,7 +9,7 @@
 	ears = /obj/item/radio/headset/syndicate/alt
 	gloves = /obj/item/clothing/gloves/color/black
 	id = /obj/item/card/id/syndicate_command/crew_id
-	mask = /obj/item/clothing/mask/gas/sechailer/minutemen
+	mask = /obj/item/clothing/mask/gas/sechailer/balaclava
 	head = /obj/item/clothing/head/helmet/operator
 	back = /obj/item/storage/backpack/security
 	belt = /obj/item/storage/belt/military/c20r
@@ -27,12 +27,12 @@
 	head = /obj/item/clothing/head/HoS/beret/syndicate
 	ears = /obj/item/radio/headset/syndicate/captain
 
-	backpack_contents = list(/obj/item/gun/ballistic/automatic/pistol=1, /obj/item/ammo_box/magazine/m10mm=2, /obj/item/radio=1)
+	backpack_contents = list(/obj/item/gun/ballistic/automatic/pistol/syndicate=1, /obj/item/ammo_box/magazine/m10mm=2, /obj/item/radio=1)
 
 // gorlex loyalist/2nd battlegroup
 
 /datum/outfit/job/syndicate/ert/gorlex
-	name = "ERT - Syndicate Gorlex Loyalist Trooper"
+	name = "ERT - New Gorlex Republic Trooper"
 
 	head = /obj/item/clothing/head/helmet/swat
 	uniform = /obj/item/clothing/under/syndicate/combat
@@ -42,13 +42,13 @@
 	suit_store = /obj/item/gun/ballistic/automatic/smg/m90
 
 /datum/outfit/job/syndicate/ert/gorlex/pointman
-	name = "ERT - Syndicate Gorlex Loyalist Pointman"
+	name = "ERT - New Gorlex Republic Pointman"
 
 	suit_store = /obj/item/gun/ballistic/shotgun/bulldog
 	belt = /obj/item/storage/belt/security/webbing/bulldog
 
 /datum/outfit/job/syndicate/ert/gorlex/medic
-	name = "ERT - Syndicate Gorlex Loyalist Medic"
+	name = "ERT - New Gorlex Republic Medic"
 	jobtype = /datum/job/paramedic
 	job_icon = "paramedic"
 
@@ -58,14 +58,14 @@
 	belt = /obj/item/storage/belt/medical/webbing/paramedic
 	glasses = /obj/item/clothing/glasses/hud/health/sunglasses
 	gloves = /obj/item/clothing/gloves/color/latex/nitrile/evil
-	suit_store = /obj/item/gun/ballistic/automatic/pistol
+	suit_store = /obj/item/gun/ballistic/automatic/pistol/syndicate
 
 	l_pocket = /obj/item/radio
 
 	backpack_contents = list(/obj/item/ammo_box/magazine/m10mm=2, /obj/item/storage/firstaid/medical=1, /obj/item/defibrillator/compact/combat/loaded=1)
 
 /datum/outfit/job/syndicate/ert/gorlex/sniper
-	name = "ERT - Syndicate Gorlex Loyalist Sniper"
+	name = "ERT - New Gorlex Republic Sniper"
 
 	head = /obj/item/clothing/head/beret/black
 	back = /obj/item/storage/backpack/messenger/sec
@@ -73,7 +73,7 @@
 	gloves = /obj/item/clothing/gloves/fingerless
 	suit = /obj/item/clothing/suit/armor/vest
 	belt = /obj/item/storage/belt/security
-	suit_store = /obj/item/gun/ballistic/automatic/sniper_rifle/syndicate
+	suit_store = /obj/item/gun/ballistic/automatic/marksman/sniper_rifle
 
 	r_pocket = /obj/item/kitchen/knife/combat/survival
 	l_pocket = /obj/item/binoculars
@@ -81,7 +81,7 @@
 	backpack_contents = list(/obj/item/ammo_box/magazine/sniper_rounds=2, /obj/item/radio=1)
 
 /datum/outfit/job/syndicate/ert/gorlex/leader
-	name = "ERT - Syndicate Gorlex Loyalist Sergeant"
+	name = "ERT - New Gorlex Republic Sergeant"
 	job_icon = "lieutenant"
 
 	uniform = /obj/item/clothing/under/syndicate/gorlex
@@ -144,6 +144,7 @@
 
 /datum/outfit/job/syndicate/ert/cybersun/medic/leader
 	name = "ERT - Syndicate Cybersun Lead Paramedic"
+	id_assignment = "Lead Paramedic"
 	job_icon = "chiefmedicalofficer"
 
 	head = /obj/item/clothing/head/beret/cmo
@@ -157,6 +158,7 @@
 
 /datum/outfit/job/syndicate/ert/inspector
 	name = "ERT - Inspector (Syndicate)"
+	id_assignment = "Inspector"
 	jobtype = /datum/job/head_of_personnel
 	job_icon = "syndicate"
 
@@ -174,11 +176,3 @@
 	suit_store = null
 
 	backpack_contents = list(/obj/item/stamp/syndicate)
-
-/datum/outfit/job/syndicate/ert/inspector/post_equip(mob/living/carbon/human/H, visualsOnly)
-	. = ..()
-	var/obj/item/card/id/W = H.wear_id
-	if(W)
-		W.registered_name = H.real_name
-		W.assignment = "Inspector"
-		W.update_label()

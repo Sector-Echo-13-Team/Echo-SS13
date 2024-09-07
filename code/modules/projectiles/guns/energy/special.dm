@@ -6,9 +6,8 @@
 	shaded_charge = FALSE
 	ammo_x_offset = 2
 	ammo_y_offset = 2
-	can_flashlight = FALSE
 	w_class = WEIGHT_CLASS_HUGE
-	big_gun = TRUE //yes, you can put the comically large cell in it. No, you aren't getting it roundstart. You slut.
+	mag_size = MAG_SIZE_LARGE //yes, you can put the comically large cell in it. No, you aren't getting it roundstart. You slut.
 	flags_1 =  CONDUCT_1
 	slot_flags = ITEM_SLOT_BACK
 	ammo_type = list(/obj/item/ammo_casing/energy/ion)
@@ -16,6 +15,9 @@
 
 /obj/item/gun/energy/ionrifle/emp_act(severity)
 	return
+
+/obj/item/gun/energy/ionrifle/empty_cell
+	dead_cell = TRUE
 
 /obj/item/gun/energy/ionrifle/carbine
 	name = "ion carbine"
@@ -25,17 +27,12 @@
 	slot_flags = ITEM_SLOT_BELT
 	ammo_x_offset = 2
 	ammo_y_offset = 0
-	pin = null
-	can_flashlight = TRUE
-	flight_x_offset = 18
-	flight_y_offset = 11
 
 /obj/item/gun/energy/decloner
 	name = "biological demolecularisor"
 	desc = "A gun that discharges high amounts of controlled radiation to slowly break a target into component elements."
 	icon_state = "decloner"
 	ammo_type = list(/obj/item/ammo_casing/energy/declone)
-	pin = null
 	ammo_x_offset = 1
 
 /obj/item/gun/energy/decloner/update_overlays()
@@ -44,20 +41,16 @@
 	if(!QDELETED(cell) && (cell.charge > shot.e_cost))
 		. += "decloner_spin"
 
-/obj/item/gun/energy/decloner/unrestricted
-	pin = /obj/item/firing_pin
-	ammo_type = list(/obj/item/ammo_casing/energy/declone/weak)
-
 /obj/item/gun/energy/floragun
 	name = "floral somatoray"
 	desc = "A tool that discharges controlled radiation which induces mutation in plant cells."
 	icon_state = "flora"
 	item_state = "gun"
 	ammo_type = list(/obj/item/ammo_casing/energy/flora/yield, /obj/item/ammo_casing/energy/flora/mut, /obj/item/ammo_casing/energy/flora/revolution)
-	modifystate = 1
+	modifystate = TRUE
 	ammo_x_offset = 1
 	selfcharge = 1
-	shaded_charge = 1
+	shaded_charge = TRUE
 
 /obj/item/gun/energy/meteorgun
 	name = "meteor gun"
@@ -67,7 +60,6 @@
 	w_class = WEIGHT_CLASS_BULKY
 	ammo_type = list(/obj/item/ammo_casing/energy/meteor)
 	cell_type = /obj/item/stock_parts/cell/potato
-	clumsy_check = 0 //Admin spawn only, might as well let clowns use it.
 	selfcharge = 1
 
 /obj/item/gun/energy/meteorgun/pen
@@ -102,16 +94,8 @@
 	overheat_time = 20
 	holds_charge = TRUE
 	unique_frequency = TRUE
-	can_flashlight = FALSE
 	max_mod_capacity = 0
 	manufacturer = MANUFACTURER_SCARBOROUGH
-
-/obj/item/gun/energy/kinetic_accelerator/crossbow/halloween
-	name = "candy corn crossbow"
-	desc = "A weapon favored by Syndicate trick-or-treaters."
-	icon_state = "crossbow_halloween"
-	item_state = "crossbow"
-	ammo_type = list(/obj/item/ammo_casing/energy/bolt/halloween)
 
 /obj/item/gun/energy/kinetic_accelerator/crossbow/large
 	name = "energy crossbow"
@@ -119,9 +103,8 @@
 	icon_state = "crossbowlarge"
 	w_class = WEIGHT_CLASS_NORMAL
 	custom_materials = list(/datum/material/iron=4000)
-	suppressed = null
+	suppressed = FALSE
 	ammo_type = list(/obj/item/ammo_casing/energy/bolt/large)
-	pin = null
 	manufacturer = MANUFACTURER_NONE
 
 
@@ -229,7 +212,7 @@
 			if(istype(WH))
 				WH.gun = WEAKREF(src)
 
-/obj/item/gun/energy/wormhole_projector/process_chamber()
+/obj/item/gun/energy/wormhole_projector/process_chamber(atom/shooter)
 	..()
 	select_fire()
 
@@ -285,10 +268,14 @@
 	can_charge = FALSE
 	use_cyborg_cell = TRUE
 
+	fire_delay = 0.3 SECONDS
+
+	gun_firemodes = list(FIREMODE_FULLAUTO)
+	default_firemode = FIREMODE_FULLAUTO
+
 /obj/item/gun/energy/printer/ComponentInitialize()
 	. = ..()
 	AddElement(/datum/element/update_icon_blocker)
-	AddComponent(/datum/component/automatic_fire, 0.3 SECONDS)
 
 /obj/item/gun/energy/printer/emp_act()
 	return
@@ -336,12 +323,10 @@
 	ammo_type = list(/obj/item/ammo_casing/energy/temp, /obj/item/ammo_casing/energy/temp/hot)
 	cell_type = /obj/item/stock_parts/cell/gun/upgraded
 	ammo_x_offset = 2
-	pin = null
 
 /obj/item/gun/energy/temperature/security
 	name = "security temperature gun"
 	desc = "A weapon that can only be used to its full potential by the truly robust."
-	pin = /obj/item/firing_pin
 
 /obj/item/gun/energy/laser/instakill
 	name = "instakill rifle"
@@ -401,9 +386,9 @@
 	shaded_charge = TRUE
 	weapon_weight = WEAPON_HEAVY
 
-/obj/item/gun/energy/tesla_cannon/ComponentInitialize()
-	. = ..()
-	AddComponent(/datum/component/automatic_fire, 0.1 SECONDS)
+	fire_delay = 0.1 SECONDS
+	gun_firemodes = list(FIREMODE_SEMIAUTO, FIREMODE_FULLAUTO)
+	default_firemode = FIREMODE_SEMIAUTO
 
 /obj/item/gun/energy/buster
 	name = "replica buster cannon"

@@ -114,9 +114,10 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 							"ipc_tail" = "None",
 							"ipc_chassis" = "Morpheus Cyberkinetics (Custom)",
 							"ipc_brain" = "Posibrain",
-							"kepori_feathers" = "Plain",
-							"kepori_body_feathers" = "Plain",
-							"kepori_tail_feathers" = "Fan",
+							"kepori_feathers" = "None",
+							"kepori_body_feathers" = "None",
+							"kepori_head_feathers" = "None",
+							"kepori_tail_feathers" = "None",
 							"vox_head_quills" = "Plain",
 							"vox_neck_quills" = "Plain",
 							"elzu_horns" = "None",
@@ -155,12 +156,14 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 							BODY_ZONE_R_LEG = PROSTHETIC_NORMAL
 						)
 	var/fbp = FALSE
+	var/phobia = "spiders"
+	var/preferred_smoke_brand = PREF_CIG_SPACE
 	var/list/alt_titles_preferences = list()
 	var/list/custom_names = list()
 	var/preferred_ai_core_display = "Blue"
 	var/prefered_security_department = SEC_DEPT_RANDOM
-
-	///Quirk list
+	var/generic_adjective = "Unremarkable"
+	//Quirk list
 	var/list/all_quirks = list()
 
 	///Preferences specialized for each quirk that needs them, such as selected addictions or phobias.
@@ -278,7 +281,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	return
 
 #define APPEARANCE_CATEGORY_COLUMN "<td valign='top' width='14%'>"
-#define MAX_MUTANT_ROWS 4
+#define MAX_MUTANT_ROWS 5
 
 /datum/preferences/proc/ShowChoices(mob/user)
 	show_loadout = (current_setup != 2) ? show_loadout : FALSE
@@ -554,9 +557,9 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					dat += "<span style='border: 1px solid #161616; background-color: #[features["mcolor"]];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=mutant_color;task=input'>Change</a><BR>"
 					dat += "<span style='border: 1px solid #161616; background-color: #[features["mcolor2"]];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=mutant_color_2;task=input'>Change</a><BR>"
 
-					if(istype(pref_species, /datum/species/ethereal)) //not the best thing to do tbf but I dont know whats better.
+			if(istype(pref_species, /datum/species/elzuose)) //not the best thing to do tbf but I dont know whats better.
 
-						dat += "<h3>Ethereal Color</h3>"
+				dat += "<h3>Elzuosa Color</h3>"
 
 						dat += "<span style='border: 1px solid #161616; background-color: #[features["ethcolor"]];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=color_ethereal;task=input'>Change</a><BR>"
 
@@ -856,9 +859,22 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 							dat += "</td>"
 							mutant_category = 0
 
-					if("kepori_body_feathers" in pref_species.default_features)
-						if(!mutant_category)
-							dat += APPEARANCE_CATEGORY_COLUMN
+			if("kepori_head_feathers" in pref_species.default_features)
+				if(!mutant_category)
+					dat += APPEARANCE_CATEGORY_COLUMN
+
+				dat += "<h3>Head Feathers</h3>"
+				dat += "<a href='?_src_=prefs;preference=kepori_head_feathers;task=input'>[features["kepori_head_feathers"]]</a><BR>"
+				dat += "<span style='border:1px solid #161616; background-color: #[features["mcolor2"]];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=mutant_color_2;task=input'>Change</a><BR>"
+
+				mutant_category++
+				if(mutant_category >= MAX_MUTANT_ROWS)
+					dat += "</td>"
+					mutant_category = 0
+
+			if("kepori_body_feathers" in pref_species.default_features)
+				if(!mutant_category)
+					dat += APPEARANCE_CATEGORY_COLUMN
 
 						dat += "<h3>Body Feathers</h3>"
 						dat += "<a href='?_src_=prefs;preference=kepori_body_feathers;task=input'>[features["kepori_body_feathers"]]</a><BR>"
@@ -992,9 +1008,27 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 							dat += "</td>"
 							mutant_category = 0
 
-					if("body_size" in pref_species.default_features)
-						if(!mutant_category)
-							dat += APPEARANCE_CATEGORY_COLUMN
+			//Adds a thing to select which phobia because I can't be assed to put that in the quirks window
+			if("Phobia" in all_quirks)
+				if(!mutant_category)
+					dat += APPEARANCE_CATEGORY_COLUMN
+				dat += "<h3>Phobia</h3>"
+
+				dat += "<a href='?_src_=prefs;preference=phobia;task=input'>[phobia]</a><BR>"
+
+				mutant_category++
+				if(mutant_category >= MAX_MUTANT_ROWS)
+					dat += "</td>"
+					mutant_category = 0
+
+			if("Smoker" in all_quirks)
+				dat += "<h3>Smoker</h3>"
+
+				dat += "<a href='?_src_=prefs;preference=preferred_smoke_brand;task=input'>[preferred_smoke_brand]</a><BR>"
+
+			if("body_size" in pref_species.default_features)
+				if(!mutant_category)
+					dat += APPEARANCE_CATEGORY_COLUMN
 
 						dat += "<h3>Size</h3>"
 
@@ -1005,9 +1039,23 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 							dat += "</td>"
 							mutant_category = 0
 
-					if("wings" in pref_species.default_features && GLOB.r_wings_list.len >1)
-						if(!mutant_category)
-							dat += APPEARANCE_CATEGORY_COLUMN
+			// begin generic adjective
+			if(!mutant_category)
+				dat += APPEARANCE_CATEGORY_COLUMN
+
+			dat += "<h3>Character Adjective</h3>"
+
+			dat += "<a href='?_src_=prefs;preference=generic_adjective;task=input'>[generic_adjective]</a><BR>"
+
+			mutant_category++
+			if(mutant_category >= MAX_MUTANT_ROWS)
+				dat += "</td>"
+				mutant_category = 0
+			// end generic adjective
+
+			if("wings" in pref_species.default_features && GLOB.r_wings_list.len >1)
+				if(!mutant_category)
+					dat += APPEARANCE_CATEGORY_COLUMN
 
 						dat += "<h3>Wings</h3>"
 
@@ -1605,6 +1653,10 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				all_quirks_new -= quirk_owned
 				balance += SSquirks.quirk_points[quirk_owned]
 		switch(change_type)
+			if("species")
+				if((quirk_name in SSquirks.species_blacklist) && (pref_species.id in SSquirks.species_blacklist[quirk_name]))
+					all_quirks_new -= quirk_name
+					balance += initial(quirk_type.value)
 			if("mood")
 				if(initial(quirk_owned_datum.mood_quirk))
 					all_quirks_new -= quirk_owned
@@ -1968,89 +2020,9 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 						age = clamp(round(text2num(new_age)), pref_species.species_age_min, pref_species.species_age_max)
 
 				if("flavor_text")
-					var/msg = sanitize(stripped_multiline_input(usr, "Set the flavor text in your 'examine' verb. This can also be used for OOC notes and preferences!", "Flavor Text", features["flavor_text"], 4096, TRUE))
+					var/msg = stripped_multiline_input(usr, "A snippet of text shown when others examine you, describing what you may look like. This can also be used for OOC notes.", "Flavor Text", html_decode(features["flavor_text"]), MAX_FLAVOR_LEN, TRUE)
 					if(msg) //WS edit - "Cancel" does not clear flavor text
 						features["flavor_text"] = html_decode(msg)
-
-				if("cultural_info_change")
-					var/thing = href_list["info"]
-					var/list/choice_list = list()
-					var/list/list_things
-					switch(thing)
-						if(CULTURE_CULTURE)
-							list_things = GLOB.culture_cultures
-						if(CULTURE_FACTION)
-							list_things = GLOB.culture_factions
-						if(CULTURE_LOCATION)
-							list_things = GLOB.culture_locations
-					for(var/cultural_entity in list_things)
-						var/datum/cultural_info/CINFO = list_things[cultural_entity]
-						choice_list[CINFO.name] = cultural_entity
-					var/new_cultural_thing = input(user, "Choose your character's [thing]:", "Character Preference")  as null|anything in choice_list
-					if(new_cultural_thing)
-						switch(thing)
-							if(CULTURE_CULTURE)
-								pref_culture = choice_list[new_cultural_thing]
-							if(CULTURE_FACTION)
-								pref_faction = choice_list[new_cultural_thing]
-							if(CULTURE_LOCATION)
-								pref_location = choice_list[new_cultural_thing]
-						validate_languages()
-
-				if("cultural_info_toggle")
-					var/thing = href_list["info"]
-					switch(thing)
-						if(CULTURE_CULTURE)
-							culture_more_info = !culture_more_info
-						if(CULTURE_FACTION)
-							faction_more_info = !faction_more_info
-						if(CULTURE_LOCATION)
-							location_more_info = !location_more_info
-
-				if("language")
-					var/target_lang = text2path(href_list["lang"])
-					var/level = text2num(href_list["level"])
-					var/required_lang = get_required_languages()
-					if(required_lang[target_lang]) //Can't do anything to a required language
-						return TRUE
-					var/opt_langs = get_optional_languages()
-					if(!opt_langs[target_lang])
-						return TRUE
-					if(!level)
-						languages -= target_lang
-					else if(can_buy_language(target_lang, level))
-						languages[target_lang] = level
-					ShowLangMenu(user)
-					return TRUE
-
-				if("language_button")
-					ShowLangMenu(user)
-					return TRUE
-
-				if("general_record")
-					var/msg = input(usr, "Set your general record. This is more or less public information, available from security, medical and command consoles", "General Record", general_record) as message|null
-					if(!isnull(msg))
-						general_record =  html_decode(msg)
-
-				if("medical_record")
-					var/msg = input(usr, "Set your medical record. ", "Medical Record", medical_record) as message|null
-					if(!isnull(msg))
-						medical_record =  html_decode(msg)
-
-				if("security_record")
-					var/msg = input(usr, "Set your security record. ", "Medical Record", security_record) as message|null
-					if(!isnull(msg))
-						security_record =  html_decode(msg)
-
-				if("background_info")
-					var/msg = input(usr, "Set your background information. (Where you come from, which culture were you raised in and why you are working here etc.)", "Background Info", background_info) as message|null
-					if(!isnull(msg))
-						background_info =  html_decode(msg)
-
-				if("exploitable_info")
-					var/msg = input(usr, "Set your exploitable information. This is sensitive informations that antagonists may get to see, recommended for better roleplay experience", "Exploitable Info", exploitable_info) as message|null
-					if(!isnull(msg))
-						exploitable_info =  html_decode(msg)
 
 				if("hair")
 					var/new_hair = input(user, "Choose your character's hair colour:", "Character Preference","#"+hair_color) as color|null
@@ -2199,7 +2171,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 							to_chat(user, "<span class='danger'>Invalid color. Your color is not bright enough.</span>")
 
 				if("color_ethereal")
-					var/new_etherealcolor = input(user, "Choose your elzuosa color:", "Character Preference","#"+features["ethcolor"]) as color|null
+					var/new_etherealcolor = input(user, "Choose your elzuose color:", "Character Preference","#"+features["ethcolor"]) as color|null
 					if(new_etherealcolor)
 						var/temp_hsv = RGBtoHSV(new_etherealcolor)
 						if(ReadHSV(temp_hsv)[3] >= ReadHSV("#505050")[3]) // elzu colors should be bright
@@ -2381,6 +2353,12 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					if (new_kepori_feathers)
 						features["kepori_feathers"] = new_kepori_feathers
 
+				if("kepori_head_feathers")
+					var/new_kepori_feathers
+					new_kepori_feathers = input(user, "Choose your character's head feathers:", "Character Preference") as null|anything in GLOB.kepori_head_feathers_list
+					if (new_kepori_feathers)
+						features["kepori_head_feathers"] = new_kepori_feathers
+
 				if("kepori_body_feathers")
 					var/new_kepori_feathers
 					new_kepori_feathers = input(user, "Choose your character's body feathers:", "Character Preference") as null|anything in GLOB.kepori_body_feathers_list
@@ -2491,6 +2469,23 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					if(pickedPDAColor)
 						pda_color = pickedPDAColor
 
+				if("phobia")
+					var/phobiaType = input(user, "What are you scared of?", "Character Preference", phobia) as null|anything in SStraumas.phobia_types
+					if(phobiaType)
+						phobia = phobiaType
+				if("preferred_smoke_brand")
+					var/smokeBrand = input(user, "What cigarettes are your favorite?", "Character Preference", preferred_smoke_brand) as null|anything in GLOB.valid_smoke_types
+					if(smokeBrand)
+						preferred_smoke_brand = smokeBrand
+
+				if("generic_adjective")
+					var/selectAdj
+					if(istype(pref_species, /datum/species/ipc))
+						selectAdj = input(user, "In one word, how would you describe your character's appereance?", "Character Preference", generic_adjective) as null|anything in GLOB.ipc_preference_adjectives
+					else
+						selectAdj = input(user, "In one word, how would you describe your character's appereance?", "Character Preference", generic_adjective) as null|anything in GLOB.preference_adjectives
+					if(selectAdj)
+						generic_adjective = selectAdj
 
 				if ("max_chat_length")
 					var/desiredlength = input(user, "Choose the max character length of shown Runechat messages. Valid range is 1 to [CHAT_MESSAGE_MAX_LENGTH] (default: [initial(max_chat_length)]))", "Character Preference", max_chat_length)  as null|num
@@ -2899,6 +2894,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 		character.set_species(chosen_species, icon_update = FALSE, pref_load = TRUE)
 	//Because of how set_species replaces all bodyparts with new ones, hair needs to be set AFTER species.
 	character.dna.real_name = character.real_name
+	character.generic_adjective = generic_adjective
 	character.hair_color = hair_color
 	character.facial_hair_color = facial_hair_color
 	character.grad_color = features["grad_color"]
@@ -2918,20 +2914,10 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 /datum/preferences/proc/get_default_name(name_id)
 	switch(name_id)
-		if("human")
-			return random_unique_name()
 		if("ai")
 			return pick(GLOB.ai_names)
 		if("cyborg")
 			return DEFAULT_CYBORG_NAME
-		if("clown")
-			return pick(GLOB.clown_names)
-		if("mime")
-			return pick(GLOB.mime_names)
-		if("religion")
-			return DEFAULT_RELIGION
-		if("deity")
-			return DEFAULT_DEITY
 	return random_unique_name()
 
 /datum/preferences/proc/ask_for_custom_name(mob/user,name_id)

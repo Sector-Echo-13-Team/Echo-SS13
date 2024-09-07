@@ -165,7 +165,7 @@
 /turf/open/floor/mineral/plastitanium/red/brig,
 /area/overmap_encounter/planetoid/cave/explored)
 "bh" = (
-/obj/item/clothing/under/rank/civilian/cookjorts,
+/obj/item/clothing/under/shorts/cookjorts,
 /turf/closed/mineral/random/jungle,
 /area/overmap_encounter/planetoid/cave/explored)
 "bj" = (
@@ -1711,7 +1711,7 @@
 /turf/open/floor/mineral/titanium/white,
 /area/overmap_encounter/planetoid/cave/explored)
 "kk" = (
-/obj/machinery/computer/communications{
+/obj/structure/frame/computer{
 	dir = 4
 	},
 /turf/open/floor/mineral/titanium/blue,
@@ -2879,10 +2879,7 @@
 /obj/structure/railing{
 	layer = 3.9
 	},
-/obj/item/radio{
-	desc = "An old handheld radio. You could use it, if you really wanted to.";
-	icon_state = "radio";
-	name = "old radio";
+/obj/item/radio/old{
 	pixel_x = 4;
 	pixel_y = 5
 	},
@@ -5384,7 +5381,7 @@
 "Ih" = (
 /obj/structure/table/wood,
 /obj/machinery/light/directional/south,
-/obj/item/reagent_containers/food/snacks/breadslice/moldy{
+/obj/item/food/breadslice/moldy{
 	pixel_x = -8
 	},
 /obj/item/reagent_containers/food/snacks/grown/berries/poison{
@@ -7512,7 +7509,7 @@
 	},
 /obj/effect/mob_spawn/human/corpse/nanotrasensoldier,
 /obj/effect/decal/cleanable/vomit/old,
-/obj/item/reagent_containers/food/snacks/breadslice/moldy{
+/obj/item/food/breadslice/moldy{
 	pixel_x = -4;
 	pixel_y = 16
 	},
