@@ -14,7 +14,7 @@
 	output = /obj/item/reagent_containers/food/snacks/meat/rawbacon
 
 /datum/food_processor_process/sweetpotato
-	input = /obj/item/reagent_containers/food/snacks/grown/potato/sweet
+	input = /obj/item/reagent_containers/food/snacks/grown/sweet_potato
 	output = /obj/item/reagent_containers/food/snacks/yakiimo
 
 /datum/food_processor_process/potato
@@ -31,7 +31,7 @@
 
 /datum/food_processor_process/spaghetti
 	input = /obj/item/reagent_containers/food/snacks/doughslice
-	output = /obj/item/food/spaghetti
+	output = /obj/item/food/spaghetti/raw
 
 /datum/food_processor_process/corn
 	input = /obj/item/reagent_containers/food/snacks/grown/corn
@@ -44,11 +44,6 @@
 /datum/food_processor_process/parsnip
 	input = /obj/item/reagent_containers/food/snacks/grown/parsnip
 	output = /obj/item/reagent_containers/food/snacks/roastparsnip
-
-/datum/food_processor_process/mob/slime
-	input = /mob/living/simple_animal/slime
-	output = null
-	required_machine = /obj/machinery/processor/slime
 
 /datum/food_processor_process/towercap
 	input = /obj/item/grown/log

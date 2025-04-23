@@ -12,14 +12,6 @@
 	result = /obj/item/food/spaghetti/pastatomato
 	subcategory = CAT_SPAGHETTI
 
-/datum/crafting_recipe/food/copypasta
-	name = "Copypasta"
-	reqs = list(
-		/obj/item/food/spaghetti/pastatomato = 2
-	)
-	result = /obj/item/food/spaghetti/copypasta
-	subcategory = CAT_SPAGHETTI
-
 /datum/crafting_recipe/food/spaghettimeatball
 	name = "Spaghetti meatball"
 	reqs = list(
@@ -27,15 +19,6 @@
 		/obj/item/reagent_containers/food/snacks/meatball = 2
 	)
 	result = /obj/item/food/spaghetti/meatballspaghetti
-	subcategory = CAT_SPAGHETTI
-
-/datum/crafting_recipe/food/spesslaw
-	name = "Spesslaw"
-	reqs = list(
-		/obj/item/food/spaghetti/boiledspaghetti = 1,
-		/obj/item/reagent_containers/food/snacks/meatball = 4
-	)
-	result = /obj/item/food/spaghetti/spesslaw
 	subcategory = CAT_SPAGHETTI
 
 /datum/crafting_recipe/food/beefnoodle

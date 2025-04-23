@@ -240,10 +240,10 @@
 			</html>"}
 
 /obj/item/book/manual/trickwines_4_brewers
-	name = "Trickwines for brewers"
+	name = "Ashen Brewing"
 	icon_state = "book2"
-	author = "Bridget Saint-Baskett"
-	title = "Trickwines for brewers"
+	author = "Amarasatsu ke Qazawat"
+	title = "Ashen Brewing"
 	dat = {"<html>
 			<head>
 			<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
@@ -256,77 +256,57 @@
 			</style>
 			</head>
 			<body>
-			<h1>Trickwines for brewers</h1>
-			Okay, so you just joined the SRM and you want to make some brews! I'm tired of explaining all of this so I'm jotting it all down for the new hires.<br>
-			Trickwines almost all share the same effect. When you drink them, they provide a beneficial effect and when you toss them at someone it provides some sort of bad effect.
-			<h2> Breakaway flasks</h2>
-			Honestly, I love these things. I'm not a scientist so I cant exactly explain how it works but somehow when you fuse plasma into glass it makes it ultra sharp and makes it really good for cracking over fauna heads.<br>
-			The simplest way I have found of making them is crafting them with a chunk of glass, plasma, and a welder.<br>
+			<h1>On the Topic of Trickwines</h1>
+			The alchemists of Roumain have long held that with sufficient preparation can many a potion be made. Many a daring hunter has returned to their domicile at the aid of an Alchemist. For those who travel, the 'Trickwine' is oft chosen, and so the learners of Roumain pass the secrets on to others. <br>
+			A 'trickwine' is a potent brew, made by taking the powers that rest in the world around us and fermenting them in the blessings of Illestren. When imbibed by a Hunter, strength and power flow through their body, yet when shattered upon the beasts of the World, Illestrens' curses are unleashed upon it.<br>
+			To freely create a trickwine is the mark of a rising alchemist, and to deliver it in the heat of a brawl is the mark of a true Hunter.<br>
+			May this document guide you to both those marks. <br>
 
-			<h2> Bacteria </h2>
-			A speical speices of bacteria native to Illestren is what allows Trickwines form.<br>
-			Now we use a special distiller that keeps just enough bacertia alive to ferment without turning the batch sour.<br>
-			Now you should still have one on board but if you dont its fine.<br>
-			It just so happens we have trees on board our ships host to the Bacteria.<br>
-			To get enough Bacteria your going to need to feed it anything that would help a plant.<br>
-			Water, Fertilizer, Ashwine are all good options.<br>
-			Soon it will drops some apples and you can grind them for the bacteria.<br>
-			Once you have enough you can fabricate it the same way you would a normal barrel.<br>
+			<h2>Brewing Vessels.</h2>
+			While many vessels permeate the minds of alchemists, the Breakaway Flask is the instrument of choice for the rising talent. By taking the essence of plasma and infusing it within the body of glass - a most durable vessel is produced for the Trickwine. The glass remains firm lest it impacts upon a foe.<br>
+			Any who tinker will find the infusion of essence is done most easily with a flame. Something that burns with a flame most potent. Away from the furnaces of Illestren, the burn of a welder suffices to create the vessel.<br>
 
-			<h2> Ratios </h2>
-			A common trend among Trickwines is the ratio of 3:1:1.<br>
-			3 parts being an ethonal, the other 2 parts are often made from flora or fauna.<br>
+			<h2> Trick Ammo </h2>
+			Among certain sects of Hunters, the practice of Trick Ammo has arisen. A union between the artful alchemy of Trickwines and the master craftmanship of the Hunters Pride, the Trick Ammo is created through the infusion of Trickwine into .38 casings. <br>
+			Dip the casings into the brew, and allow the mixture to to fully permeate its being. A potent weapon, these casings carry a fragment of the offensive power harnessed by the Trickwine.
 
-			<h2> Ashwine </h2>
-			It's kind of our trademark, and it's one of the simplest trickwines to make.<br>
-			These are the most common wines used in ceremonies so we often stock ships with the moonflowers needed to make them.<br>
-			It's made with a ratio of 3:1:1 absinthe, mushroom hallucinogen, and ash respectively.<br>
-			Mushroom hallucinogens come from mushroom caps and you can ferment absinthe from moonflowers.<br>
-			Its a mild hallucinogenic but seems to have powerful cleansing effects on the devoted SRM.<br>
-			It can also really fuck someone up, causing their vision to go shaky and blurry which makes it difficult for them to fight.<br>
+			<h2> The Bacteria Of Illestren </h2>
+			The world of Illestren gave birth to a bacterium that has formed the backbone of alchemical experimentation for countless years. It has given birth to countless fermentation methods, including the cycle of brewing a Trickwine.<br>
+			By use of a specialized distillery, the Illestren Bacteria can be maintained in amounts ideal to the fermentation of reagents from Trickwines to Beers. A talented brewer can create their own heritage by blending activating bacterium and reagent into a new concotion. <br>
+			Not all vessels of the Militia bear a distillery, but plants transplanted from Illestren carry the bacterium within the flesh of their fruit. Careful nurture of a fruit-bearing plant will allow it to spread the blessings of Illestren. Treat the plant as you would treat any other ally. Allot it drinks. Trim its branches. Protect it from those who seek to harm it.<br>
+			Once the fruit has ripened and dropped from the host, an alchemist can take it, fermenting the ripe flesh into a potent mixture of ciders and bacterias entangled together.<br>
+			Just as we give to the tree, it shall give to us. It pays a talent to remember this.<br>
 
-			<h2> Icewine </h2>
-			This one helps stopping foes in their tracks. One of my favorite flavor wise.
-			Its made with 3:1:1 saké, polar bear fur, frost oil(grind chilled peppers).<br>
-			You can get polar bear fur and frost oil from grinding up polar bear hides and chilled peppers.<br>
-			It's pretty good at sealing burns and lowering your temperature quickly.<br>
-			However, it completely encases foes in ice and drops their temperature substantially.<br>
+			<h2> Common Mixtures </h2>
+			Those that find easy success within the alchemical arts have written that to make a Trickwine, one must maintain a careful mixture.<br>
+			Three wholes of an ethanol base, with the flavor varied for impact. Entangled with a whole strand of beast, and the blessings of plant. Once cut with the potent catalyst that is the Bacterium, the fermentation is rapid, and a Trickwine is born from the mixture. <br>
 
-			<h2> Shockwine </h2>
-			Easily my favorite for its splashed effect, this thing is great at scorching most fauna.<br>
-			Its made with vodka, calcium, and lemon juice.<br>
-			If you did not know, vodka requires enzymes instead of the normal fermenting process.<br>
-			It's a nice upper. Great if you're trying to run away.<br>
-			This one's really flashy. Expect some severe burns on your target<br>
+			<h2> Wine Of Ash </h2>
+			The Wine Of Ash is the most endearing brew to have come from the Distilleries of the Militia. It carries a variety of uses, from the Ceremonies of Roumain, to the warm afterparty of a successful hunt. The flavor is said to be somewhat rustic, with hints of fruit and a sweet yet ashy tang. <br>
+			Brewing the Wine Of Ash is a simple task, that even Shadows are expected to do at times. By fermenting a flower of the moon into a potent absinthe, a strong base is formed. Seeping a hallucinogenic mushroom within the absinthe, and then introducing an ash into the mixture of drink and plant creates the Wine Of Ash. One must be patient when brewing, as the brew will be strong, but further fermentation will allow it to blossom into a true vintage.<br>
+			Take care whilst brewing to maintain a proper ratio of ingredients. The Wine shall become off-balance if more than one whole of mushroom and one whole of ash is introduced to three wholes of absinthe. One must also take care to protect their eyes, as the Vapors of Ash are a potent irritant.<br>
+			The Wine itself is held to be hallucinogenic, although debate rages within the halls of Roumain on the nature of such. A talented brewer can offset such trivialities by cutting the Wine with water, or introducing another substance once it has been fermented. Many a Hunter holds the drink to purify the soul, and strengthen the mind for days ahead.<br>
 
-			<h2> Hearthwine </h2>
-			I once threw back a flask of this stuff in the heat of a really bad battle and it sealed my wounds within seconds its honestly increadible.<br>
-			It also acts like the inverse of Icewine heating you up more then a fever.<br>
-			Last time I threw it at someone though i almost burnt down the forest I was in.<br>
-			Its made out of ground up fireblossems with some nice hard cider and a bit of welding fuel with of course a ratio of 3:1:1.<br>
+			<h2> Wine Of Ice </h2>
+			The Wine Of Ice is a strong brew formented by the Talent Keo Lanai. Talent Lanai had long found solace from the heat in his visions of the 'Godsforsaken Precipice' that the Ashen Huntsman was said to wander, and sought to share this solace with other Hunters. The flavor is said to be somewhat meaty, with a pleasing current of pepper.
+			Brewing of the Wine Of Ice requires a unique assortment of reagents. By fermenting the fur of a bear within traditionally brewed rice sake, Keo Lanai found a solid base for the introduction of Frozen Pepper Essence. It is said that the original brew produced a cold so potent that frost formed on Lanai's brow.<br>
+			Hunters favor the Wine Of Ice for blessed relief from heat imbibing it provide. Alchemists have theorized that the brew stimulates the production of sweat in the body, allowing the body to cool itself more rapidly. Other Hunters swear by relief seeping into their burns as the brew finds its way into their system. Others find usage in the potent frost that it leaves upon impact, using it to freeze everything from foe to food.<br>
 
-			<h2> Forcewine </h2>
-			Two intresting effects from the consumption of Forcewine.<br>
-			First it seems to give you an "anti magic" effect, I have read about of tales of how it fizzled out some sort of great curse that we could best trace back to a ancient cult.<br>
-			Second is it protects the mind from cohersion and mind control.<br>
-			From my research this seems to act like nanotrasen mindshield implants.<br>
-			Would recomend for any esoteric senarios. We wont see these alot but its always smart to prepare for the worst.<br>
-			You can also use it to entrap Fauna inside of a forcefield like bubble, Gives you time to breath and prepare an attack.<br>
-			3:1:1. Tequila, Space Montain Wind, and I know its one of the most difficult things to come by but hollow water, Its that stuff you can extract from geysers<br>
+			<h2> Lightning's Blessing </h2>
+			Lightning's Blessing is said to be a potent stimulant, brewed by Hunter Trackers to allow them to track mobile prey through unknown environments. The flavor is said to be sharp and unrelenting, much like the Hunters who indulge in it.<br>
+			Lightning's Blessing is brewed with a base of Vodka. By taking vodka and fermenting ground down bones within it, a strong alchemical blend is created. This blend is then inoculated with juiced lemon whilst within a distillery. The resulting blend is an environment ripe for a particular strain of Bacterium to multiply in. This strain of the Bacterium is said to be what gives the flavor to the brew, and its digestion produces a high in most sapients.<br>
+			Hunters are said to use Lightning's Blessing as a weapon, where the bacterium, upon being introduced to open air quickly produces an electrical field, shocking whatever the mixture lands upon.
 
-			<h2> Prismwine </h2>
-			Gives you a nice shiny layer of armour, fire seems to have alot harder time sticking to me when i tested it.<br>
-			Throwing it seeems to do the reverse acting like a magnifying glass to burns and lasers<br>
-			3:1:1. Good ol Gin, then add plasma and tinea luxor which is found from mushroom stems<br>
+			<h2> Hearthflame </h2>
+			Hearthflame is Talent Lanai's other great creation. While travelling through the cold of many a fringe world, Lanai sought the warmth of his home, and took the creation of another mixture as a challenge. By taking the hearty fermented blend of an Illestren Apple, The petals of a Fireblossom, and a hint of phosphorous, Lanai produced a potent heating drink.<br>
+			Hearthflame is said to have a bold flavor profile, not unlike an apple shredded apart by tangy pricks. The bacterium is said to stimulate the body and cause it to start heating herself, or in cases of localized exposure, causes rapid, cauterizing heating.<br>
+			When this particular blend is exposed to the air, it rapidly heats up. Hunters have advised Shadows be careful if issued it, and most Alchemists refuse to make it unless it is required for the hunt at hand.<br>
+			<br>Transcribed by Amarasatsu ke Qazawat<br>
 
-			Some of these can be a bit situatinal but its always nice to have a few in your bag for emergecys.<br>
-			As a bonus, most of the other factions have no clue how to make these so you can sell them for a fair chunk of cash.<br>
-
-			<br>Bridget Saint-Baskett, Senior Brewer<br>
+			<font face="Segoe Script">Amarasatsu ke Qazawat</font><br>
 
 			</body>
 			</html>"}
-
 // Wiki books that are linked to the configured wiki link.
 
 // A book that links to the wiki
@@ -542,3 +522,333 @@
 //	author = "Medical Journal, volume 3"
 //	title = "Cloning techniques of the 26th century"
 //	page_link = "Guide_to_genetics#Cloning"
+
+/obj/item/book/manual/materials_and_you
+	name = "Materials and You"
+	icon_state = "matbook"
+	author = "Skyla Blessig"
+	title = "Materials and You"
+	dat = {"				<head>
+				<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
+				<style>
+					body{
+							margin:40px auto;
+							max-width:800px;
+							padding:0 10px;
+							font:1.2em/1.62 sans-serif;
+							color:#444
+						}
+					b{
+							color:#0f0f0f;
+						}
+						h1,h2,h3 {
+							line-height:2.2;
+							color:#0f0f0f
+						}
+						h3 {
+							line-height:1.2;
+							color:#0f0f0f
+						}
+						@media print{
+							body{
+								max-width:none
+							}
+						}
+
+				</style>
+				</head>
+				<body>
+				<center>
+				<h1>Frontier Ore Compendium:</h1>
+				<h2>A Short Guide On Minerals</h2>
+				</center>
+				<hr>
+				<h2><center>Introduction</center></h2>
+					&emsp;The Frontier is a famously material-rich region of space, and with these riches people are drawn in to exploit them. This is usually symied by the fact that a layman cannot identify most ores off visual alone - and in long haul situations, may neglect more valuable ores for ores they are aware of. With this book, you may be able to avoid making such a mistake.<br>
+					<hr>
+				<center><h2>Ores</h2></center>
+
+					<center><h3><font color="#87423b">Hematite</font></h3></center>
+						<ul>
+							Hematite is a red-brown crystal typically found within rocks or soil. It is ferric in nature. It is lower yield than most other ores due to impurities.
+							<ul>
+								&emsp;<li>500cm^3 average yield. </li>
+								<li>100% iron compositoin. </li>
+							</ul>
+						</ul>
+						<br>
+						&emsp;<b>Typically found on:</b>
+						<ul>
+							<li>Rock Worlds<br></li>
+							<li>Salty Sand Worlds<br></li>
+							<li>Ice Worlds<br></li>
+							<li>Ocean Worlds<br></li>
+							<li>Waste Disposal Worlds<br></li>
+							<li>Lunar Surfaces<br></li>
+						</ul>
+					<br>
+					<hr>
+					<br>
+
+					<center><h3><font color="#73737b">Magnetite</font></h3></center>
+						<ul>
+							Magnetite is a naturally magnetic composition of Iron. Due to its natural magnetism, chunks of it have seen usage as good luck charms, or 'lodestones'. Industrial exploitation of magnetite veins is profitable due to high purity.
+							<ul>
+								<li>1000cm^3 ore yield</li>
+								<li>100% iron composition</li>
+								</ul>
+
+						</ul>
+						<br>
+						&emsp;<b>Typically found on:</b>
+						<ul>
+							<li>Lava Worlds<br></li>
+							<li>Shrouded Worlds<br></li>
+						</ul>
+					<br>
+					<hr>
+					<br>
+
+					<center><h3><font color="#46b89b">Malachite</font></h3></center>
+						<ul>
+							Malachite is a crystalline copper-carbonate typically found near the surface of worlds with an active water cycle. It is typically low grade, and requires either a smelting or leeching process to actually be of use.
+							<ul>
+								<li>Not to be confused with magnetite<br></li>
+								<li>1000cm^3 ore yield</li>
+								<li>100% copper composition</li>
+							</ul>
+						</ul>
+						<br>
+						&emsp;<b>Typically found on:</b>
+						<ul>
+							<li>Ice Worlds<br></li>
+							<li>Jungle Worlds<br></li>
+							<li>Ocean Worlds<br></li>
+						</ul>
+					<br>
+					<hr>
+					<br>
+					<center><h3><font color="#596e67">Galena</font></h3></center>
+						<ul>
+							Galena is a crystalline composition of lead, silver and sulfer found in most places, with a greater frequency near volcanic areas. Lower technology planets regularly exploit the mineral for usage in primative batteries. Higher technology worlds use the silver for electrical and medical equipment.
+							Galena in the frontier is unusually high in silver, which has driven many prospecting missions.
+							<ul>
+								<li>1000cm^3 ore yield</li>
+								<li>95-4-0.2% Lead-Sulfer-Silver Composition</li>
+							</ul>
+						</ul>
+						<br>
+
+						&emsp;<b>Typically found on:</b>
+						<ul>
+							<li>Lava Worlds<br></li>
+							<li>Waste Disposal Worlds<br></li>
+						</ul>
+					<br>
+					<hr>
+					<br>
+					<center><h3><font color="#593441">Proustite</font></h3></center>
+						<ul>
+							Also known as ruby silver ore, Proustite is a mineral rich in silver typically found near areas of hydrothermal activity. The odd processes of Jungle-class worlds in the Frontier have made them a hotbed for Proustite mining due to large naturally occuring deposits forming near riverbeds.
+							<ul>
+							<li>100% Silver Composition</li>
+							<li>1000cm^3 Ore Yield</li>
+							</ul>
+						</ul>
+						<br>
+						&emsp;<b>Typically found on:</b>
+						<ul>
+							<li>Jungle Worlds<br></li>
+						</ul>
+					<br>
+					<hr>
+					<br>
+
+				<center><h3><font color="#d2d46e">Autunite</font></h3></center>
+												<center>☢ Warning: Radioactive ☢</center>
+
+						<ul>
+							Autunite is a mineral created by the oxidation of pure uranium minerals in most forms of rock. Due to being approximately half uranium by mass, it is radioactive. Waste Disposal worlds have recently garnered interest due to the discovery of extremely large autunite deposits resulting from the rampant dumping of fuel sources.
+							<ul>
+								<li>100% Uranium Composition<br></li>
+								<li>500cm^3 Ore Yield<br></li>
+
+							</ul>
+						</ul>
+						<br>
+						&emsp;<b>Typically found on:</b>
+						<ul>
+							<li>Waste Disposal Worlds<br></li>
+							<li>Shrouded Worlds<br></li>
+						</ul>
+					<br>
+
+				<center><h3><font color="#ffe88c">Gold Ore</font></h3></center>
+						<ul>
+							Pure gold ore is an extremely rare phenomenae, with most gold extraction requiring the refinement of dilute ores to acquire the gold. Being a useful electronics component, as well as a symbol of wealth in some societies, the Frontier's pure gold stock is in high demand.
+							<li>100% Gold Composition<br></li>
+							<li>1000cm^3 Ore Yield</li>
+						</ul>
+						<br>
+						&emsp;<b>Typically found on:</b>
+						<ul>
+							<li>Ice Worlds<br></li>
+							<li>Jungle Worlds<br></li>
+							<li>Desert Worlds<br></li>
+						</ul>
+					<br>
+<hr><br>
+				<center><h3><font color="#ede218">Sulfur Dust</font></h3></center>
+				<center> Warning: Flammable</center>
+						<ul>
+							Sulfur dust is the result of the destruction of sulfer crystals. Short of precise, industrial mining equipment, the destruction of the crystals and creation of this extremely flammable powder is all but guarenteed. Some worlds in the Frontier are attempting to exploit sulfer to create a firearms industry, usually to middling success.
+							<li>100% Sulfur Composition<br></li>
+							<li>1000cm^3 ore yield</li>
+							<li><br></li>
+						</ul>
+						<br>
+						&emsp;<b>Typically found on:</b>
+						<ul>
+							<li>Lava Worlds<br></li>
+							<li>Ocean Worlds<br></li>
+							<li>Waste Disposal Worlds<br></li>
+							<li>Shrouded Worlds<br></li>
+						</ul>
+					<br>
+					<hr>
+					<br>
+
+				<center><h3><font color="#ede218">Pyrite</font></h3></center>
+				<center> Warning: Flammable</center>
+						<ul>
+							Pyrite, known by Solarians as "Fool's gold, is a mineral composed of iron, sulfer, and trace amounts of gold. It typically grows into cuboid formations, which to the untrained eye, appear to be gold. The fact that Frontier Pyrite contains actual gold is a curiousity to many geologists, and has been attributed to the geologically rich processes of the worlds it is typically found on.
+							<ul>
+							<li>49-49-2 Sulfur-Iron-Gold Composition<br></li>
+							<li>1000cm^3 Ore Yield</li>
+
+							</ul>
+						</ul>
+						<br>
+						&emsp;<b>Typically found on:</b>
+						<ul>
+							<li>Lava Worlds<br></li>
+						</ul>
+
+<br><hr><br>
+
+				<center><h3><font color="#7a95c4">Diamond Ore</font></h3></center>
+						<ul>
+							Diamond Ore is terminology for any formation containing diamonds. Traditional uses for the crystal include focusing arrays, super-tensile alloy-weaving, and jewelry. The demand is somewhat mitigated by the ability to create lab-grown diamonds being widespread.
+							<ul>
+								<li>100% Diamond Composition<br></li>
+							<li>1000cm^3 Ore Yield</li>
+							</ul>
+
+						</ul>
+						<br>
+						&emsp;<b>Typically found on:</b>
+						<ul>
+							<li>Everywhere, rarely</li>
+							<li> Jungle Worlds<br></li>
+						</ul>
+
+<br><hr><br>
+
+				<center><h3><font color="#ab9a61">Rutile</font></h3></center>
+						<ul>
+							Rutile is a mineral typically formed by gravity over long periods of time, as well as in igneous rocks. These conditions have lead it to prominence in two types of worlds on the frontier, Lava-classes, where it is uncommon, and typically deep underground, and sand-covered worlds, such as a Salted Sand-Class, or within the dust of a Lunar-class world. It is highly reflective and often sees usage as a semiconductor once refined.
+							<ul>
+								<li>90-10 Titanium-Iron Composition<br></li>
+							<li>1000cm^3 Ore Yield<br></li>
+							</ul>
+
+						</ul>
+						<br>
+						&emsp;<b>Typically found on:</b>
+						<ul>
+							<li>Salty Sand Worlds<br></li>
+							<li>Lunar Surfaces<br></li>
+						</ul>
+					<br>
+					<hr>
+					<br>
+
+				<center><h3><font color="#665b5b">Graphite</font></h3></center>
+						<ul>
+							Graphite is unusually rare in the frontier. What is a somewhat common mineral with widespread uses in the Core Worlds is a rarity often substituted with synthetic alternatives. When it is found, it has usually been migrated away from where it might have become a diamond, and to the surface.
+							<ul>
+								<li>100% Carbon Composition<br></li>
+							<li>1000cm^3 Ore Yield<br></li>
+							</ul>
+
+						</ul>
+						<br>
+						&emsp;<b>Can only be found in trace amounts on most planets</b>
+
+<br><hr><br>
+
+				<center><h3><font color="#665b5b">Coal</font></h3></center>
+				<center>Warning: Flammable<br></center>
+							<ul>
+								Coal is a dark black mineral formed by the compression of decayed carbon over millions of years. While most power-systems have evolved past using it, some industrial plants on low-technology worlds use it by burning it to heat water. Most other worlds utilize it as a source of somewhat pure carbon.
+								<ul>
+									<li>100% Carbon Composition<br></li>
+									<li>200^3 Ore Yield<br></li>
+							</ul>
+						</ul>
+						<br>
+						&emsp;<b>Typically found on:</b>
+						<ul>
+							<li>Jungle Worlds<br></li>
+							<li>Desert Surfaces<br></li>
+						</ul>
+					<br>
+					<hr>
+					<br>
+
+				<center><h3><font color="#cfb4d1">Quartzite</font></h3></center>
+						<ul>
+							Quartzite is the result of sandstone experiencing heat and pressure for extended periods of time, with the silicates within the sand becoming somewhat more pure over time. It typically has a dull-gray look, but when refined, is an excellent material for glass, laser equipment, and electronic circuits.
+							<ul>
+							<li>100% Quartz Composition<br></li>
+							<li>1000cm^3 Ore Yield</li>
+							<li>Can be refined into Glass or Silicon<br></li>
+							</ul>
+						</ul>
+						<br>
+						&emsp;<b>Typically found on:</b>
+						<ul>
+							<li>Ice Worlds<br></li>
+							<li>Salty Sand Worlds<br></li>
+							<li>Desert Worlds<br></li>
+							<li>Lunar Surfaces<br></li>
+						</ul>
+					<br>
+					<hr>
+					<br>
+
+				<center><h3><font color="#dd4cc0">Phoron</font></h3></center>
+		<center>Warning: Flammable<br></center>
+		<center>Warning: Plasma-Exposure Risk</center>
+		<br>
+							<ul>
+								Phoron is a super-material native to the Frontier, with minor deposits being found all across the Orion Arm. Phoron is extremely corruptive of carbon-based matter, and oxidizes at a rate that surpasses most everything but fusion reactors. As such, plasma, be it gas from a Plasma Giant, or the crystalline compounds that permeate the surfaces of the frontier, is in high demand.
+								<ul>
+									<li>82-10-5-2.5 Plasma-Quartz-Carbon-Sulfer Composition<br></li>
+								<li>2000cm^3 Ore Yield<br></li>
+								</ul>
+
+							</ul>
+							<br>
+							&emsp;<b>Typically found on:</b>
+							<ul>
+								<li>Everywhere<br></li>
+								<li>Ice Worlds<br></li>
+								<li>Plasma Giants</li>
+							</ul>
+						<br>
+						<hr>
+
+				</body>
+
+				</html>"}

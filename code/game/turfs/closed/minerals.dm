@@ -10,16 +10,15 @@
 	connector_icon = 'icons/turf/connectors/smoothrocks_connector.dmi'
 	connector_icon_state = "smoothrocks_connector"
 	no_connector_typecache = list(/turf/closed/mineral)
-	baseturfs = /turf/open/floor/plating/asteroid/airless
+	baseturfs = /turf/open/floor/plating/asteroid/smoothed/airless
 	initial_gas_mix = AIRLESS_ATMOS
 	opacity = TRUE
 	density = TRUE
 	layer = EDGED_TURF_LAYER
-	initial_temperature = TCMB
 	base_icon_state = "smoothrocks"
 	var/smooth_icon = 'icons/turf/walls/smoothrocks.dmi'
 	var/environment_type = "asteroid"
-	var/turf/open/floor/plating/turf_type = /turf/open/floor/plating/asteroid/airless
+	var/turf/open/floor/plating/turf_type = /turf/open/floor/plating/asteroid/smoothed/airless
 	var/obj/item/stack/ore/mineralType = null
 	var/mineralAmt = 3
 	var/last_act = 0
@@ -30,7 +29,19 @@
 	var/x_offset = -4
 	var/y_offset = -4
 
+	attack_hitsound = 'sound/effects/break_stone.ogg'
+	break_sound = 'sound/effects/break_stone.ogg'
 	hitsound_type = PROJECTILE_HITSOUND_STONE
+
+	min_dam = 5
+	max_integrity = MINERAL_WALL_INTEGRITY
+	brute_mod = 1
+	burn_mod = 1
+
+	mob_smash_flags = ENVIRONMENT_SMASH_MINERALS
+	proj_bonus_damage_flags = PROJECTILE_BONUS_DAMAGE_MINERALS
+
+	overlay_layer = ON_EDGED_TURF_LAYER
 
 /turf/closed/mineral/Initialize(mapload, inherited_virtual_z)
 	. = ..()
@@ -40,6 +51,26 @@
 		transform = M
 		icon = smooth_icon
 
+	var/area/overmap_encounter/selected_area = get_area(src)
+	if(!istype(selected_area))
+		return
+
+	RegisterSignal(src, COMSIG_OVERMAPTURF_UPDATE_LIGHT, PROC_REF(get_light))
+	if(istype(selected_area))
+		light_range = selected_area.light_range
+		light_range = selected_area.light_range
+		light_power = selected_area.light_power
+		update_light()
+
+/turf/closed/mineral/Destroy()
+	. = ..()
+	UnregisterSignal(src, COMSIG_OVERMAPTURF_UPDATE_LIGHT)
+
+/turf/closed/mineral/proc/get_light(obj/item/source, target_light, target_power, target_color,)
+	light_range = target_light
+	light_power = target_power
+	light_color = target_color
+	update_light()
 
 /turf/closed/mineral/proc/Spread_Vein()
 	var/spreadChance = initial(mineralType.spreadChance)
@@ -66,33 +97,43 @@
 		return TRUE
 	return ..()
 
-
-/turf/closed/mineral/attackby(obj/item/I, mob/user, params)
-	if (!user.IsAdvancedToolUser())
-		to_chat(usr, "<span class='warning'>You don't have the dexterity to do this!</span>")
-		return
-
+/turf/closed/mineral/try_decon(obj/item/I, mob/user, turf/T)
+	var/act_duration = breakdown_duration
 	if(I.tool_behaviour == TOOL_MINING)
-		var/turf/T = user.loc
-		if (!isturf(T))
-			return
+		if(!I.tool_start_check(user, src, amount=0))
+			return FALSE
 
-		if(last_act + (40 * I.toolspeed) > world.time)//prevents message spam
-			return
-		last_act = world.time
-		balloon_alert(user, "digging...")
-
-		if(I.use_tool(src, user, 40, volume=50))
+		to_chat(user, span_notice("You begin breaking through the rock..."))
+		while(I.use_tool(src, user, act_duration, volume=50))
 			if(ismineralturf(src))
-				gets_drilled(user, TRUE)
+				to_chat(user, span_notice("You break through some of the stone..."))
 				SSblackbox.record_feedback("tally", "pick_used_mining", 1, I.type)
-	else
-		return attack_hand(user)
+				if(!alter_integrity(-(I.wall_decon_damage),user,FALSE,TRUE))
+					return TRUE
+			else
+				break
 
-/turf/closed/mineral/proc/gets_drilled(user, give_exp = FALSE)
+	return FALSE
+
+/turf/closed/mineral/dismantle_wall(devastate = FALSE,mob/user)
+	var/slagged = 0
+	if(devastate == TRUE)
+		slagged = 100
+	if(ismineralturf(src))
+		gets_drilled(user, TRUE, slagged)
+	else
+		return FALSE
+
+/turf/closed/mineral/proc/gets_drilled(user, give_exp = FALSE, slag_chance = 0)
 	if (mineralType && (mineralAmt > 0))
-		new mineralType(src, mineralAmt)
-		SSblackbox.record_feedback("tally", "ore_mined", mineralAmt, mineralType)
+		//oops, you ruined the ore
+		if(prob(slag_chance))
+			new /obj/item/stack/ore/slag(src,mineralAmt)
+			visible_message(span_warning("The ore was completely ruined!"))
+		else
+			new mineralType(src, mineralAmt)
+			if(ishuman(user))
+				SSblackbox.record_feedback("tally", "ore_mined", mineralAmt, mineralType)
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
 		if(give_exp)
@@ -106,20 +147,25 @@
 	var/flags = NONE
 	if(defer_change) // TODO: make the defer change var a var for any changeturf flag
 		flags = CHANGETURF_DEFER_CHANGE
+	playsound(src, break_sound, 50, TRUE) //beautiful destruction
 	ScrapeAway(null, flags)
 	addtimer(CALLBACK(src, PROC_REF(AfterChange)), 1, TIMER_UNIQUE)
-	playsound(src, 'sound/effects/break_stone.ogg', 50, TRUE) //beautiful destruction
+
 
 /turf/closed/mineral/attack_animal(mob/living/simple_animal/user)
-	if((user.environment_smash & ENVIRONMENT_SMASH_WALLS) || (user.environment_smash & ENVIRONMENT_SMASH_RWALLS) || (user.environment_smash & ENVIRONMENT_SMASH_MINERALS))
-		gets_drilled(user)
-	..()
+	if((!(user.environment_smash & ENVIRONMENT_SMASH_WALLS) || (user.environment_smash & ENVIRONMENT_SMASH_RWALLS) || (user.environment_smash & ENVIRONMENT_SMASH_MINERALS)))
+		return ..()
+
+	//This scrapes us away and turns us into a floor, so don't call parent.
+	user.changeNext_move(CLICK_CD_MELEE)
+	user.do_attack_animation(src)
+	gets_drilled(user)
 
 /turf/closed/mineral/attack_alien(mob/living/carbon/alien/M)
 	balloon_alert(M, "digging...")
 	playsound(src, 'sound/effects/break_stone.ogg', 50, TRUE)
 	if(do_after(M, 40, target = src))
-		to_chat(M, "<span class='notice'>You tunnel into the rock.</span>")
+		to_chat(M, span_notice("You tunnel into the rock."))
 		gets_drilled(M)
 
 /turf/closed/mineral/Bumped(atom/movable/AM)
@@ -128,7 +174,10 @@
 		var/mob/living/carbon/human/H = AM
 		var/obj/item/I = H.is_holding_tool_quality(TOOL_MINING)
 		if(I)
-			attackby(I, H)
+			if(last_act + (40 * I.toolspeed) > world.time)//prevents message spam
+				return
+			last_act = world.time
+			try_decon(I, H)
 		return
 	else if(iscyborg(AM))
 		var/mob/living/silicon/robot/R = AM
@@ -142,7 +191,6 @@
 	ScrapeAway()
 
 /turf/closed/mineral/ex_act(severity, target)
-	..()
 	switch(severity)
 		if(3)
 			if (prob(75))
@@ -152,14 +200,15 @@
 				gets_drilled(null, FALSE)
 		if(1)
 			gets_drilled(null, FALSE)
-	return
+	return ..()
 
 /turf/closed/mineral/random
-	var/list/mineralSpawnChanceList = list(/obj/item/stack/ore/uranium = 3, /obj/item/stack/ore/diamond = 1, /obj/item/stack/ore/gold = 4,
-		/obj/item/stack/ore/silver = 4, /obj/item/stack/ore/plasma = 40, /obj/item/stack/ore/iron = 65, /obj/item/stack/ore/titanium = 5,
-		/turf/closed/mineral/gibtonite = 4, /obj/item/stack/ore/bluespace_crystal = 1)
+	var/list/mineralSpawnChanceList = list(/obj/item/stack/ore/autunite = 3, /obj/item/stack/ore/gold = 4,
+		/obj/item/stack/ore/galena = 4, /obj/item/stack/ore/plasma = 40, /obj/item/stack/ore/hematite = 65, /obj/item/stack/ore/rutile = 5,
+		/turf/closed/mineral/gibtonite = 4, /obj/item/stack/ore/bluespace_crystal = 1, /obj/item/stack/ore/malachite = 50,
+		/obj/item/stack/ore/sulfur = 5)
 		//Currently, Adamantine won't spawn as it has no uses. -Durandan
-	var/mineralChance = 5
+	var/mineralChance = 10
 
 /turf/closed/mineral/ship
 	baseturfs = /turf/open/floor/plating/asteroid/ship
@@ -172,7 +221,7 @@
 
 	. = ..()
 	if (prob(mineralChance))
-		var/path = pickweight(mineralSpawnChanceList)
+		var/path = pick_weight(mineralSpawnChanceList)
 		if(ispath(path, /turf))
 			var/turf/T = ChangeTurf(path,null,CHANGETURF_IGNORE_AIR)
 
@@ -195,8 +244,8 @@
 /turf/closed/mineral/random/high_chance
 	mineralChance = 13
 	mineralSpawnChanceList = list(
-		/obj/item/stack/ore/uranium = 35, /obj/item/stack/ore/diamond = 30, /obj/item/stack/ore/gold = 45, /obj/item/stack/ore/titanium = 45,
-		/obj/item/stack/ore/silver = 50, /obj/item/stack/ore/plasma = 50, /obj/item/stack/ore/bluespace_crystal = 20)
+		/obj/item/stack/ore/autunite = 35, /obj/item/stack/ore/diamond = 30, /obj/item/stack/ore/gold = 45, /obj/item/stack/ore/rutile = 45,
+		/obj/item/stack/ore/galena = 50, /obj/item/stack/ore/plasma = 50, /obj/item/stack/ore/bluespace_crystal = 20)
 
 /turf/closed/mineral/random/high_chance/volcanic
 	environment_type = "basalt"
@@ -205,14 +254,14 @@
 	initial_gas_mix = LAVALAND_DEFAULT_ATMOS
 	defer_change = 1
 	mineralSpawnChanceList = list(
-		/obj/item/stack/ore/uranium = 35, /obj/item/stack/ore/diamond = 30, /obj/item/stack/ore/gold = 45, /obj/item/stack/ore/titanium = 45,
-		/obj/item/stack/ore/silver = 50, /obj/item/stack/ore/plasma = 50, /obj/item/stack/ore/bluespace_crystal)
+		/obj/item/stack/ore/autunite = 35, /obj/item/stack/ore/diamond = 30, /obj/item/stack/ore/gold = 45, /obj/item/stack/ore/rutile = 45,
+		/obj/item/stack/ore/galena = 50, /obj/item/stack/ore/plasma = 50, /obj/item/stack/ore/bluespace_crystal)
 
 /turf/closed/mineral/random/low_chance
 	mineralChance = 3
 	mineralSpawnChanceList = list(
-		/obj/item/stack/ore/uranium = 2, /obj/item/stack/ore/diamond = 1, /obj/item/stack/ore/gold = 4, /obj/item/stack/ore/titanium = 4,
-		/obj/item/stack/ore/silver = 6, /obj/item/stack/ore/plasma = 15, /obj/item/stack/ore/iron = 40,
+		/obj/item/stack/ore/autunite = 2, /obj/item/stack/ore/diamond = 1, /obj/item/stack/ore/gold = 4, /obj/item/stack/ore/rutile = 4,
+		/obj/item/stack/ore/galena = 6, /obj/item/stack/ore/plasma = 15, /obj/item/stack/ore/hematite = 40,
 		/turf/closed/mineral/gibtonite = 2, /obj/item/stack/ore/bluespace_crystal = 1)
 
 
@@ -226,11 +275,12 @@
 	initial_gas_mix = LAVALAND_DEFAULT_ATMOS
 	defer_change = 1
 
-	mineralChance = 5
+	mineralChance = 10
 	mineralSpawnChanceList = list(
-		/obj/item/stack/ore/uranium = 5, /obj/item/stack/ore/diamond = 1, /obj/item/stack/ore/gold = 10, /obj/item/stack/ore/titanium = 11,
-		/obj/item/stack/ore/silver = 12, /obj/item/stack/ore/plasma = 20, /obj/item/stack/ore/iron = 40,
-		/turf/closed/mineral/gibtonite/volcanic = 4, /obj/item/stack/ore/bluespace_crystal = 1)
+		/obj/item/stack/ore/autunite = 5, /obj/item/stack/ore/diamond = 1, /obj/item/stack/ore/sulfur/pyrite = 20, /obj/item/stack/ore/proustite = 11, /obj/item/stack/ore/quartzite = 10,
+		/obj/item/stack/ore/galena = 30, /obj/item/stack/ore/plasma = 20, /obj/item/stack/ore/magnetite = 20, /obj/item/stack/ore/sulfur = 40,
+		/turf/closed/mineral/gibtonite/volcanic = 4, /obj/item/stack/ore/bluespace_crystal = 1, /obj/item/stack/ore/gold = 2, /obj/item/stack/ore/graphite= 10,
+		/obj/item/stack/ore/malachite = 20)
 
 /turf/closed/mineral/random/snow
 	name = "schist"
@@ -246,12 +296,11 @@
 	baseturfs = /turf/open/floor/plating/asteroid/icerock
 	initial_gas_mix = ICEMOON_DEFAULT_ATMOS
 	defer_change = TRUE
-	mineralChance = 10 //as most caves is snowy, might as well bump up the chance
-
+	mineralChance = 20 //as most caves is snowy, might as well bump up the chance
 	mineralSpawnChanceList = list(
-		/obj/item/stack/ore/uranium = 5, /obj/item/stack/ore/diamond = 1, /obj/item/stack/ore/gold = 10, /obj/item/stack/ore/titanium = 11,
-		/obj/item/stack/ore/silver = 12, /obj/item/stack/ore/plasma = 20, /obj/item/stack/ore/iron = 40,
-		/turf/closed/mineral/gibtonite/ice/icemoon = 4, /obj/item/stack/ore/bluespace_crystal = 1)
+		/obj/item/stack/ore/autunite = 10, /obj/item/stack/ore/diamond = 2, /obj/item/stack/ore/gold = 20, /obj/item/stack/ore/rutile = 15, /obj/item/stack/ore/quartzite = 30,
+		/obj/item/stack/ore/galena = 5, /obj/item/stack/ore/plasma = 10, /obj/item/stack/ore/hematite = 20, /obj/item/stack/ore/malachite = 40,
+		/turf/closed/mineral/gibtonite/ice/icemoon = 4, /obj/item/stack/ore/bluespace_crystal = 1, /obj/item/stack/ore/graphite= 5, /obj/item/stack/ore/proustite = 10)
 
 /turf/closed/mineral/ice
 	name = "icy wall"
@@ -275,19 +324,19 @@
 	// abundant ore
 	mineralChance = 10
 	mineralSpawnChanceList = list(
-		/obj/item/stack/ore/uranium = 10, /obj/item/stack/ore/diamond = 4, /obj/item/stack/ore/gold = 20, /obj/item/stack/ore/titanium = 22,
-		/obj/item/stack/ore/silver = 24, /obj/item/stack/ore/plasma = 20, /obj/item/stack/ore/iron = 20,
+		/obj/item/stack/ore/autunite = 10, /obj/item/stack/ore/diamond = 4, /obj/item/stack/ore/gold = 20, /obj/item/stack/ore/rutile = 22,
+		/obj/item/stack/ore/galena = 24, /obj/item/stack/ore/plasma = 20, /obj/item/stack/ore/hematite = 20,
 		/turf/closed/mineral/gibtonite/ice/icemoon = 8, /obj/item/stack/ore/bluespace_crystal = 2)
 
 /turf/closed/mineral/random/snow/high_chance
 	mineralSpawnChanceList = list(
-		/obj/item/stack/ore/uranium = 35, /obj/item/stack/ore/diamond  = 30, /obj/item/stack/ore/gold = 45, /obj/item/stack/ore/titanium = 45,
-		/obj/item/stack/ore/silver = 50, /obj/item/stack/ore/plasma = 50, /obj/item/stack/ore/bluespace_crystal = 20)
+		/obj/item/stack/ore/autunite = 35, /obj/item/stack/ore/diamond  = 30, /obj/item/stack/ore/gold = 45, /obj/item/stack/ore/rutile = 45,
+		/obj/item/stack/ore/galena = 50, /obj/item/stack/ore/plasma = 50, /obj/item/stack/ore/bluespace_crystal = 20)
 
 /turf/closed/mineral/random/labormineral
 	mineralSpawnChanceList = list(
-		/obj/item/stack/ore/uranium = 3, /obj/item/stack/ore/diamond = 1, /obj/item/stack/ore/gold = 8, /obj/item/stack/ore/titanium = 8,
-		/obj/item/stack/ore/silver = 20, /obj/item/stack/ore/plasma = 30, /obj/item/stack/ore/iron = 95,
+		/obj/item/stack/ore/autunite = 3, /obj/item/stack/ore/diamond = 1, /obj/item/stack/ore/gold = 8, /obj/item/stack/ore/rutile = 8,
+		/obj/item/stack/ore/galena = 20, /obj/item/stack/ore/plasma = 30, /obj/item/stack/ore/hematite = 95,
 		/turf/closed/mineral/gibtonite = 2)
 
 
@@ -298,9 +347,9 @@
 	initial_gas_mix = LAVALAND_DEFAULT_ATMOS
 	defer_change = 1
 	mineralSpawnChanceList = list(
-		/obj/item/stack/ore/uranium = 3, /obj/item/stack/ore/diamond = 1, /obj/item/stack/ore/gold = 8, /obj/item/stack/ore/titanium = 8,
-		/obj/item/stack/ore/silver = 20, /obj/item/stack/ore/plasma = 30, /obj/item/stack/ore/bluespace_crystal = 1, /turf/closed/mineral/gibtonite/volcanic = 2,
-		/obj/item/stack/ore/iron = 95)
+		/obj/item/stack/ore/autunite = 3, /obj/item/stack/ore/diamond = 1, /obj/item/stack/ore/gold = 8, /obj/item/stack/ore/rutile = 8,
+		/obj/item/stack/ore/galena = 20, /obj/item/stack/ore/plasma = 30, /obj/item/stack/ore/bluespace_crystal = 1, /turf/closed/mineral/gibtonite/volcanic = 2,
+		/obj/item/stack/ore/hematite = 95)
 
 // Subtypes for mappers placing ores manually.
 /turf/closed/mineral/random/labormineral/ice
@@ -318,12 +367,12 @@
 	initial_gas_mix = ICEMOON_DEFAULT_ATMOS
 	defer_change = TRUE
 	mineralSpawnChanceList = list(
-		/obj/item/stack/ore/uranium = 3, /obj/item/stack/ore/diamond = 1, /obj/item/stack/ore/gold = 8, /obj/item/stack/ore/titanium = 8,
-		/obj/item/stack/ore/silver = 20, /obj/item/stack/ore/plasma = 30, /obj/item/stack/ore/bluespace_crystal = 1, /turf/closed/mineral/gibtonite/volcanic = 2,
-		/obj/item/stack/ore/iron = 95)
+		/obj/item/stack/ore/autunite = 3, /obj/item/stack/ore/diamond = 1, /obj/item/stack/ore/gold = 8, /obj/item/stack/ore/rutile = 8,
+		/obj/item/stack/ore/galena = 20, /obj/item/stack/ore/plasma = 30, /obj/item/stack/ore/bluespace_crystal = 1, /turf/closed/mineral/gibtonite/volcanic = 2,
+		/obj/item/stack/ore/hematite = 95)
 
 /turf/closed/mineral/iron
-	mineralType = /obj/item/stack/ore/iron
+	mineralType = /obj/item/stack/ore/hematite
 	scan_state = "rock_Iron"
 
 /turf/closed/mineral/iron/ice
@@ -342,7 +391,7 @@
 	defer_change = TRUE
 
 /turf/closed/mineral/uranium
-	mineralType = /obj/item/stack/ore/uranium
+	mineralType = /obj/item/stack/ore/autunite
 	scan_state = "rock_Uranium"
 
 /turf/closed/mineral/diamond
@@ -361,7 +410,7 @@
 	defer_change = TRUE
 
 /turf/closed/mineral/silver
-	mineralType = /obj/item/stack/ore/silver
+	mineralType = /obj/item/stack/ore/galena
 	scan_state = "rock_Silver"
 
 /turf/closed/mineral/silver/ice/icemoon
@@ -370,7 +419,7 @@
 	initial_gas_mix = ICEMOON_DEFAULT_ATMOS
 
 /turf/closed/mineral/titanium
-	mineralType = /obj/item/stack/ore/titanium
+	mineralType = /obj/item/stack/ore/rutile
 	scan_state = "rock_Titanium"
 
 /turf/closed/mineral/plasma
@@ -477,8 +526,8 @@
 	connector_icon_state = "red_wall_connector"
 	no_connector_typecache = list(/turf/closed/mineral/asteroid)
 	base_icon_state = "red_wall"
-
 //GIBTONITE
+
 
 /turf/closed/mineral/gibtonite
 	mineralAmt = 1
@@ -495,7 +544,7 @@
 
 /turf/closed/mineral/gibtonite/attackby(obj/item/I, mob/user, params)
 	if(istype(I, /obj/item/mining_scanner) || istype(I, /obj/item/t_scanner/adv_mining_scanner) && stage == 1)
-		user.visible_message("<span class='notice'>[user] holds [I] to [src]...</span>", "<span class='notice'>You use [I] to locate where to cut off the chain reaction and attempt to stop it...</span>")
+		user.visible_message(span_notice("[user] holds [I] to [src]..."), span_notice("You use [I] to locate where to cut off the chain reaction and attempt to stop it..."))
 		defuse()
 	..()
 
@@ -506,7 +555,7 @@
 		name = "gibtonite deposit"
 		desc = "An active gibtonite reserve. Run!"
 		stage = GIBTONITE_ACTIVE
-		visible_message("<span class='danger'>There's gibtonite inside! It's going to explode!</span>")
+		visible_message(span_danger("There's gibtonite inside! It's going to explode!"))
 
 		var/notify_admins = 0
 		if(z != 5)
@@ -540,7 +589,7 @@
 		stage = GIBTONITE_STABLE
 		if(det_time < 0)
 			det_time = 0
-		visible_message("<span class='notice'>The chain reaction stopped! The gibtonite had [det_time] reactions left till the explosion!</span>")
+		visible_message(span_notice("The chain reaction stopped! The gibtonite had [det_time] reactions left till the explosion!"))
 
 /turf/closed/mineral/gibtonite/gets_drilled(mob/user, triggered_by_explosion = 0)
 	if(stage == GIBTONITE_UNSTRUCK && mineralAmt >= 1) //Gibtonite deposit is activated
@@ -607,13 +656,13 @@
 
 /turf/closed/mineral/strong/attackby(obj/item/I, mob/user, params)
 	if(!ishuman(user))
-		to_chat(usr, "<span class='warning'>Only a more advanced species could break a rock such as this one!</span>")
+		to_chat(usr, span_warning("Only a more advanced species could break a rock such as this one!"))
 		return FALSE
 	var/mob/living/carbon/human/H = user
 	if(H.mind.get_skill_level(/datum/skill/mining) >= SKILL_LEVEL_MASTER)
 		. = ..()
 	else
-		to_chat(usr, "<span class='warning'>The rock seems to be too strong to destroy. Maybe I can break it once I become a master miner.</span>")
+		to_chat(usr, span_warning("The rock seems to be too strong to destroy. Maybe I can break it once I become a master miner."))
 
 
 /turf/closed/mineral/strong/gets_drilled(mob/user)
@@ -648,7 +697,7 @@
 	environment_type = WHITESANDS_WALL_ENV
 	turf_type = /turf/open/floor/plating/asteroid/whitesands
 	baseturfs = /turf/open/floor/plating/asteroid/whitesands/dried
-	initial_gas_mix = WHITESANDS_ATMOS
+	initial_gas_mix = SANDPLANET_DEFAULT_ATMOS
 	defer_change = TRUE
 	has_borders = TRUE
 
@@ -658,7 +707,7 @@
 	environment_type = WHITESANDS_WALL_ENV
 	turf_type = /turf/open/floor/plating/asteroid/whitesands
 	baseturfs = /turf/open/floor/plating/asteroid/whitesands/dried
-	initial_gas_mix = WHITESANDS_ATMOS
+	initial_gas_mix = SANDPLANET_DEFAULT_ATMOS
 	defer_change = TRUE
 	has_borders = TRUE
 
@@ -668,7 +717,7 @@
 	environment_type = WHITESANDS_WALL_ENV
 	turf_type = /turf/open/floor/plating/asteroid/whitesands
 	baseturfs = /turf/open/floor/plating/asteroid/whitesands/dried
-	initial_gas_mix = WHITESANDS_ATMOS
+	initial_gas_mix = SANDPLANET_DEFAULT_ATMOS
 	defer_change = TRUE
 	has_borders = TRUE
 
@@ -678,7 +727,7 @@
 	environment_type = WHITESANDS_WALL_ENV
 	turf_type = /turf/open/floor/plating/asteroid/whitesands
 	baseturfs = /turf/open/floor/plating/asteroid/whitesands/dried
-	initial_gas_mix = WHITESANDS_ATMOS
+	initial_gas_mix = SANDPLANET_DEFAULT_ATMOS
 	defer_change = TRUE
 	has_borders = TRUE
 
@@ -688,7 +737,7 @@
 	environment_type = WHITESANDS_WALL_ENV
 	turf_type = /turf/open/floor/plating/asteroid/whitesands
 	baseturfs = /turf/open/floor/plating/asteroid/whitesands/dried
-	initial_gas_mix = WHITESANDS_ATMOS
+	initial_gas_mix = SANDPLANET_DEFAULT_ATMOS
 	defer_change = TRUE
 	has_borders = TRUE
 
@@ -698,7 +747,7 @@
 	environment_type = WHITESANDS_WALL_ENV
 	turf_type = /turf/open/floor/plating/asteroid/whitesands
 	baseturfs = /turf/open/floor/plating/asteroid/whitesands/dried
-	initial_gas_mix = WHITESANDS_ATMOS
+	initial_gas_mix = SANDPLANET_DEFAULT_ATMOS
 	defer_change = TRUE
 	has_borders = TRUE
 
@@ -711,12 +760,19 @@
 	environment_type = WHITESANDS_WALL_ENV
 	turf_type = /turf/open/floor/plating/asteroid/whitesands
 	baseturfs = /turf/open/floor/plating/asteroid/whitesands/dried
-	mineralSpawnChanceList = list(/obj/item/stack/ore/uranium = 5, /obj/item/stack/ore/diamond = 3, /obj/item/stack/ore/gold = 10,
-		/obj/item/stack/ore/silver = 10, /obj/item/stack/ore/plasma = 15, /obj/item/stack/ore/iron = 45, /obj/item/stack/ore/titanium = 11,
+	mineralSpawnChanceList = list(/obj/item/stack/ore/autunite = 5, /obj/item/stack/ore/diamond = 3, /obj/item/stack/ore/sulfur/pyrite = 10, /obj/item/stack/ore/quartzite = 50,
+		/obj/item/stack/ore/galena = 10, /obj/item/stack/ore/plasma = 10, /obj/item/stack/ore/hematite = 45, /obj/item/stack/ore/rutile = 20,
 		/turf/closed/mineral/gibtonite/whitesands = 4, /turf/open/floor/plating/asteroid/whitesands = 2, /obj/item/stack/ore/bluespace_crystal = 4)
-	initial_gas_mix = WHITESANDS_ATMOS
+	initial_gas_mix = SANDPLANET_DEFAULT_ATMOS
 	defer_change = TRUE
 	has_borders = TRUE
+
+/turf/closed/mineral/random/whitesands/lit
+	light_range = 2
+	light_power = 0.6
+	light_color = COLOR_VERY_LIGHT_GRAY
+	turf_type = /turf/open/floor/plating/asteroid/whitesands/lit
+	baseturfs = /turf/open/floor/plating/asteroid/whitesands/dried/lit
 
 /turf/closed/mineral/random/high_chance
 	icon = 'icons/turf/walls/ws_walls.dmi'
@@ -725,7 +781,7 @@
 	environment_type = WHITESANDS_WALL_ENV
 	turf_type = /turf/open/floor/plating/asteroid/whitesands
 	baseturfs = /turf/open/floor/plating/asteroid/whitesands/dried
-	initial_gas_mix = WHITESANDS_ATMOS
+	initial_gas_mix = SANDPLANET_DEFAULT_ATMOS
 	defer_change = TRUE
 	has_borders = TRUE
 
@@ -735,7 +791,7 @@
 	environment_type = WHITESANDS_WALL_ENV
 	turf_type = /turf/open/floor/plating/asteroid/whitesands
 	baseturfs = /turf/open/floor/plating/asteroid/whitesands/dried
-	initial_gas_mix = WHITESANDS_ATMOS
+	initial_gas_mix = SANDPLANET_DEFAULT_ATMOS
 	defer_change = TRUE
 	has_borders = TRUE
 
@@ -745,7 +801,7 @@
 	environment_type = WHITESANDS_WALL_ENV
 	turf_type = /turf/open/floor/plating/asteroid/whitesands
 	baseturfs = /turf/open/floor/plating/asteroid/whitesands/dried
-	initial_gas_mix = WHITESANDS_ATMOS
+	initial_gas_mix = SANDPLANET_DEFAULT_ATMOS
 	defer_change = TRUE
 	has_borders = TRUE
 
@@ -760,9 +816,12 @@
 	canSmoothWith = list(SMOOTH_GROUP_MINERAL_WALLS)
 	turf_type = /turf/open/floor/plating/dirt/jungle
 	baseturfs = /turf/open/floor/plating/dirt/jungle
-	mineralSpawnChanceList = list(/obj/item/stack/ore/uranium = 8, /obj/item/stack/ore/diamond = 8, /obj/item/stack/ore/gold = 10,
-		/obj/item/stack/ore/silver = 4, /obj/item/stack/ore/plasma = 25, /obj/item/stack/ore/iron = 25, /obj/item/stack/ore/titanium = 10,
-		/obj/item/stack/ore/bluespace_crystal = 5)
+
+	mineralChance = 16
+
+	mineralSpawnChanceList = list(/obj/item/stack/ore/autunite = 2, /obj/item/stack/ore/diamond = 10, /obj/item/stack/ore/gold = 30, /obj/item/stack/ore/quartzite = 10,
+		/obj/item/stack/ore/galena = 4, /obj/item/stack/ore/proustite = 20, /obj/item/stack/ore/hematite = 20, /obj/item/stack/ore/rutile = 4,
+		/obj/item/stack/ore/graphite/coal = 60, /obj/item/stack/ore/sulfur = 40, /obj/item/stack/ore/malachite = 50)
 
 /turf/closed/mineral/random/beach
 	name = "coastal marl"
@@ -780,8 +839,10 @@
 	initial_gas_mix = ROCKPLANET_DEFAULT_ATMOS
 	baseturfs = /turf/open/floor/plating/asteroid/rockplanet
 	turf_type = /turf/open/floor/plating/asteroid/rockplanet
-	mineralSpawnChanceList = list(/obj/item/stack/ore/uranium = 15, /obj/item/stack/ore/diamond = 1, /obj/item/stack/ore/gold = 15,
-		/obj/item/stack/ore/silver = 12, /obj/item/stack/ore/plasma = 5, /obj/item/stack/ore/iron = 65, /obj/item/stack/ore/titanium = 18)
+	mineralSpawnChanceList = list(
+		/obj/item/stack/ore/autunite = 5, /obj/item/stack/ore/diamond = 1, /obj/item/stack/ore/gold = 4,
+		/obj/item/stack/ore/galena = 10, /obj/item/stack/ore/sulfur = 25, /obj/item/stack/ore/hematite = 80, /obj/item/stack/ore/malachite = 20,
+		/obj/item/stack/ore/bluespace_crystal = 1, /obj/item/stack/ore/graphite = 10)
 
 /turf/closed/mineral/gibtonite/rockplanet
 	name = "hematite"
@@ -800,9 +861,56 @@
 	base_icon_state = "wasteplanet"
 	initial_gas_mix = OPENTURF_DEFAULT_ATMOS
 	baseturfs = /turf/open/floor/plating/asteroid/wasteplanet
-	mineralSpawnChanceList = list(/obj/item/stack/ore/uranium = 30, /obj/item/stack/ore/diamond = 0.5, /obj/item/stack/ore/gold = 5,
-		/obj/item/stack/ore/silver = 7, /obj/item/stack/ore/plasma = 35, /obj/item/stack/ore/iron = 35, /obj/item/stack/ore/titanium = 10)
+	mineralSpawnChanceList = list(
+		/obj/item/stack/ore/autunite = 30, /obj/item/stack/ore/diamond = 0.5, /obj/item/stack/ore/gold = 4, /obj/item/stack/ore/proustite = 5,
+		/obj/item/stack/ore/galena = 30, /obj/item/stack/ore/sulfur = 45, /obj/item/stack/ore/hematite = 40, /obj/item/stack/ore/malachite = 20, /obj/item/stack/ore/plasma = 35,
+		/obj/item/stack/ore/graphite = 10)
+
+	mineralChance = 20
+
+/turf/closed/mineral/random/desert
+	name = "canyon wall"
+	icon = 'icons/turf/walls/desert.dmi'
+	smooth_icon = 'icons/turf/walls/desert.dmi'
+	icon_state = "desert-0"
+	base_icon_state = "desert"
+	initial_gas_mix = DESERT_DEFAULT_ATMOS
+	smoothing_flags = SMOOTH_BITMASK | SMOOTH_BORDER
+	canSmoothWith = list(SMOOTH_GROUP_CLOSED_TURFS)
+	turf_type = /turf/open/floor/plating/asteroid/dry_seafloor
+	baseturfs = /turf/open/floor/plating/asteroid/dry_seafloor
+	mineralSpawnChanceList = list(/obj/item/stack/ore/autunite = 10, /obj/item/stack/ore/diamond = 5, /obj/item/stack/ore/gold = 20, /obj/item/stack/ore/quartzite = 40,
+		/obj/item/stack/ore/galena = 7, /obj/item/stack/ore/plasma = 5, /obj/item/stack/ore/hematite = 20, /obj/item/stack/ore/rutile = 4,
+		/obj/item/stack/ore/graphite/coal = 60, /obj/item/stack/ore/sulfur = 40, /obj/item/stack/ore/malachite = 5)
+
+/turf/closed/mineral/random/shrouded
+	name = "shrouded wall"
+	icon = 'icons/turf/walls/shroudedwall.dmi'
+	smooth_icon = 'icons/turf/walls/shroudedwall.dmi'
+	icon_state = "shrouded-0"
+	base_icon_state = "shrouded"
+	initial_gas_mix = SHROUDED_DEFAULT_ATMOS
+	smoothing_flags = SMOOTH_BITMASK | SMOOTH_BORDER
+	canSmoothWith = list(SMOOTH_GROUP_CLOSED_TURFS)
+	turf_type = /turf/open/floor/plating/asteroid/shrouded
+	baseturfs = /turf/open/floor/plating/asteroid/shrouded
+	mineralSpawnChanceList = list(/obj/item/stack/ore/autunite = 30, /obj/item/stack/ore/diamond = 1, /obj/item/stack/ore/gold = 5,
+		/obj/item/stack/ore/galena = 12, /obj/item/stack/ore/plasma = 25, /obj/item/stack/ore/magnetite = 20, /obj/item/stack/ore/rutile = 6,
+		/obj/item/stack/ore/bluespace_crystal = 10, /obj/item/stack/ore/quartzite = 5)
+
+/turf/closed/mineral/random/waterplanet
+	environment_type = "water"
+	turf_type = /turf/open/floor/plating/asteroid/waterplanet
+	baseturfs = /turf/open/floor/plating/asteroid/waterplanet
+	initial_gas_mix = LAVALAND_DEFAULT_ATMOS
+	defer_change = 1
 	mineralChance = 10
+	mineralSpawnChanceList = list(
+		/obj/item/stack/ore/hematite = 30, /obj/item/stack/ore/diamond = 5, /obj/item/stack/ore/proustite = 11, /obj/item/stack/ore/quartzite = 20,
+		/obj/item/stack/ore/galena = 20, /obj/item/stack/ore/plasma = 5, /obj/item/stack/ore/magnetite = 30, /obj/item/stack/ore/ice = 10,
+		/obj/item/stack/ore/gold = 2, /obj/item/stack/ore/graphite/coal = 40,
+		/obj/item/stack/ore/malachite = 10)
+
 
 /turf/closed/mineral/snowmountain/cavern/shipside
 	name = "ice cavern rock"
@@ -814,3 +922,23 @@
 	baseturfs = /turf/open/floor/plating
 	environment_type = "snow_cavern"
 	turf_type = /turf/open/floor/plating
+
+/turf/closed/mineral/random/moon
+	name = "moonrock"
+	desc = "A great portal conductor, supposedly."
+	icon = 'icons/turf/walls/moon.dmi'
+	smooth_icon = 'icons/turf/walls/moon.dmi'
+	icon_state = "moon-0"
+	base_icon_state = "moon"
+	initial_gas_mix = AIRLESS_ATMOS
+	smoothing_flags = SMOOTH_BITMASK | SMOOTH_BORDER
+	canSmoothWith = list(SMOOTH_GROUP_CLOSED_TURFS)
+	turf_type = /turf/open/floor/plating/asteroid/moon_coarse/dark
+	baseturfs = /turf/open/floor/plating/asteroid/moon_coarse/dark
+	mineralSpawnChanceList = list(/obj/item/stack/ore/autunite = 2, /obj/item/stack/ore/diamond = 1, /obj/item/stack/ore/gold = 5,
+		/obj/item/stack/ore/galena = 2, /obj/item/stack/ore/plasma = 1, /obj/item/stack/ore/hematite = 40, /obj/item/stack/ore/rutile = 20,
+		/obj/item/stack/ore/bluespace_crystal = 5, /obj/item/stack/ore/quartzite = 80)
+
+/turf/closed/mineral/random/moon/lit
+	turf_type = /turf/open/floor/plating/asteroid/moon_coarse/dark/lit
+	baseturfs = /turf/open/floor/plating/asteroid/moon_coarse/dark/lit
