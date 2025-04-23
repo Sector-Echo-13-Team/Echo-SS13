@@ -7,26 +7,20 @@
 	if(length(matching_quirks))
 		return TRUE
 
-/obj/machinery/cryopod/apply_effects_to_mob(mob/living/carbon/sleepyhead)
-	//it always sucks a little to get up
+/obj/machinery/cryopod/proc/apply_effects_to_mob(mob/living/carbon/sleepyhead)
+	sleepyhead.set_sleeping(60)
 	if(!HAS_TRAIT(sleepyhead, TRAIT_NOHUNGER) && !check_hungerless_quirks(sleepyhead))
 		sleepyhead.set_nutrition(200)
-	sleepyhead.SetSleeping(60)
-
-	var/wakeupmessage = "The cryopod shudders as the pneumatic seals separating you and the waking world let out a hiss."
-	if(prob(60))
-		if(!HAS_TRAIT(sleepyhead, TRAIT_NOHUNGER) && !check_hungerless_quirks(sleepyhead))
-			wakeupmessage += " A sickly feeling along with the pangs of hunger greet you upon your awakening."
-			sleepyhead.set_nutrition(100)
-		else
-			wakeupmessage += " You feel particularly drowsy..."
-		sleepyhead.apply_effect(rand(3,10), EFFECT_DROWSY)
-	to_chat(sleepyhead, span_danger(examine_block(wakeupmessage)))
+	to_chat(sleepyhead, span_boldnotice("You begin to wake from cryosleep..."))
+	var/ship_name = "<span class='maptext' style=font-size:24pt;text-align:center valign='top'><u>[linked_ship.current_ship.name]</u></span>"
+	var/sector_name = "[linked_ship.current_ship.current_overmap.name]"
+	var/time = "[station_time_timestamp("hh:mm")]"
+	var/character_name = "[sleepyhead.real_name]"
 
 /obj/machinery/cryopod/poor/apply_effects_to_mob(mob/living/carbon/sleepyhead)
 	if(!HAS_TRAIT(sleepyhead, TRAIT_NOHUNGER) && !check_hungerless_quirks(sleepyhead))
 		sleepyhead.set_nutrition(200)
-	sleepyhead.SetSleeping(80)
+	sleepyhead.set_sleeping(80)
 	if(prob(90)) //suffer
 		sleepyhead.apply_effect(rand(5,15), EFFECT_DROWSY)
 	if(prob(75))

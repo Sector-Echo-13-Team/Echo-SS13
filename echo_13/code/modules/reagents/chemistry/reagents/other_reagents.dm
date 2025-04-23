@@ -43,7 +43,7 @@
 		M.adjustOxyLoss(-healing*REM, 0)
 		M.adjustBruteLoss(-healing*REM, 0)
 		M.adjustFireLoss(-healing*REM, 0)
-		M.Jitter(2)
+		M.adjust_jitter(2)
 		. = 1
 	..()
 
@@ -53,7 +53,7 @@
 		M.adjustOxyLoss(1*REM, 0)
 		M.adjustBruteLoss(1*REM, FALSE, FALSE, BODYPART_ORGANIC)
 		M.adjustFireLoss(1*REM, FALSE, FALSE, BODYPART_ORGANIC)
-		M.Jitter(6)
+		M.adjust_jitter(6)
 	else
 		if(current_cycle >= 50)
 			for(var/datum/reagent/addiction in M.reagents.addiction_list)
@@ -71,7 +71,7 @@
 		M.adjustBruteLoss(1.5*REM, FALSE, FALSE, BODYPART_ORGANIC)
 		M.adjustFireLoss(1.5*REM, FALSE, FALSE, BODYPART_ORGANIC)
 		. = 1
-	M.Jitter(3)
+	M.adjust_jitter(3)
 	..()
 
 /datum/reagent/blood/true_draculine/addiction_act_stage2(mob/living/M)
@@ -81,7 +81,7 @@
 		M.adjustBruteLoss(2.5*REM, FALSE, FALSE, BODYPART_ORGANIC)
 		M.adjustFireLoss(2.5*REM, FALSE, FALSE, BODYPART_ORGANIC)
 		. = 1
-	M.Jitter(4)
+	M.adjust_jitter(4)
 	..()
 
 /datum/reagent/blood/true_draculine/addiction_act_stage3(mob/living/M)
@@ -91,7 +91,7 @@
 		M.adjustBruteLoss(3*REM, FALSE, FALSE, BODYPART_ORGANIC)
 		M.adjustFireLoss(3*REM, FALSE, FALSE, BODYPART_ORGANIC)
 		. = 1
-	M.Jitter(5)
+	M.adjust_jitter(5)
 	..()
 
 /datum/reagent/blood/true_draculine/addiction_act_stage4(mob/living/M)
@@ -101,7 +101,7 @@
 		M.adjustBruteLoss(5*REM, FALSE, FALSE, BODYPART_ORGANIC)
 		M.adjustFireLoss(5*REM, FALSE, FALSE, BODYPART_ORGANIC)
 		. = 1
-	M.Jitter(6)
+	M.adjust_jitter(6)
 	..()
 
 /datum/reagent/blood/true_draculine/on_addiction_removal(mob/living/carbon/human/M)

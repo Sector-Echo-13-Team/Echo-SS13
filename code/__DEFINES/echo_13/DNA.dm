@@ -1,4 +1,3 @@
-// Echo 13 - Vampires and other stuff later
 /*ALL DNA, SPECIES, AND GENETICS-RELATED DEFINES GO HERE*/
 
 #define CHECK_DNA_AND_SPECIES(C) if(!(C.dna?.species)) return
@@ -100,6 +99,7 @@
 #define TR_KEEPORGANS (1<<8)
 #define TR_KEEPSTUNS (1<<9)
 #define TR_KEEPREAGENTS (1<<10)
+#define TR_KEEPAI (1<<11)
 
 //species traits for mutantraces
 #define MUTCOLORS 1
