@@ -17,6 +17,8 @@
 	var/time = "[station_time_timestamp("hh:mm")]"
 	var/character_name = "[sleepyhead.real_name]"
 
+	sleepyhead.play_screen_text("[ship_name]<br>[sector_name]<br>[time]<br>[character_name]")
+
 /obj/machinery/cryopod/poor/apply_effects_to_mob(mob/living/carbon/sleepyhead)
 	if(!HAS_TRAIT(sleepyhead, TRAIT_NOHUNGER) && !check_hungerless_quirks(sleepyhead))
 		sleepyhead.set_nutrition(200)
