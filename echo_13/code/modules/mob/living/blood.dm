@@ -114,16 +114,6 @@
 			if(blood_particle)
 				QDEL_NULL(blood_particle)
 
-			if(!blood_particle)
-				blood_particle = new(src, /particles/droplets/blood, PARTICLE_ATTACH_MOB)
-			blood_particle.particles.color = dna.blood_type.color //mouthful
-			blood_particle.particles.spawning = (limb_bleed/2)
-			blood_particle.particles.count = (round(clamp((limb_bleed * 2), 1, INFINITY)))
-
-			if(COOLDOWN_FINISHED(src, bloodloss_message) && bleeeding_wording)
-				to_chat(src, span_warning("[bleeeding_wording]"))
-				COOLDOWN_START(src, bloodloss_message, message_cooldown)
-
 /****************************************************
 				BLOOD TRANSFERS
 ****************************************************/
