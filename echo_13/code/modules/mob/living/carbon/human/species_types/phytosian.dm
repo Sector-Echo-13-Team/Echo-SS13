@@ -44,7 +44,6 @@
 	if(ishuman(C))
 		var/mob/living/carbon/human/H = C
 		H?.physiology?.bleed_mod *= 0.25
-		H?.dna.blood_type.color = "#af7011"
 
 /datum/species/pod/on_species_loss(mob/living/carbon/human/C, datum/species/new_species, pref_load)
 	. = ..()
