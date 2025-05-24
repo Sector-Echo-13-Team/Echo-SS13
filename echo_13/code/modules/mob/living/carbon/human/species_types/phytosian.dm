@@ -9,7 +9,7 @@
 	inherent_traits = list(TRAIT_ALWAYS_CLEAN)
 	inherent_factions = list("plants", "vines")
 	mutant_bodyparts = list("phyto_hair", "phyto_flower")
-	default_features = list("mcolor" = "#00FF00", "phyto_hair" = "Cabbage", "phyto_flower" = "Cabbage")
+	default_features = list("mcolor" = "#00FF00", "phyto_hair" = "Cabbage", "phyto_flower" = "Cabbage", "body_size" = "Normal")
 	attack_verb = "slash"
 	attack_sound = 'sound/weapons/slice.ogg'
 	miss_sound = 'sound/weapons/slashmiss.ogg'
