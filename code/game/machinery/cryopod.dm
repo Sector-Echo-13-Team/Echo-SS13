@@ -441,7 +441,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod/retro, 17)
 	linked_ship = port
 	linked_ship.spawn_points += src
 
-/* /obj/machinery/cryopod/apply_effects_to_mob(mob/living/carbon/sleepyhead)
+/* /obj/machinery/cryopod/apply_effects_to_mob(mob/living/carbon/sleepyhead) // Echo 13 - Start - Mirrored to cryopod.dm
 	//it always sucks a little to get up
 	sleepyhead.set_nutrition(200)
 	sleepyhead.SetSleeping(60)

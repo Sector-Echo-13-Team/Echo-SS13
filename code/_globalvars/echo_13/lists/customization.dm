@@ -1,0 +1,7 @@
+GLOBAL_LIST_EMPTY(augment_items)
+GLOBAL_LIST_EMPTY(augment_categories_to_slots)
+GLOBAL_LIST_EMPTY(augment_slot_to_items)
+
+GLOBAL_LIST_EMPTY(culture_cultures)
+GLOBAL_LIST_EMPTY(culture_factions)
+GLOBAL_LIST_EMPTY(culture_locations)

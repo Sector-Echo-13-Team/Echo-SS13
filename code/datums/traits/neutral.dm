@@ -120,7 +120,7 @@
 	if(quirk_holder)
 		quirk_holder.remove_client_colour(/datum/client_colour/monochrome)
 
-/datum/quirk/phobia
+/* /datum/quirk/phobia // Echo 13 - Start - Replaced by quirk in variable.dm
 	name = "Phobia"
 	desc = "You are irrationally afraid of something."
 	value = 0
@@ -133,7 +133,7 @@
 /datum/quirk/phobia/remove()
 	var/mob/living/carbon/human/H = quirk_holder
 	if(H)
-		H.cure_trauma_type(/datum/brain_trauma/mild/phobia, TRAUMA_RESILIENCE_ABSOLUTE)
+		H.cure_trauma_type(/datum/brain_trauma/mild/phobia, TRAUMA_RESILIENCE_ABSOLUTE) */ // Echo 13 - End - Replaced by quirk in variable.dm
 
 /datum/quirk/needswayfinder
 	name = "Navigationally Challenged"
