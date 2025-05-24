@@ -64,17 +64,6 @@
 	result = /obj/item/food/bread/creamcheese
 	subcategory = CAT_BREAD
 
-/datum/crafting_recipe/food/mimanabread
-	name = "Mimana bread"
-	reqs = list(
-		/datum/reagent/consumable/soymilk = 5,
-		/obj/item/food/bread/plain = 1,
-		/obj/item/reagent_containers/food/snacks/tofu = 3,
-		/obj/item/reagent_containers/food/snacks/grown/banana/mime = 1
-	)
-	result = /obj/item/food/bread/mimana
-	subcategory = CAT_BREAD
-
 /datum/crafting_recipe/food/garlicbread
 	name = "Garlic Bread"
 	time = 40
@@ -110,4 +99,50 @@
 		/obj/item/reagent_containers/food/snacks/grown/mushroom/amanita = 1
 		)
 	result = /obj/item/food/breadslice/moldy
+	subcategory = CAT_BREAD
+
+/datum/crafting_recipe/food/jelliedyoast
+	name = "Jellied toast"
+	reqs = list(
+		/datum/reagent/consumable/cherryjelly = 5,
+		/obj/item/food/breadslice/plain = 1
+	)
+	result = /obj/item/reagent_containers/food/snacks/jelliedtoast/cherry
+	subcategory = CAT_BREAD
+
+/datum/crafting_recipe/food/slimetoast
+	name = "Slime toast"
+	reqs = list(
+		/datum/reagent/toxin/slimejelly = 5,
+		/obj/item/food/breadslice/plain = 1
+	)
+	result = /obj/item/reagent_containers/food/snacks/jelliedtoast/slime
+	subcategory = CAT_BREAD
+
+/datum/crafting_recipe/food/butteredtoast
+	name = "Buttered Toast"
+	reqs = list(
+		/obj/item/food/breadslice/plain = 1,
+		/obj/item/reagent_containers/food/snacks/butter = 1
+	)
+	result = /obj/item/reagent_containers/food/snacks/butteredtoast
+	subcategory = CAT_BREAD
+
+/datum/crafting_recipe/food/twobread
+	name = "Two bread"
+	reqs = list(
+		/datum/reagent/consumable/ethanol/wine = 5,
+		/obj/item/food/breadslice/plain = 2
+	)
+	result = /obj/item/reagent_containers/food/snacks/twobread
+	subcategory = CAT_BREAD
+
+/datum/crafting_recipe/food/baguette
+	name = "Baguette"
+	time = 40
+	reqs = list(/datum/reagent/consumable/sodiumchloride = 1,
+				/datum/reagent/consumable/blackpepper = 1,
+				/obj/item/reagent_containers/food/snacks/pastrybase = 2
+	)
+	result = /obj/item/food/baguette
 	subcategory = CAT_BREAD

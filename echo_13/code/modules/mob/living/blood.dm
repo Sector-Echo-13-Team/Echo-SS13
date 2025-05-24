@@ -1,5 +1,5 @@
 // Echo 13 - Account for vampires and blood subtypes
-/mob/living/carbon/human/handle_blood()
+/mob/living/carbon/human/handle_blood() // Echo 13 - Start - Mirrored to blood.dm
 
 	if(NOBLOOD in dna.species.species_traits)
 		return
@@ -32,25 +32,37 @@
 		switch(blood_volume)
 			if(BLOOD_VOLUME_EXCESS to BLOOD_VOLUME_MAX_LETHAL)
 				if(prob(15))
-					to_chat(src, "<span class='userdanger'>Blood starts to tear your skin apart. You're going to burst!</span>")
+					to_chat(src, span_userdanger("Blood starts to tear your skin apart. You're going to burst!"))
 					inflate_gib()
 			if(BLOOD_VOLUME_MAXIMUM to BLOOD_VOLUME_EXCESS)
 				if(prob(10))
-					to_chat(src, "<span class='warning'>You feel terribly bloated.</span>")
+					to_chat(src, span_warning("You feel terribly bloated."))
+
 			if(BLOOD_VOLUME_OKAY to BLOOD_VOLUME_SAFE)
-				if(prob(5))
-					to_chat(src, "<span class='warning'>You feel [word].</span>")
-				adjustOxyLoss(round((BLOOD_VOLUME_NORMAL - blood_volume) * 0.01, 1))
+
+				if(prob(1))
+					to_chat(src, span_warning("You feel [word]."))
+				if(oxyloss < 20)
+					adjustOxyLoss(round((BLOOD_VOLUME_NORMAL - blood_volume) * 0.02, 1))
+
 			if(BLOOD_VOLUME_BAD to BLOOD_VOLUME_OKAY)
-				adjustOxyLoss(round((BLOOD_VOLUME_NORMAL - blood_volume) * 0.02, 1))
-				if(prob(5))
-					blur_eyes(6)
-					to_chat(src, "<span class='warning'>You feel very [word].</span>")
-			if(BLOOD_VOLUME_SURVIVE to BLOOD_VOLUME_BAD)
-				adjustOxyLoss(5)
+				if(eye_blurry < 50)
+					adjust_blurriness(5)
+				if(oxyloss < 40)
+					adjustOxyLoss(round((BLOOD_VOLUME_NORMAL - blood_volume) * 0.02, 1))
+				else
+					adjustOxyLoss(round((BLOOD_VOLUME_NORMAL - blood_volume) * 0.01, 1))
+
 				if(prob(15))
-					Unconscious(rand(20,60))
-					to_chat(src, "<span class='warning'>You feel extremely [word].</span>")
+					Unconscious(rand(2 SECONDS,6 SECONDS))
+					to_chat(src, span_warning("You feel very [word]."))
+
+			if(BLOOD_VOLUME_SURVIVE to BLOOD_VOLUME_BAD)
+				adjustOxyLoss(round((BLOOD_VOLUME_NORMAL - blood_volume) * 0.02, 1))
+				adjustToxLoss(2)
+				if(prob(15))
+					Unconscious(rand(2 SECONDS,6 SECONDS))
+					to_chat(src, span_warning("You feel extremely [word]."))
 			if(-INFINITY to BLOOD_VOLUME_SURVIVE)
 				if(!HAS_TRAIT(src, TRAIT_NODEATH))
 					death()
@@ -67,8 +79,40 @@
 					BP.adjust_bleeding(0.1, BLOOD_LOSS_DAMAGE_MAXIMUM)
 			limb_bleed += BP.bleeding
 
+		var/message_cooldown = 5 SECONDS
+		var/bleeeding_wording
+//		var/bleed_change_wording
+		switch(limb_bleed)
+			if(0 to 0.5)
+				bleeeding_wording = "You hear droplets of blood drip down."
+				message_cooldown *= 2.5
+			if(0.5 to 1)
+				bleeeding_wording = "You feel your blood flow quietly to the floor."
+				message_cooldown *= 2
+			if(1 to 2)
+				bleeeding_wording = "The flow of blood leaving your body onto the ground is worrying..."
+				message_cooldown *= 1.7
+			if(2 to 4)
+				bleeeding_wording = "You're losing blood <b><i>very fast</i></b>, which is freaking you out!"
+				message_cooldown *= 1.5
+			if(4 to INFINITY)
+				bleeeding_wording = "<b>Your heartbeat beats unstably fast as you lose a massive amount of blood!!</b>"
+
 		if(limb_bleed && !bleedsuppress && !HAS_TRAIT(src, TRAIT_FAKEDEATH))
 			bleed(limb_bleed)
+
+			if(!blood_particle)
+				blood_particle = new(src, /particles/droplets/blood, PARTICLE_ATTACH_MOB)
+			blood_particle.particles.color = dna.blood_type.color //mouthful
+			blood_particle.particles.spawning = (limb_bleed/2)
+			blood_particle.particles.count = (round(clamp((limb_bleed * 2), 1, INFINITY)))
+
+			if(COOLDOWN_FINISHED(src, bloodloss_message) && bleeeding_wording)
+				to_chat(src, span_warning("[bleeeding_wording]"))
+				COOLDOWN_START(src, bloodloss_message, message_cooldown)
+		else
+			if(blood_particle)
+				QDEL_NULL(blood_particle)
 
 /****************************************************
 				BLOOD TRANSFERS
@@ -94,8 +138,8 @@
 
 	if(iscarbon(AM))
 		var/mob/living/carbon/C = AM
-		if(ispath(blood_id, C.get_blood_id()))//both mobs have the same blood substance
-			if(ispath(blood_id, /datum/reagent/blood)) //normal blood
+		if(blood_id == C.get_blood_id())//both mobs have the same blood substance
+			if(blood_id == /datum/reagent/blood) //normal blood
 				if(blood_data["viruses"])
 					for(var/thing in blood_data["viruses"])
 						var/datum/disease/D = thing
@@ -115,7 +159,7 @@
 	return TRUE
 
 /mob/living/carbon/get_blood_data(blood_id) // Echo 13 - Start - Mirrored to blood.dm
-	if(ispath(blood_id, /datum/reagent/blood)) //actual blood reagent
+	if(blood_id == /datum/reagent/blood) //actual blood reagent
 		var/blood_data = list()
 		//set the blood data
 		blood_data["viruses"] = list()
@@ -151,13 +195,14 @@
 			blood_data["quirks"] += T.type
 		return blood_data
 
-/mob/living/proc/add_splatter_floor(turf/T, small_drip)
-	if(!ispath(get_blood_id(), /datum/reagent/blood))
+/mob/living/proc/add_splatter_floor(turf/T, small_drip, amt)
+	if(get_blood_id() != /datum/reagent/blood)
 		return
 	if(!T)
 		T = get_turf(src)
 
 	var/list/temp_blood_DNA
+
 	if(small_drip)
 		// Only a certain number of drips (or one large splatter) can be on a given turf.
 		var/obj/effect/decal/cleanable/blood/drip/drop = locate() in T
@@ -170,7 +215,7 @@
 			else
 				temp_blood_DNA = drop.return_blood_DNA() //we transfer the dna from the drip to the splatter
 				qdel(drop)//the drip is replaced by a bigger splatter
-		else
+		else if (amt < 2)
 			drop = new(T, get_static_viruses())
 			drop.transfer_mob_blood_dna(src)
 			return
@@ -183,7 +228,11 @@
 		B = candidate
 		break
 	if(!B)
-		B = new /obj/effect/decal/cleanable/blood/splatter(T, get_static_viruses())
+		if(amt > 4)
+			B = new /obj/effect/decal/cleanable/blood(T, get_static_viruses())
+		else
+			B = new /obj/effect/decal/cleanable/blood/splatter(T, get_static_viruses())
+
 	if(QDELETED(B)) //Give it up
 		return
 	B.bloodiness = min((B.bloodiness + BLOOD_AMOUNT_PER_DECAL), BLOOD_POOL_MAX)

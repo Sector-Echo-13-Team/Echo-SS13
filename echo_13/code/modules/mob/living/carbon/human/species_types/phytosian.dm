@@ -26,7 +26,7 @@
 	disliked_food = NONE //let them eat!!
 	toxic_food = ALCOHOL
 	liked_food = VEGETABLES | FRUIT | GRAIN | CLOTH | SUGAR //sumgar
-	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | ERT_SPAWN | SLIME_EXTRACT
+	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | ERT_SPAWN
 	species_language_holder = /datum/language_holder/plant
 	wings_icons = list("Plant")
 	wings_detail = "Plantdetails"
@@ -44,7 +44,6 @@
 	if(ishuman(C))
 		var/mob/living/carbon/human/H = C
 		H?.physiology?.bleed_mod *= 0.25
-		H?.dna.blood_type.color = "#af7011"
 
 /datum/species/pod/on_species_loss(mob/living/carbon/human/C, datum/species/new_species, pref_load)
 	. = ..()
